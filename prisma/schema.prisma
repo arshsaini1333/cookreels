@@ -1,0 +1,104 @@
+//  Prisma schema file,
+
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model User {
+  id              String   @id @default(uuid())
+  firstName       String
+  lastName        String
+  username        String   @unique
+  email           String   @unique
+  password    String?
+  phone    String?  @unique
+  googleId        String?  @unique
+  profileImage    String?
+  isEmailVerified Boolean  @default(false)
+
+  posts           Post[]
+  comments        Comment[]
+  likes           Like[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Post {
+  id            String   @id @default(uuid())
+
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type          PostType
+  title         String?
+  description   String   @db.Text   // long text for blog/reel caption
+
+  mediaUrl      String?  // image or reel video link
+  thumbnailUrl  String?
+
+  likeCount     Int      @default(0)
+  commentCount  Int      @default(0)
+
+  comments      Comment[]
+  likes         Like[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("posts")
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+
+  userId     String
+  postId     String
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  content    String   @db.Text
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+  @@index([postId])
+  @@map("comments")
+}
+
+model Like {
+  id         String   @id @default(uuid())
+
+  userId     String
+  postId     String
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade) 
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, postId])
+  @@index([postId])
+  @@map("likes")
+}
+
+enum PostType {
+  BLOG
+  REEL
+  IMAGE
+}
