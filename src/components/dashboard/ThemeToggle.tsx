@@ -15,14 +15,7 @@ export function ThemeToggle() {
       whileHover={{ scale: 1.05 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="relative w-10 h-10 rounded-xl flex items-center justify-center
-        bg-zinc-100 dark:bg-zinc-800
-        border border-zinc-200/80 dark:border-zinc-700/60
-        text-zinc-600 dark:text-zinc-300
-        hover:border-[#f6c68b]/60 dark:hover:border-[#f6c68b]/40
-        hover:text-[#f6c68b]
-        shadow-sm hover:shadow-[#f6c68b]/20
-        transition-colors duration-200 overflow-hidden"
+      className="relative w-10 h-10 rounded-xl flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 hover:border-[#f6c68b]/60 dark:hover:border-[#f6c68b]/40 hover:text-[#f6c68b] shadow-sm hover:shadow-[#f6c68b]/20 transition-colors duration-200 overflow-hidden"
     >
       <AnimatePresence mode="wait" initial={false}>
         {isDark ? (

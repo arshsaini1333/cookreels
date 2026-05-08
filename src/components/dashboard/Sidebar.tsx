@@ -40,10 +40,7 @@ export function Sidebar({ activeItem = 'Home', username = 'Chef' }: SidebarProps
       {/* Mobile hamburger button */}
       <motion.button
         whileTap={{ scale: 0.93 }}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2.5 rounded-xl
-          bg-white/90 dark:bg-zinc-800/90 backdrop-blur-sm
-          shadow-lg border border-zinc-200/60 dark:border-zinc-700/60
-          text-zinc-700 dark:text-zinc-300"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2.5 rounded-xl bg-white/90 dark:bg-zinc-800/90 backdrop-blur-sm shadow-lg border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300"
         onClick={() => setMobileOpen((v) => !v)}
         aria-label="Toggle menu"
       >
@@ -169,8 +166,7 @@ export function Sidebar({ activeItem = 'Home', username = 'Chef' }: SidebarProps
             whileHover={{ x: 3 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: 'spring', stiffness: 400, damping: 28 }}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer
-              hover:bg-zinc-100/80 dark:hover:bg-zinc-800/60 transition-colors duration-200 group"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-zinc-100/80 dark:hover:bg-zinc-800/60 transition-colors duration-200 group"
           >
             <div className="relative">
               <div className="w-9 h-9 rounded-full bg-[#f6c68b] flex items-center justify-center shadow-md shadow-[#f6c68b]/25 flex-shrink-0">

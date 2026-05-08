@@ -170,11 +170,7 @@ function HeroSection({ username }: { username: string }) {
       variants={stagger}
       initial="hidden"
       animate="visible"
-      className="relative overflow-hidden rounded-3xl
-        bg-gradient-to-br from-[#f6c68b]/12 to-[#f6c68b]/4
-        dark:from-[#f6c68b]/10 dark:to-[#f6c68b]/3
-        border border-[#f6c68b]/20 dark:border-[#f6c68b]/15
-        p-5 sm:p-7"
+      className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#f6c68b]/12 to-[#f6c68b]/4 dark:from-[#f6c68b]/10 dark:to-[#f6c68b]/3 border border-[#f6c68b]/20 dark:border-[#f6c68b]/15 p-5 sm:p-7"
     >
       {/* Background dot grid */}
       <div className="absolute inset-0 opacity-[0.035] dark:opacity-[0.055] pointer-events-none"
@@ -193,10 +189,7 @@ function HeroSection({ username }: { username: string }) {
           {/* Greeting pill */}
           <motion.div
             {...heroItem(0)}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full
-              bg-[#f6c68b]/15 dark:bg-[#f6c68b]/12
-              border border-[#f6c68b]/25 dark:border-[#f6c68b]/20
-              mb-4"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f6c68b]/15 dark:bg-[#f6c68b]/12 border border-[#f6c68b]/25 dark:border-[#f6c68b]/20 mb-4"
           >
             <span className="text-sm">👋</span>
             <span className="text-xs font-semibold" style={{ color: '#c48a3a' }}>
@@ -238,11 +231,7 @@ function HeroSection({ username }: { username: string }) {
             <motion.button
               whileHover={{ scale: 1.04, y: -1 }}
               whileTap={{ scale: 0.96 }}
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl
-                font-bold text-sm text-white
-                shadow-lg
-                animate-pulse-glow
-                transition-all duration-300"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl font-bold text-sm text-white shadow-lg animate-pulse-glow transition-all duration-300"
               style={{
                 background: 'linear-gradient(135deg, #f6c68b 0%, #e8952a 100%)',
                 boxShadow: '0 8px 24px rgba(246,198,139,0.40)',
@@ -261,13 +250,7 @@ function HeroSection({ username }: { username: string }) {
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl
-                text-sm font-semibold
-                bg-white dark:bg-zinc-800
-                text-zinc-700 dark:text-zinc-300
-                border border-zinc-200 dark:border-zinc-700
-                shadow-sm hover:shadow-md
-                transition-all duration-200"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 shadow-sm hover:shadow-md transition-all duration-200"
             >
               <Plus size={15} />
               New Reel
@@ -371,9 +354,7 @@ function TrendingReels() {
       <SectionTitle label="Trending Reels" sub="What the community is watching right now" />
 
       {/* Horizontal scroll container */}
-      <div className="flex gap-4 overflow-x-auto pb-3 -mx-1 px-1
-        scrollbar-none [scroll-snap-type:x_mandatory]
-        [&::-webkit-scrollbar]:hidden">
+      <div className="flex gap-4 overflow-x-auto pb-3 -mx-1 px-1 scrollbar-none [scroll-snap-type:x_mandatory] [&::-webkit-scrollbar]:hidden">
         {trendingReels.map((reel, i) => (
           <motion.div
             key={reel.id}
@@ -381,10 +362,7 @@ function TrendingReels() {
             custom={i * 0.06}
             whileHover={{ y: -6, scale: 1.03 }}
             transition={{ type: 'spring', stiffness: 360, damping: 28 }}
-            className="relative flex-shrink-0 w-36 sm:w-40 rounded-2xl overflow-hidden cursor-pointer group
-              aspect-[9/15] shadow-lg hover:shadow-2xl
-              [scroll-snap-align:start]
-              transition-shadow duration-300"
+            className="relative flex-shrink-0 w-36 sm:w-40 rounded-2xl overflow-hidden cursor-pointer group aspect-[9/15] shadow-lg hover:shadow-2xl [scroll-snap-align:start] transition-shadow duration-300"
           >
             {/* Gradient bg */}
             <div className={`absolute inset-0 bg-gradient-to-br ${reel.gradient}`} />
@@ -398,21 +376,18 @@ function TrendingReels() {
             </div>
 
             {/* Play overlay on hover */}
-            <div className="absolute inset-0 flex items-center justify-center
-              bg-black/25 opacity-0 group-hover:opacity-100 transition-all duration-200">
+            <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 group-hover:opacity-100 transition-all duration-200">
               <motion.div
                 initial={{ scale: 0.7 }}
                 whileHover={{ scale: 1 }}
-                className="w-12 h-12 rounded-full bg-white/30 backdrop-blur-sm
-                  border border-white/40 flex items-center justify-center"
+                className="w-12 h-12 rounded-full bg-white/30 backdrop-blur-sm border border-white/40 flex items-center justify-center"
               >
                 <Play size={20} className="text-white ml-0.5" fill="white" />
               </motion.div>
             </div>
 
             {/* Bottom info */}
-            <div className="absolute bottom-0 inset-x-0 p-3
-              bg-gradient-to-t from-black/70 via-black/30 to-transparent">
+            <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/70 via-black/30 to-transparent">
               <p className="text-xs font-bold text-white leading-tight line-clamp-2">{reel.title}</p>
               <div className="flex items-center justify-between mt-1.5">
                 <span className="text-[10px] text-white/75">{reel.creator}</span>
@@ -424,8 +399,7 @@ function TrendingReels() {
             </div>
 
             {/* Duration badge */}
-            <div className="absolute top-2.5 right-2.5 px-1.5 py-0.5 rounded-md
-              bg-black/40 backdrop-blur-sm text-[9px] text-white font-semibold">
+            <div className="absolute top-2.5 right-2.5 px-1.5 py-0.5 rounded-md bg-black/40 backdrop-blur-sm text-[9px] text-white font-semibold">
               {reel.duration}
             </div>
           </motion.div>
@@ -451,9 +425,7 @@ function BrowseCategories() {
     >
       <SectionTitle label="Browse Categories" sub="Find recipes by what you're craving" />
 
-      <div className="flex gap-3 overflow-x-auto pb-3 -mx-1 px-1
-        scrollbar-none [scroll-snap-type:x_mandatory]
-        [&::-webkit-scrollbar]:hidden">
+      <div className="flex gap-3 overflow-x-auto pb-3 -mx-1 px-1 scrollbar-none [scroll-snap-type:x_mandatory] [&::-webkit-scrollbar]:hidden">
         {categories.map((cat) => (
           <motion.button
             key={cat.id}
@@ -461,11 +433,7 @@ function BrowseCategories() {
             whileHover={{ y: -4, scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
             onClick={() => setActive(active === cat.id ? null : cat.id)}
-            className={`relative flex-shrink-0 flex flex-col items-center gap-2 px-5 py-4
-              rounded-2xl cursor-pointer
-              [scroll-snap-align:start]
-              transition-all duration-200
-              ${active === cat.id ? 'ring-2 ring-offset-1 ring-[#f6c68b] dark:ring-offset-zinc-950' : ''}`}
+            className={`relative flex-shrink-0 flex flex-col items-center gap-2 px-5 py-4 rounded-2xl cursor-pointer [scroll-snap-align:start] transition-all duration-200 ${active === cat.id ? 'ring-2 ring-offset-1 ring-[#f6c68b] dark:ring-offset-zinc-950' : ''}`}
           >
             {/* Gradient bg */}
             <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${cat.gradient} transition-opacity`}
@@ -509,16 +477,11 @@ function RecommendedSection() {
             custom={i * 0.07}
             whileHover={{ y: -6 }}
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-            className="group rounded-3xl overflow-hidden cursor-pointer
-              bg-white dark:bg-zinc-800/70
-              border border-zinc-100/80 dark:border-zinc-700/40
-              shadow-md hover:shadow-xl hover:shadow-zinc-300/40 dark:hover:shadow-black/40
-              transition-shadow duration-300"
+            className="group rounded-3xl overflow-hidden cursor-pointer bg-white dark:bg-zinc-800/70 border border-zinc-100/80 dark:border-zinc-700/40 shadow-md hover:shadow-xl hover:shadow-zinc-300/40 dark:hover:shadow-black/40 transition-shadow duration-300"
           >
             {/* Image / gradient area */}
             <div className="relative h-44 overflow-hidden">
-              <div className={`absolute inset-0 bg-gradient-to-br ${recipe.gradient}
-                group-hover:scale-105 transition-transform duration-500`} />
+              <div className={`absolute inset-0 bg-gradient-to-br ${recipe.gradient} group-hover:scale-105 transition-transform duration-500`} />
               {/* Texture */}
               <div className="absolute inset-0 opacity-10"
                 style={{ backgroundImage: 'radial-gradient(circle at 20% 80%, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
@@ -537,12 +500,7 @@ function RecommendedSection() {
                     return next
                   })
                 }}
-                className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center
-                  backdrop-blur-md transition-all duration-200
-                  ${saved.has(recipe.id)
-                    ? 'bg-[#f6c68b] shadow-lg shadow-[#f6c68b]/40'
-                    : 'bg-white/25 border border-white/40 hover:bg-white/40'
-                  }`}
+                className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-200 ${saved.has(recipe.id) ? 'bg-[#f6c68b] shadow-lg shadow-[#f6c68b]/40' : 'bg-white/25 border border-white/40 hover:bg-white/40'}`}
               >
                 <Bookmark
                   size={14}
@@ -552,8 +510,7 @@ function RecommendedSection() {
               </motion.button>
 
               {/* Time badge */}
-              <div className="absolute bottom-3 left-3 flex items-center gap-1 px-2.5 py-1
-                rounded-full bg-black/40 backdrop-blur-sm">
+              <div className="absolute bottom-3 left-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm">
                 <Clock size={11} className="text-white/80" />
                 <span className="text-[10px] text-white font-semibold">{recipe.time}</span>
               </div>
@@ -562,8 +519,7 @@ function RecommendedSection() {
             {/* Card body */}
             <div className="p-4">
               <div className="flex items-start justify-between gap-2 mb-1.5">
-                <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-200 leading-snug line-clamp-1
-                  group-hover:text-[#c48a3a] dark:group-hover:text-[#f6c68b] transition-colors">
+                <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-200 leading-snug line-clamp-1 group-hover:text-[#c48a3a] dark:group-hover:text-[#f6c68b] transition-colors">
                   {recipe.title}
                 </h3>
                 <div className="flex items-center gap-1 flex-shrink-0">
@@ -586,10 +542,7 @@ function RecommendedSection() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="text-[10px] font-bold px-3 py-1.5 rounded-xl
-                    bg-[#f6c68b]/12 text-[#c48a3a] dark:bg-[#f6c68b]/10 dark:text-[#f6c68b]
-                    border border-[#f6c68b]/25 hover:bg-[#f6c68b] hover:text-stone-900
-                    transition-all duration-200"
+                  className="text-[10px] font-bold px-3 py-1.5 rounded-xl bg-[#f6c68b]/12 text-[#c48a3a] dark:bg-[#f6c68b]/10 dark:text-[#f6c68b] border border-[#f6c68b]/25 hover:bg-[#f6c68b] hover:text-stone-900 transition-all duration-200"
                 >
                   View Recipe
                 </motion.button>
@@ -610,12 +563,7 @@ function ProfileCard({ username }: { username: string }) {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.55, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-      className="relative rounded-3xl overflow-hidden
-        bg-white/80 dark:bg-zinc-800/80
-        backdrop-blur-xl
-        border border-white/60 dark:border-zinc-700/40
-        shadow-xl shadow-zinc-200/40 dark:shadow-black/30
-        p-5"
+      className="relative rounded-3xl overflow-hidden bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-white/60 dark:border-zinc-700/40 shadow-xl shadow-zinc-200/40 dark:shadow-black/30 p-5"
     >
       {/* Header gradient */}
       <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-br from-[#f6c68b]/25 via-orange-500/10 to-rose-500/10 dark:from-[#f6c68b]/15" />
@@ -624,11 +572,7 @@ function ProfileCard({ username }: { username: string }) {
         {/* Avatar */}
         <motion.div
           whileHover={{ scale: 1.05 }}
-          className="w-16 h-16 rounded-full mb-3
-            bg-gradient-to-br from-[#f6c68b] to-orange-500
-            flex items-center justify-center
-            shadow-lg shadow-orange-400/30
-            ring-4 ring-white dark:ring-zinc-800"
+          className="w-16 h-16 rounded-full mb-3 bg-gradient-to-br from-[#f6c68b] to-orange-500 flex items-center justify-center shadow-lg shadow-orange-400/30 ring-4 ring-white dark:ring-zinc-800"
         >
           <ChefHat size={28} className="text-white" strokeWidth={1.8} />
         </motion.div>
@@ -657,13 +601,7 @@ function ProfileCard({ username }: { username: string }) {
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl
-            text-xs font-semibold
-            bg-zinc-100 dark:bg-zinc-700/60
-            text-zinc-600 dark:text-zinc-300
-            border border-zinc-200/60 dark:border-zinc-600/40
-            hover:border-[#f6c68b]/40 hover:text-[#c48a3a] dark:hover:text-[#f6c68b]
-            transition-all duration-200"
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-700/60 text-zinc-600 dark:text-zinc-300 border border-zinc-200/60 dark:border-zinc-600/40 hover:border-[#f6c68b]/40 hover:text-[#c48a3a] dark:hover:text-[#f6c68b] transition-all duration-200"
         >
           <Edit3 size={12} />
           Edit Profile
@@ -681,12 +619,7 @@ function SavedCollections() {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.55, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-      className="rounded-3xl
-        bg-white/80 dark:bg-zinc-800/80
-        backdrop-blur-xl
-        border border-white/60 dark:border-zinc-700/40
-        shadow-xl shadow-zinc-200/40 dark:shadow-black/30
-        p-5"
+      className="rounded-3xl bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-white/60 dark:border-zinc-700/40 shadow-xl shadow-zinc-200/40 dark:shadow-black/30 p-5"
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -706,8 +639,7 @@ function SavedCollections() {
             key={col.id}
             whileHover={{ x: 3 }}
             transition={{ type: 'spring', stiffness: 400, damping: 28 }}
-            className="flex items-center gap-3 p-2.5 rounded-xl cursor-pointer
-              hover:bg-zinc-50 dark:hover:bg-zinc-700/40 transition-colors duration-150"
+            className="flex items-center gap-3 p-2.5 rounded-xl cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-700/40 transition-colors duration-150"
           >
             <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${col.gradient} flex-shrink-0 shadow-sm`} />
             <div className="flex-1 min-w-0">
@@ -725,7 +657,11 @@ function SavedCollections() {
 /* ─── Quote Card (sidebar) ───────────────────────────────── */
 
 function QuoteCard() {
-  const [idx, setIdx] = useState(() => Math.floor(Math.random() * cookingQuotes.length))
+  const [idx, setIdx] = useState(0)
+
+  useEffect(() => {
+    setIdx(Math.floor(Math.random() * cookingQuotes.length))
+  }, [])
 
   /* Preload every image once on mount so they're cached before the user taps */
   useEffect(() => {
@@ -743,9 +679,7 @@ function QuoteCard() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.55, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
       onClick={() => setIdx(i => (i + 1) % cookingQuotes.length)}
-      className="relative rounded-3xl overflow-hidden cursor-pointer
-        shadow-xl shadow-zinc-200/40 dark:shadow-black/40
-        min-h-[168px] group"
+      className="relative rounded-3xl overflow-hidden cursor-pointer shadow-xl shadow-zinc-200/40 dark:shadow-black/40 min-h-[168px] group"
     >
       {/* Background food image — key on idx so image & quote swap together */}
       <AnimatePresence mode="wait" initial={false}>
