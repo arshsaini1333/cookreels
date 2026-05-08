@@ -7,13 +7,13 @@ import {
   ChefHat, Flame, Edit3, Quote, Plus,
 } from 'lucide-react'
 
-/* ─── Props ──────────────────────────────────────────────── */
+/* ─── Props ──── */
 
 interface DashboardCardsProps {
   username?: string
 }
 
-/* ─── Animation variants ─────────────────────────────────── */
+/* ─── Animation variants ──────*/
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -36,7 +36,7 @@ const cardReveal = {
   },
 }
 
-/* ─── Data ───────────────────────────────────────────────── */
+/* ─── Data ──── */
 
 const trendingReels = [
   { id: 1, title: 'Butter Chicken Masala', creator: 'Arjun S.', likes: '48.2k', duration: '0:58', emoji: '🍛', gradient: 'from-orange-500 to-rose-500' },
