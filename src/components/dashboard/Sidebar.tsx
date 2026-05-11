@@ -15,6 +15,7 @@ import {
   Flame,
 } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 const navItems = [
@@ -27,13 +28,16 @@ const navItems = [
 ]
 
 interface SidebarProps {
-  activeItem?: string
   username?: string
 }
 
-export function Sidebar({ activeItem = 'Home', username = 'Chef' }: SidebarProps) {
+export function Sidebar({ username = 'Chef' }: SidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [active, setActive] = useState(activeItem)
+  const pathname = usePathname()
+
+  const active = navItems.find(item =>
+    item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)
+  )?.label ?? 'Home'
 
   return (
     <>
@@ -113,10 +117,7 @@ export function Sidebar({ activeItem = 'Home', username = 'Chef' }: SidebarProps
               >
                 <Link
                   href={item.href}
-                  onClick={() => {
-                    setActive(item.label)
-                    setMobileOpen(false)
-                  }}
+                  onClick={() => setMobileOpen(false)}
                   className={[
                     'relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group',
                     isActive

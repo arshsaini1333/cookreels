@@ -147,7 +147,7 @@ const spotlightDishes = [
   { emoji: '🫕', name: 'Dal Makhani', cuisine: 'Punjabi', time: '6 hrs', tip: 'Slow cook on a tawa overnight.' },
 ]
 
-/* ─── Hero Section ───────────────────────────────────────── */
+/* ─── Hero Section ── */
 
 function HeroSection({ username }: { username: string }) {
   const [greeting, setGreeting] = useState('Good Morning')

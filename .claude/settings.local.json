@@ -17,7 +17,9 @@
       "Bash(Get-Content \"e:\\\\Cookreels\\\\cookreels-main\\\\package.json\")",
       "Bash(Select-String '\"next\"')",
       "WebSearch",
-      "WebFetch(domain:unsplash.com)"
+      "WebFetch(domain:unsplash.com)",
+      "Bash(dir /s /b \"e:\\\\Cookreels\\\\cookreels-main\\\\src\")",
+      "Bash(node -e ' *)"
     ]
   }
 }
