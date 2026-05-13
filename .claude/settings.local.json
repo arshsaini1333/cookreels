@@ -19,7 +19,20 @@
       "WebSearch",
       "WebFetch(domain:unsplash.com)",
       "Bash(dir /s /b \"e:\\\\Cookreels\\\\cookreels-main\\\\src\")",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(Get-ChildItem -Path \"e:\\\\Cookreels\\\\cookreels-main\" -Recurse -Depth 2)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Format-List)",
+      "Bash(New-Item -ItemType Directory -Force \"e:\\\\Cookreels\\\\cookreels-main\\\\src\\\\app\\\\categories\")",
+      "Bash(Write-Output \"done\")",
+      "Bash(mkdir -p \"e:/Cookreels/cookreels-main/src/app/categories\" && echo \"done\")",
+      "Bash(npx next *)",
+      "Bash(node_modules/.bin/next lint *)",
+      "Bash(node -e \"const {execSync} = require\\('child_process'\\); execSync\\('node_modules/.bin/eslint src/components/dashboard/CategoriesPage.tsx src/app/categories/page.tsx --max-warnings=999', {stdio: 'inherit'}\\)\")",
+      "Bash(Get-ChildItem -Path . -Name)"
+    ],
+    "additionalDirectories": [
+      "e:\\Cookreels\\cookreels-main\\src\\app"
     ]
   }
 }
