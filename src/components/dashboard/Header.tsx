@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Bell, User, Settings, LogOut, UserCircle } from 'lucide-react'
 import { useRef, useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { ThemeToggle } from './ThemeToggle'
 
 interface HeaderProps {
@@ -16,10 +17,17 @@ export function Header({
   avatarUrl,
   notificationCount = 3,
 }: HeaderProps) {
+  const router = useRouter()
   const [searchFocused, setSearchFocused] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [profileOpen, setProfileOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  async function handleLogout() {
+    setProfileOpen(false)
+    await fetch('/api/auth/logout', { method: 'POST' })
+    router.push('/auth/login')
+  }
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -142,7 +150,7 @@ export function Header({
                       </a>
                     ))}
                     <button
-                      onClick={() => setProfileOpen(false)}
+                      onClick={handleLogout}
                       className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm w-full text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors duration-150"
                     >
                       <LogOut size={15} strokeWidth={1.8} />
