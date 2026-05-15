@@ -11,7 +11,7 @@ import {
 } from 'lucide-react'
 import { useTheme } from '@/context/ThemeContext'
 
-/* ─── Types ──────────────────────────────────────────────────── */
+/* ─── Types ───── */
 
 interface Recipe {
   id: number
