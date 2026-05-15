@@ -666,14 +666,14 @@ export function ReelsPage() {
         <motion.button
           whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}
           onClick={() => scrollDir(-1)}
-          className="w-11 h-11 rounded-2xl bg-zinc-200 border border-zinc-300 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-300 dark:bg-white/8 dark:border-white/10 dark:text-white/70 dark:hover:text-white dark:hover:bg-white/15 transition-all"
+          className="w-11 h-11 rounded-2xl bg-zinc-200 border border-zinc-300 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-300 dark:bg-white/8 dark:border-white/10 dark:text-white/70 dark:hover:text-white dark:hover:bg-white/15 transition-all flex items-center justify-center"
         >
           <ChevronUp size={18} />
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.1, y: 2 }} whileTap={{ scale: 0.9 }}
           onClick={() => scrollDir(1)}
-          className="w-11 h-11 rounded-2xl bg-zinc-200 border border-zinc-300 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-300 dark:bg-white/8 dark:border-white/10 dark:text-white/70 dark:hover:text-white dark:hover:bg-white/15 transition-all"
+          className="w-11 h-11 rounded-2xl bg-zinc-200 border border-zinc-300 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-300 dark:bg-white/8 dark:border-white/10 dark:text-white/70 dark:hover:text-white dark:hover:bg-white/15 transition-all flex items-center justify-center"
         >
           <ChevronDown size={18} />
         </motion.button>
