@@ -301,8 +301,8 @@ function HeroBanner() {
       className="relative overflow-hidden rounded-3xl min-h-[340px] sm:min-h-[420px] flex items-center"
       style={{
         background: dark
-          ? 'linear-gradient(135deg, #0f0900 0%, #1c1000 35%, #0d0d0d 65%, #0a0505 100%)'
-          : 'linear-gradient(135deg, #fffbf0 0%, #fef5d8 30%, #fff8e8 65%, #fffef8 100%)',
+          ? 'linear-gradient(135deg, #100500 0%, #1c0a00 35%, #0f1115 65%, #0a0505 100%)'
+          : 'linear-gradient(135deg, #fff8f2 0%, #fff0e6 30%, #fff5ee 65%, #fffaf6 100%)',
       }}
     >
       {/* Ambient glow mesh */}
@@ -311,14 +311,14 @@ function HeroBanner() {
         style={{
           background: dark
             ? [
-                'radial-gradient(ellipse 80% 60% at 18% 55%, rgba(246,198,139,0.18) 0%, transparent 60%)',
-                'radial-gradient(ellipse 55% 70% at 82% 25%, rgba(251,113,133,0.10) 0%, transparent 55%)',
-                'radial-gradient(ellipse 45% 45% at 60% 85%, rgba(245,158,11,0.09) 0%, transparent 50%)',
+                'radial-gradient(ellipse 80% 60% at 18% 55%, rgba(255,107,53,0.14) 0%, transparent 60%)',
+                'radial-gradient(ellipse 55% 70% at 82% 25%, rgba(255,107,53,0.06) 0%, transparent 55%)',
+                'radial-gradient(ellipse 45% 45% at 60% 85%, rgba(125,187,145,0.06) 0%, transparent 50%)',
               ].join(',')
             : [
-                'radial-gradient(ellipse 80% 60% at 18% 55%, rgba(246,198,139,0.45) 0%, transparent 60%)',
-                'radial-gradient(ellipse 55% 70% at 82% 25%, rgba(251,146,60,0.18) 0%, transparent 55%)',
-                'radial-gradient(ellipse 45% 45% at 60% 85%, rgba(245,158,11,0.22) 0%, transparent 50%)',
+                'radial-gradient(ellipse 80% 60% at 18% 55%, rgba(255,107,53,0.18) 0%, transparent 60%)',
+                'radial-gradient(ellipse 55% 70% at 82% 25%, rgba(255,107,53,0.10) 0%, transparent 55%)',
+                'radial-gradient(ellipse 45% 45% at 60% 85%, rgba(125,187,145,0.10) 0%, transparent 50%)',
               ].join(','),
         }}
       />
@@ -327,19 +327,17 @@ function HeroBanner() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, ${dark ? '#f6c68b' : '#c48a3a'} 1px, transparent 0)`,
+          backgroundImage: `radial-gradient(circle at 1px 1px, ${dark ? '#FF6B35' : '#FF6B35'} 1px, transparent 0)`,
           backgroundSize: '32px 32px',
-          opacity: dark ? 0.035 : 0.07,
+          opacity: dark ? 0.03 : 0.055,
         }}
       />
 
-      {/* Border accent — light mode only */}
-      {!dark && (
-        <div
-          className="absolute inset-0 rounded-3xl pointer-events-none"
-          style={{ border: '1.5px solid rgba(196,138,58,0.18)' }}
-        />
-      )}
+      {/* Border accent */}
+      <div
+        className="absolute inset-0 rounded-3xl pointer-events-none"
+        style={{ border: dark ? '1px solid rgba(255,107,53,0.12)' : '1.5px solid rgba(255,107,53,0.14)' }}
+      />
 
       {/* Floating food emojis */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
@@ -351,8 +349,8 @@ function HeroBanner() {
               left: `${6 + (i * 8.2) % 88}%`,
               top:  `${8 + (i * 15.7) % 78}%`,
               opacity: dark
-                ? 0.10 + (i % 4) * 0.03
-                : 0.18 + (i % 4) * 0.05,
+                ? 0.08 + (i % 4) * 0.025
+                : 0.14 + (i % 4) * 0.04,
             }}
             animate={{ y: [0, -14, 0], rotate: [-4, 4, -4] }}
             transition={{ duration: 3.5 + (i % 3) * 1.2, delay: i * 0.35, repeat: Infinity, ease: 'easeInOut' }}
@@ -369,12 +367,12 @@ function HeroBanner() {
           {...fadeUp(0)}
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-5 border"
           style={{
-            background: dark ? 'rgba(246,198,139,0.10)' : 'rgba(196,138,58,0.10)',
-            borderColor: dark ? 'rgba(246,198,139,0.25)' : 'rgba(196,138,58,0.30)',
+            background: dark ? 'rgba(255,107,53,0.10)' : 'rgba(255,107,53,0.09)',
+            borderColor: dark ? 'rgba(255,107,53,0.28)' : 'rgba(255,107,53,0.25)',
           }}
         >
-          <Flame size={12} style={{ color: dark ? '#f6c68b' : '#c48a3a' }} />
-          <span className="text-xs font-semibold" style={{ color: dark ? '#f6c68b' : '#c48a3a' }}>
+          <Flame size={12} style={{ color: '#FF6B35' }} />
+          <span className="text-xs font-semibold" style={{ color: '#FF6B35' }}>
             21 Categories · 500+ Recipes · Daily Reels
           </span>
         </motion.div>
@@ -383,14 +381,14 @@ function HeroBanner() {
         <motion.h1
           {...fadeUp(0.08)}
           className={`font-heading text-3xl sm:text-4xl lg:text-5xl font-black leading-[1.15] tracking-tight mb-4 ${
-            dark ? 'text-white' : 'text-zinc-800'
+            dark ? 'text-[#F5F5F5]' : 'text-[#1A1A1A]'
           }`}
         >
           Discover Recipes<br />
           <span
             className="animate-gradient-x bg-clip-text text-transparent"
             style={{
-              backgroundImage: 'linear-gradient(90deg, #f6c68b, #f59e0b, #fb923c, #f6c68b)',
+              backgroundImage: 'linear-gradient(90deg, #FF6B35, #ff9164, #FF6B35, #e85a25)',
               backgroundSize: '200% 200%',
             }}
           >
@@ -402,7 +400,7 @@ function HeroBanner() {
         <motion.p
           {...fadeUp(0.15)}
           className={`text-sm sm:text-base max-w-md leading-relaxed mb-7 ${
-            dark ? 'text-zinc-400' : 'text-zinc-600'
+            dark ? 'text-zinc-400' : 'text-zinc-500'
           }`}
         >
           Explore trending reels, delicious recipes, and categories crafted for every craving.
@@ -412,22 +410,22 @@ function HeroBanner() {
         <motion.div {...fadeUp(0.22)} className="flex flex-wrap gap-3">
           <motion.button
             whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-black"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white"
             style={{
-              background: 'linear-gradient(135deg, #f6c68b, #f59e0b)',
-              boxShadow: '0 8px 24px rgba(246,198,139,0.40)',
+              background: 'linear-gradient(135deg, #FF6B35, #e85a25)',
+              boxShadow: '0 8px 24px rgba(255,107,53,0.38)',
             }}
           >
-            <Play size={14} fill="black" /> Explore Reels
+            <Play size={14} fill="white" /> Explore Reels
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm border ${
-              dark ? 'text-white' : 'text-zinc-700'
+              dark ? 'text-[#F5F5F5]' : 'text-zinc-700'
             }`}
             style={{
-              borderColor: dark ? 'rgba(246,198,139,0.35)' : 'rgba(196,138,58,0.40)',
-              background:   dark ? 'rgba(246,198,139,0.08)' : 'rgba(196,138,58,0.07)',
+              borderColor: dark ? 'rgba(255,107,53,0.30)' : 'rgba(255,107,53,0.35)',
+              background:   dark ? 'rgba(255,107,53,0.07)' : 'rgba(255,107,53,0.06)',
             }}
           >
             <Utensils size={14} /> Browse Recipes
@@ -446,15 +444,15 @@ function HeroBanner() {
             key={s.label}
             className="flex items-center gap-2.5 px-3 py-2 rounded-xl backdrop-blur-sm"
             style={{
-              background: dark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.72)',
+              background: dark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.80)',
               border: dark
-                ? '1px solid rgba(255,255,255,0.09)'
-                : '1px solid rgba(196,138,58,0.22)',
+                ? '1px solid rgba(255,107,53,0.12)'
+                : '1px solid rgba(255,107,53,0.18)',
             }}
           >
             <span className="text-sm leading-none">{s.icon}</span>
             <div>
-              <div className={`text-xs font-bold leading-none ${dark ? 'text-white' : 'text-zinc-800'}`}>
+              <div className={`text-xs font-bold leading-none ${dark ? 'text-[#F5F5F5]' : 'text-[#1A1A1A]'}`}>
                 {s.value}
               </div>
               <div className="text-[10px] text-zinc-500 mt-0.5">{s.label}</div>
@@ -496,7 +494,7 @@ function CategoryTabs({ active, onChange }: { active: string; onChange: (id: str
   }
 
   return (
-    <div className="sticky top-0 z-30 -mx-1 px-1 py-3 bg-zinc-50/90 dark:bg-zinc-950/90 backdrop-blur-md">
+    <div className="sticky top-0 z-30 -mx-1 px-1 py-3 bg-[#FFF8F2]/92 dark:bg-[#0F1115]/92 backdrop-blur-md">
       <div
         ref={rowRef}
         className="flex gap-2 overflow-x-auto scrollbar-none pb-0.5 select-none"
@@ -515,12 +513,12 @@ function CategoryTabs({ active, onChange }: { active: string; onChange: (id: str
               onClick={() => { if (!moved.current) onChange(tab.id) }}
               className={`flex-none flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors duration-150 ${
                 isActive
-                  ? 'text-black'
-                  : 'text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-800/70 border border-zinc-200/80 dark:border-zinc-700/60 hover:border-[#f6c68b]/40'
+                  ? 'text-white'
+                  : 'text-zinc-600 dark:text-zinc-400 bg-white dark:bg-[#1A1D24]/70 border border-zinc-200/80 dark:border-white/8 hover:border-[#FF6B35]/35'
               }`}
               style={isActive ? {
-                background: 'linear-gradient(135deg, #f6c68b, #f59e0b)',
-                boxShadow: '0 0 16px 3px rgba(246,198,139,0.32)',
+                background: 'linear-gradient(135deg, #FF6B35, #e85a25)',
+                boxShadow: '0 0 18px 4px rgba(255,107,53,0.28)',
               } : {}}
             >
               <span>{tab.emoji}</span>
@@ -558,7 +556,7 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
           onFocus={() => setShowSuggestions(true)}
           onBlur={() => setTimeout(() => setShowSuggestions(false), 160)}
           placeholder="Search recipes, reels, cuisines, ingredients…"
-          className="w-full pl-11 pr-10 py-3.5 rounded-2xl text-sm font-medium bg-white dark:bg-zinc-800/80 border border-zinc-200/80 dark:border-zinc-700/60 text-zinc-800 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#f6c68b]/60 focus:ring-2 focus:ring-[#f6c68b]/20"
+          className="w-full pl-11 pr-10 py-3.5 rounded-2xl text-sm font-medium bg-white dark:bg-[#1A1D24]/80 border border-zinc-200/80 dark:border-white/8 text-zinc-800 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#FF6B35]/50 focus:ring-2 focus:ring-[#FF6B35]/18"
         />
         {query && (
           <button
@@ -575,18 +573,18 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
             <motion.div
               initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.14 }}
-              className="absolute top-full left-0 right-0 mt-2 rounded-2xl bg-white dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xl z-50 overflow-hidden"
+              className="absolute top-full left-0 right-0 mt-2 rounded-2xl bg-white dark:bg-[#1A1D24] border border-zinc-200/80 dark:border-white/8 shadow-xl z-50 overflow-hidden"
             >
-              <div className="px-4 py-2.5 border-b border-zinc-100 dark:border-zinc-700/50">
+              <div className="px-4 py-2.5 border-b border-zinc-100 dark:border-white/6">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Trending Searches</span>
               </div>
               {TRENDING_SEARCHES.map((s) => (
                 <button
                   key={s}
                   onMouseDown={() => onQuery(s)}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/40 transition-colors text-left"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors text-left"
                 >
-                  <TrendingUp size={13} style={{ color: '#f6c68b' }} />
+                  <TrendingUp size={13} style={{ color: '#FF6B35' }} />
                   {s}
                 </button>
               ))}
@@ -603,10 +601,10 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
               onClick={() => setOpenFilter(openFilter === f.label ? null : f.label)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                 openFilter === f.label
-                  ? 'border-[#f6c68b]/50 text-[#f6c68b] bg-[#f6c68b]/08'
-                  : 'bg-white dark:bg-zinc-800/80 border-zinc-200/80 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-400 hover:border-[#f6c68b]/35'
+                  ? 'border-[#FF6B35]/50 text-[#FF6B35]'
+                  : 'bg-white dark:bg-[#1A1D24]/80 border-zinc-200/80 dark:border-white/8 text-zinc-600 dark:text-zinc-400 hover:border-[#FF6B35]/30'
               }`}
-              style={openFilter === f.label ? { background: 'rgba(246,198,139,0.08)' } : {}}
+              style={openFilter === f.label ? { background: 'rgba(255,107,53,0.07)' } : {}}
             >
               {f.label}
               <ChevronDown size={11} className={`transition-transform duration-200 ${openFilter === f.label ? 'rotate-180' : ''}`} />
@@ -619,13 +617,13 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -4, scale: 0.96 }}
                   transition={{ duration: 0.12 }}
-                  className="absolute top-full left-0 mt-1.5 min-w-[148px] rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xl z-50 py-1 overflow-hidden"
+                  className="absolute top-full left-0 mt-1.5 min-w-[148px] rounded-xl bg-white dark:bg-[#1A1D24] border border-zinc-200/80 dark:border-white/8 shadow-xl z-50 py-1 overflow-hidden"
                 >
                   {f.options.map((opt) => (
                     <button
                       key={opt}
                       onClick={() => setOpenFilter(null)}
-                      className="w-full px-3.5 py-2 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/40 transition-colors text-left"
+                      className="w-full px-3.5 py-2 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors text-left"
                     >
                       {opt}
                     </button>
@@ -638,7 +636,7 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
 
         <button
           className="flex-none flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all"
-          style={{ background: 'rgba(246,198,139,0.07)', borderColor: 'rgba(246,198,139,0.28)', color: '#f6c68b' }}
+          style={{ background: 'rgba(255,107,53,0.07)', borderColor: 'rgba(255,107,53,0.28)', color: '#FF6B35' }}
         >
           <SlidersHorizontal size={11} /> More Filters
         </button>
@@ -649,7 +647,7 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
 
 /* ─── Recipe Card ────────────────────────────────────────────── */
 
-function RecipeCard({ recipe }: { recipe: Recipe; index?: number }) {
+function RecipeCard({ recipe }: { recipe: Recipe }) {
   const [saved, setSaved] = useState(false)
   const [liked, setLiked] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -662,7 +660,7 @@ function RecipeCard({ recipe }: { recipe: Recipe; index?: number }) {
       initial="hidden"
       animate={inView ? 'visible' : 'hidden'}
       whileHover={{ y: -6, transition: { type: 'spring', stiffness: 280, damping: 22 } }}
-      className="group relative rounded-2xl overflow-hidden bg-white dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/50 shadow-sm hover:shadow-lg hover:shadow-[#f6c68b]/10 cursor-pointer"
+      className="group relative rounded-2xl overflow-hidden bg-white dark:bg-[#1A1D24]/90 border border-zinc-200/60 dark:border-white/7 shadow-sm hover:shadow-lg hover:shadow-[#FF6B35]/8 cursor-pointer transition-shadow duration-300"
     >
       {/* Food image */}
       <div className="relative overflow-hidden" style={{ aspectRatio: '4/3' }}>
@@ -673,14 +671,13 @@ function RecipeCard({ recipe }: { recipe: Recipe; index?: number }) {
           sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 25vw"
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.07]"
         />
-        {/* Dark overlay on hover */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Quick preview */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
           <button
             className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-white text-[11px] font-semibold backdrop-blur-sm border"
-            style={{ background: 'rgba(0,0,0,0.45)', borderColor: 'rgba(255,255,255,0.18)' }}
+            style={{ background: 'rgba(0,0,0,0.50)', borderColor: 'rgba(255,255,255,0.18)' }}
           >
             <Eye size={11} /> Quick Preview
           </button>
@@ -690,7 +687,7 @@ function RecipeCard({ recipe }: { recipe: Recipe; index?: number }) {
         <div className="absolute top-2.5 left-2.5">
           <span
             className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
-            style={{ background: recipe.isVeg ? '#16a34a' : '#dc2626' }}
+            style={{ background: recipe.isVeg ? '#7DBB91' : '#FF6B35' }}
           >
             {recipe.isVeg ? 'VEG' : 'NON-VEG'}
           </span>
@@ -710,9 +707,9 @@ function RecipeCard({ recipe }: { recipe: Recipe; index?: number }) {
             whileTap={{ scale: 0.82 }}
             onClick={(e) => { e.stopPropagation(); setSaved((v) => !v) }}
             className="p-1.5 rounded-full backdrop-blur-sm transition-colors"
-            style={{ background: saved ? 'rgba(246,198,139,0.92)' : 'rgba(0,0,0,0.42)' }}
+            style={{ background: saved ? 'rgba(125,187,145,0.92)' : 'rgba(0,0,0,0.42)' }}
           >
-            <Bookmark size={12} fill={saved ? 'black' : 'none'} stroke={saved ? 'black' : 'white'} strokeWidth={2.2} />
+            <Bookmark size={12} fill={saved ? 'white' : 'none'} stroke="white" strokeWidth={2.2} />
           </motion.button>
         </div>
       </div>
@@ -720,7 +717,7 @@ function RecipeCard({ recipe }: { recipe: Recipe; index?: number }) {
       {/* Card body */}
       <div className="p-3.5">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: '#f6c68b' }}>
+          <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: '#FF6B35' }}>
             {recipe.cuisine}
           </span>
           <span className="flex items-center gap-0.5 text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">
@@ -738,7 +735,7 @@ function RecipeCard({ recipe }: { recipe: Recipe; index?: number }) {
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <Star size={11} fill="#f6c68b" stroke="#f6c68b" />
+            <Star size={11} fill="#FF6B35" stroke="#FF6B35" />
             <span className="text-[11px] font-bold text-zinc-700 dark:text-zinc-300">{recipe.rating}</span>
             <span className="text-[10px] text-zinc-400">({recipe.ratingCount.toLocaleString()})</span>
           </div>
@@ -754,7 +751,7 @@ function RecipeCard({ recipe }: { recipe: Recipe; index?: number }) {
 
 /* ─── Reel Card ──────────────────────────────────────────────── */
 
-function ReelCard({ reel }: { reel: Reel; index?: number }) {
+function ReelCard({ reel }: { reel: Reel }) {
   const [liked, setLiked] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-50px' })
@@ -766,7 +763,7 @@ function ReelCard({ reel }: { reel: Reel; index?: number }) {
       initial="hidden"
       animate={inView ? 'visible' : 'hidden'}
       whileHover={{ y: -6, transition: { type: 'spring', stiffness: 280, damping: 22 } }}
-      className="group relative rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-zinc-700/50 shadow-sm hover:shadow-lg cursor-pointer"
+      className="group relative rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-white/7 shadow-sm hover:shadow-lg cursor-pointer"
       style={{ aspectRatio: '9/16', minHeight: '200px', maxHeight: '360px' }}
     >
       {/* Thumbnail */}
@@ -778,7 +775,6 @@ function ReelCard({ reel }: { reel: Reel; index?: number }) {
         className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
       />
 
-      {/* Gradient overlays */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className={`absolute inset-0 bg-gradient-to-br ${reel.gradient} opacity-20 group-hover:opacity-30 transition-opacity duration-300`} />
 
@@ -787,9 +783,9 @@ function ReelCard({ reel }: { reel: Reel; index?: number }) {
         <motion.div
           whileHover={{ scale: 1.12 }}
           className="w-11 h-11 rounded-full flex items-center justify-center backdrop-blur-sm"
-          style={{ background: 'rgba(246,198,139,0.88)' }}
+          style={{ background: 'rgba(255,107,53,0.88)' }}
         >
-          <Play size={16} fill="black" className="ml-0.5" />
+          <Play size={16} fill="white" className="ml-0.5" />
         </motion.div>
       </div>
 
@@ -798,7 +794,7 @@ function ReelCard({ reel }: { reel: Reel; index?: number }) {
         <div className="absolute top-2.5 left-2.5">
           <span
             className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, #f6c68b, #f59e0b)' }}
+            style={{ background: 'linear-gradient(135deg, #FF6B35, #e85a25)' }}
           >
             <Flame size={8} /> TRENDING
           </span>
@@ -828,8 +824,8 @@ function ReelCard({ reel }: { reel: Reel; index?: number }) {
           >
             <Heart
               size={11}
-              fill={liked ? '#f87171' : 'none'}
-              stroke={liked ? '#f87171' : 'white'}
+              fill={liked ? '#FF6B35' : 'none'}
+              stroke={liked ? '#FF6B35' : 'white'}
               strokeWidth={2}
               className="transition-transform hover:scale-125"
             />
@@ -872,7 +868,6 @@ function MixedGrid({ query, activeTab }: { query: string; activeTab: string }) {
     return matchesSearch && matchesTab
   })
 
-  // Interleave recipes and reels: recipe, recipe, reel, recipe, recipe, reel…
   const mixed: Array<{ type: 'recipe'; data: Recipe } | { type: 'reel'; data: Reel }> = []
   let ri = 0
   let li = 0
@@ -900,9 +895,9 @@ function MixedGrid({ query, activeTab }: { query: string; activeTab: string }) {
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
       {mixed.map((item, i) =>
         item.type === 'recipe' ? (
-          <RecipeCard key={`rec-${item.data.id}-${i}`} recipe={item.data} index={i} />
+          <RecipeCard key={`rec-${item.data.id}-${i}`} recipe={item.data} />
         ) : (
-          <ReelCard key={`rel-${item.data.id}-${i}`} reel={item.data} index={i} />
+          <ReelCard key={`rel-${item.data.id}-${i}`} reel={item.data} />
         )
       )}
     </div>
@@ -934,7 +929,6 @@ function CategoryCarousel({ section }: { section: typeof CATEGORY_SECTIONS[0] })
       transition={{ duration: 0.5, ease: EASE }}
       className="space-y-4"
     >
-      {/* Header */}
       <div className="flex items-end justify-between">
         <div>
           <div className="flex items-center gap-2 mb-0.5">
@@ -953,35 +947,33 @@ function CategoryCarousel({ section }: { section: typeof CATEGORY_SECTIONS[0] })
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => scroll('left')}
-            className="p-1.5 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/60 text-zinc-500 hover:border-[#f6c68b]/50 hover:text-[#f6c68b] transition-all"
+            className="p-1.5 rounded-lg bg-white dark:bg-[#1A1D24] border border-zinc-200/80 dark:border-white/8 text-zinc-500 hover:border-[#FF6B35]/45 hover:text-[#FF6B35] transition-all"
           >
             <ChevronLeft size={14} />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="p-1.5 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/60 text-zinc-500 hover:border-[#f6c68b]/50 hover:text-[#f6c68b] transition-all"
+            className="p-1.5 rounded-lg bg-white dark:bg-[#1A1D24] border border-zinc-200/80 dark:border-white/8 text-zinc-500 hover:border-[#FF6B35]/45 hover:text-[#FF6B35] transition-all"
           >
             <ChevronRight size={14} />
           </button>
           <button
             className="flex items-center gap-1 text-xs font-semibold ml-1 hover:opacity-75 transition-opacity"
-            style={{ color: '#f6c68b' }}
+            style={{ color: '#FF6B35' }}
           >
             View All <ArrowRight size={11} />
           </button>
         </div>
       </div>
 
-      {/* Horizontally scrollable row */}
       <div ref={scrollRef} className="flex gap-3 overflow-x-auto scrollbar-none pb-1">
         {recipes.map((recipe, i) => (
           <div key={recipe.id} className="flex-none w-52 sm:w-56">
-            <RecipeCard recipe={recipe} index={i} />
+            <RecipeCard recipe={recipe} />
           </div>
         ))}
-        {/* Reel card mixed in at the end */}
         <div className="flex-none w-36 sm:w-40">
-          <ReelCard reel={reel} index={recipes.length} />
+          <ReelCard reel={reel} />
         </div>
       </div>
     </motion.section>
@@ -999,7 +991,7 @@ function TrendingSection() {
       <div className="flex items-end justify-between">
         <div>
           <div className="flex items-center gap-2 mb-0.5">
-            <TrendingUp size={18} style={{ color: '#f6c68b' }} />
+            <TrendingUp size={18} style={{ color: '#FF6B35' }} />
             <h2 className="font-heading text-xl sm:text-2xl font-black text-zinc-800 dark:text-zinc-100 tracking-tight">
               Trending on CookReels
             </h2>
@@ -1008,7 +1000,7 @@ function TrendingSection() {
             Most watched reels &amp; viral recipes this week
           </p>
         </div>
-        <button className="flex items-center gap-1 text-xs font-semibold hover:opacity-75 transition-opacity" style={{ color: '#f6c68b' }}>
+        <button className="flex items-center gap-1 text-xs font-semibold hover:opacity-75 transition-opacity" style={{ color: '#FF6B35' }}>
           See all <ArrowRight size={11} />
         </button>
       </div>
@@ -1021,7 +1013,7 @@ function TrendingSection() {
       >
         {REELS.map((reel, i) => (
           <motion.div key={reel.id} variants={cardReveal}>
-            <ReelCard reel={reel} index={i} />
+            <ReelCard reel={reel} />
           </motion.div>
         ))}
       </motion.div>
@@ -1049,7 +1041,7 @@ function PersonalizedSection() {
             Personalized picks based on your taste preferences
           </p>
         </div>
-        <button className="flex items-center gap-1 text-xs font-semibold hover:opacity-75 transition-opacity" style={{ color: '#f6c68b' }}>
+        <button className="flex items-center gap-1 text-xs font-semibold hover:opacity-75 transition-opacity" style={{ color: '#FF6B35' }}>
           Refresh <ArrowRight size={11} />
         </button>
       </div>
@@ -1062,7 +1054,7 @@ function PersonalizedSection() {
       >
         {RECIPES.slice(6).map((recipe, i) => (
           <motion.div key={recipe.id} variants={cardReveal}>
-            <RecipeCard recipe={recipe} index={i} />
+            <RecipeCard recipe={recipe} />
           </motion.div>
         ))}
       </motion.div>
@@ -1079,9 +1071,9 @@ function DiscoverySidebar() {
   return (
     <aside className="hidden xl:flex flex-col gap-5 w-60 flex-none self-start sticky top-[72px]">
       {/* Top Creators */}
-      <div className="rounded-2xl bg-white dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/50 p-4">
+      <div className="rounded-2xl bg-white dark:bg-[#1A1D24]/90 border border-zinc-200/60 dark:border-white/7 p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-4">
-          <Users size={14} style={{ color: '#f6c68b' }} />
+          <Users size={14} style={{ color: '#FF6B35' }} />
           <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-100">Top Creators</h3>
         </div>
         <div className="space-y-3">
@@ -1089,7 +1081,7 @@ function DiscoverySidebar() {
             <div key={c.handle} className="flex items-center gap-2.5">
               <div
                 className="w-8 h-8 rounded-full flex items-center justify-center text-sm flex-none"
-                style={{ background: 'rgba(246,198,139,0.10)', border: '1px solid rgba(246,198,139,0.22)' }}
+                style={{ background: 'rgba(255,107,53,0.09)', border: '1px solid rgba(255,107,53,0.20)' }}
               >
                 {c.emoji}
               </div>
@@ -1098,8 +1090,8 @@ function DiscoverySidebar() {
                 <div className="text-[10px] text-zinc-400 truncate">{c.specialty} · {c.followers}</div>
               </div>
               <button
-                className="text-[10px] font-bold px-2 py-0.5 rounded-full flex-none"
-                style={{ background: 'rgba(246,198,139,0.10)', color: '#f6c68b', border: '1px solid rgba(246,198,139,0.22)' }}
+                className="text-[10px] font-bold px-2 py-0.5 rounded-full flex-none transition-colors hover:bg-[#FF6B35] hover:text-white"
+                style={{ background: 'rgba(255,107,53,0.09)', color: '#FF6B35', border: '1px solid rgba(255,107,53,0.22)' }}
               >
                 Follow
               </button>
@@ -1109,16 +1101,16 @@ function DiscoverySidebar() {
       </div>
 
       {/* Popular Hashtags */}
-      <div className="rounded-2xl bg-white dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/50 p-4">
+      <div className="rounded-2xl bg-white dark:bg-[#1A1D24]/90 border border-zinc-200/60 dark:border-white/7 p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-3.5">
-          <Hash size={14} style={{ color: '#f6c68b' }} />
+          <Hash size={14} style={{ color: '#FF6B35' }} />
           <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-100">Popular Tags</h3>
         </div>
         <div className="flex flex-wrap gap-1.5">
           {TRENDING_HASHTAGS.map((tag) => (
             <button
               key={tag}
-              className="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-zinc-100 dark:bg-zinc-700/50 border border-zinc-200/80 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-400 hover:border-[#f6c68b]/40 hover:text-[#f6c68b] transition-colors"
+              className="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-zinc-100 dark:bg-white/5 border border-zinc-200/80 dark:border-white/8 text-zinc-600 dark:text-zinc-400 hover:border-[#FF6B35]/40 hover:text-[#FF6B35] transition-colors"
             >
               {tag}
             </button>
@@ -1131,22 +1123,22 @@ function DiscoverySidebar() {
         className="rounded-2xl overflow-hidden relative p-4 min-h-[130px] flex flex-col justify-between"
         style={{
           background: dark
-            ? 'linear-gradient(135deg, #1a0f00, #0d0d0d)'
-            : 'linear-gradient(135deg, #fffbf0, #fef5d8, #fff0c8)',
-          border: dark ? 'none' : '1.5px solid rgba(196,138,58,0.20)',
+            ? 'linear-gradient(135deg, #150500, #0f1115)'
+            : 'linear-gradient(135deg, #fff8f2, #fff0e6, #fff5ee)',
+          border: dark ? '1px solid rgba(255,107,53,0.12)' : '1.5px solid rgba(255,107,53,0.18)',
         }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: dark
-              ? 'radial-gradient(ellipse at 25% 55%, rgba(246,198,139,0.35), transparent 65%)'
-              : 'radial-gradient(ellipse at 25% 55%, rgba(246,198,139,0.55), transparent 65%)',
+              ? 'radial-gradient(ellipse at 25% 55%, rgba(255,107,53,0.22), transparent 65%)'
+              : 'radial-gradient(ellipse at 25% 55%, rgba(255,107,53,0.18), transparent 65%)',
           }}
         />
         <div className="relative z-10">
           <div className="text-2xl mb-2">🌿</div>
-          <div className={`text-xs font-bold mb-0.5 ${dark ? 'text-white' : 'text-zinc-800'}`}>
+          <div className={`text-xs font-bold mb-0.5 ${dark ? 'text-[#F5F5F5]' : 'text-[#1A1A1A]'}`}>
             Seasonal Picks
           </div>
           <div className={`text-[10px] leading-relaxed ${dark ? 'text-zinc-400' : 'text-zinc-600'}`}>
@@ -1154,11 +1146,11 @@ function DiscoverySidebar() {
           </div>
         </div>
         <button
-          className="relative z-10 mt-3 self-start text-[10px] font-bold px-3 py-1 rounded-full"
+          className="relative z-10 mt-3 self-start text-[10px] font-bold px-3 py-1 rounded-full transition-colors"
           style={{
-            background: dark ? 'rgba(246,198,139,0.14)' : 'rgba(196,138,58,0.12)',
-            color:      dark ? '#f6c68b'                 : '#c48a3a',
-            border:     dark ? '1px solid rgba(246,198,139,0.28)' : '1px solid rgba(196,138,58,0.32)',
+            background: dark ? 'rgba(255,107,53,0.14)' : 'rgba(255,107,53,0.10)',
+            color: '#FF6B35',
+            border: '1px solid rgba(255,107,53,0.28)',
           }}
         >
           Explore Now →
@@ -1188,8 +1180,8 @@ function FloatingFAB() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.82 }}
             transition={{ delay: i * 0.07, type: 'spring', stiffness: 300, damping: 22 }}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg text-black whitespace-nowrap"
-            style={{ background: 'linear-gradient(135deg, #f6c68b, #f59e0b)' }}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg text-white whitespace-nowrap"
+            style={{ background: 'linear-gradient(135deg, #FF6B35, #e85a25)' }}
           >
             <action.icon size={13} /> {action.label}
           </motion.button>
@@ -1200,14 +1192,14 @@ function FloatingFAB() {
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.91 }}
         onClick={() => setOpen((v) => !v)}
-        className="w-13 h-13 w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-xl animate-pulse-glow"
-        style={{ background: 'linear-gradient(135deg, #f6c68b, #f59e0b)' }}
+        className="w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-xl animate-pulse-glow"
+        style={{ background: 'linear-gradient(135deg, #FF6B35, #e85a25)' }}
       >
         <motion.div
           animate={{ rotate: open ? 45 : 0 }}
           transition={{ type: 'spring', stiffness: 320, damping: 20 }}
         >
-          <Plus size={22} className="text-black" />
+          <Plus size={22} className="text-white" />
         </motion.div>
       </motion.button>
     </div>
@@ -1216,7 +1208,6 @@ function FloatingFAB() {
 
 /* ─── Page Export ────────────────────────────────────────────── */
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function CategoriesPage({ username }: { username?: string }) {
   const [activeTab, setActiveTab] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
@@ -1230,21 +1221,12 @@ export function CategoriesPage({ username }: { username?: string }) {
   return (
     <div className="relative min-h-screen">
       <div className="max-w-screen-2xl mx-auto px-3 sm:px-5 py-5 space-y-7">
-        {/* Hero */}
         <HeroBanner />
-
-        {/* Sticky tabs */}
         <CategoryTabs active={activeTab} onChange={setActiveTab} />
-
-        {/* Search + filters */}
         <SearchFilters query={searchQuery} onQuery={setSearchQuery} />
 
-        {/* Two-column layout */}
         <div className="flex gap-6 items-start">
-          {/* Main column */}
           <div className="flex-1 min-w-0 space-y-10">
-
-            {/* Discovery grid header */}
             <section>
               <div className="flex items-end justify-between mb-5">
                 <div>
@@ -1255,9 +1237,7 @@ export function CategoriesPage({ username }: { username?: string }) {
                     {searchQuery ? 'Matching recipes and reels' : 'Reels and recipes mixed for you'}
                   </p>
                 </div>
-                <button
-                  className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-400"
-                >
+                <button className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-xl bg-white dark:bg-[#1A1D24] border border-zinc-200/80 dark:border-white/8 text-zinc-600 dark:text-zinc-400 hover:border-[#FF6B35]/35 hover:text-[#FF6B35] transition-colors">
                   Popular <ChevronDown size={10} />
                 </button>
               </div>
@@ -1265,24 +1245,18 @@ export function CategoriesPage({ username }: { username?: string }) {
               <MixedGrid query={searchQuery} activeTab={activeTab} />
             </section>
 
-            {/* Category carousels */}
             {CATEGORY_SECTIONS.map((section) => (
               <CategoryCarousel key={section.id} section={section} />
             ))}
 
-            {/* Trending reels */}
             <TrendingSection />
-
-            {/* Personalized */}
             <PersonalizedSection />
           </div>
 
-          {/* Right sidebar (xl+) */}
           <DiscoverySidebar />
         </div>
       </div>
 
-      {/* Floating upload FAB */}
       <FloatingFAB />
     </div>
   )

@@ -30,7 +30,7 @@ export default function RootLayout({
       lang="en"
       className={`${playfairDisplay.variable} ${manrope.variable} h-full antialiased`}
     >
-      <body className="font-body min-h-full flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
+      <body className="font-body min-h-full flex flex-col bg-[#FFF8F2] dark:bg-[#0F1115] text-[#1A1A1A] dark:text-[#F5F5F5]">
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

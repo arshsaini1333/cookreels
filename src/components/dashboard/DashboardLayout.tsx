@@ -11,7 +11,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children, username = 'Chef' }: DashboardLayoutProps) {
   return (
-    <div className="flex h-screen overflow-hidden bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex h-screen overflow-hidden bg-[#FFF8F2] dark:bg-[#0F1115]">
       {/* Sidebar */}
       <Sidebar username={username} />
 
@@ -27,11 +27,11 @@ export function DashboardLayout({ children, username = 'Chef' }: DashboardLayout
           transition={{ duration: 0.35, delay: 0.1 }}
           className="flex-1 overflow-y-auto"
         >
-          {/* Decorative gradient blobs */}
+          {/* Decorative ambient blobs */}
           <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
-            <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-[#f6c68b]/5 dark:bg-[#f6c68b]/3 blur-3xl" />
-            <div className="absolute top-1/2 -left-32 w-72 h-72 rounded-full bg-[#f6c68b]/4 dark:bg-[#f6c68b]/2 blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-[#f6c68b]/3 dark:bg-[#f6c68b]/2 blur-3xl" />
+            <div className="absolute -top-48 -right-48 w-[500px] h-[500px] rounded-full bg-[#FF6B35]/4 dark:bg-[#FF6B35]/3 blur-[120px]" />
+            <div className="absolute top-1/2 -left-40 w-80 h-80 rounded-full bg-[#FF6B35]/3 dark:bg-[#FF6B35]/2 blur-[100px]" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-[#7DBB91]/3 dark:bg-[#7DBB91]/2 blur-[100px]" />
           </div>
 
           {/* Dashboard content */}
