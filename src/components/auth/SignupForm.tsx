@@ -89,7 +89,7 @@ const AUTO_COMPLETE_MAP: Record<keyof FormData, string> = {
   confirmPassword: 'new-password',
 }
 
-// ── EyeIcon 
+// ── Icons ────────────────────────────────────────────────────────────────────
 
 function EyeOpenIcon() {
   return (
@@ -116,7 +116,7 @@ function ErrorIcon() {
   )
 }
 
-// InputField
+// ── InputField ───────────────────────────────────────────────────────────────
 
 interface InputFieldProps {
   label: string
@@ -147,7 +147,11 @@ function InputField({
 
   return (
     <div>
-      <label htmlFor={name} className="block text-white/90 text-xs font-semibold tracking-wide uppercase mb-1">
+      <label
+        htmlFor={name}
+        className="block text-xs font-bold tracking-widest uppercase mb-1.5"
+        style={{ color: 'rgba(245,245,245,0.75)' }}
+      >
         {label}
       </label>
       <div className="relative">
@@ -161,15 +165,19 @@ function InputField({
           placeholder={placeholder}
           autoComplete={AUTO_COMPLETE_MAP[name]}
           className={[
-            'w-full px-3.5 py-2.5 rounded-xl text-sm text-white placeholder:text-white/35',
-            'bg-white/[0.07] border',
+            'w-full px-3.5 py-2.5 rounded-xl text-sm text-white placeholder:text-white/30',
             'focus:outline-none focus:ring-2',
             'transition-all duration-200',
             rightElement ? 'pr-11' : '',
             hasError
               ? 'border-red-400/70 focus:ring-red-400/25 focus:border-red-400'
-              : 'border-white/15 hover:border-[#f6c68b]/50 focus:ring-[#f6c68b]/25 focus:border-[#f6c68b]/75 focus:bg-white/[0.10]',
+              : 'hover:border-[#F5C518]/45 focus:ring-[#F5C518]/20 focus:border-[#F5C518]/70',
           ].join(' ')}
+          style={{
+            background: 'rgba(255,255,255,0.06)',
+            border: `1px solid ${hasError ? 'rgba(248,113,113,0.70)' : 'rgba(255,255,255,0.12)'}`,
+            caretColor: '#F5C518',
+          }}
         />
         {rightElement && (
           <div className="absolute inset-y-0 right-0 flex items-center pr-3.5">
@@ -187,7 +195,7 @@ function InputField({
   )
 }
 
-// ── PasswordStrengthBar 
+// ── PasswordStrengthBar ───────────────────────────────────────────────────────
 
 function PasswordStrengthBar({ password }: { password: string }) {
   if (!password) return null
@@ -206,12 +214,14 @@ function PasswordStrengthBar({ password }: { password: string }) {
           />
         ))}
       </div>
-      <p className="text-xs text-white/55">{STRENGTH_LABELS[strength]} password</p>
+      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
+        {STRENGTH_LABELS[strength]} password
+      </p>
     </div>
   )
 }
 
-// ── GoogleIcon 
+// ── GoogleIcon ────────────────────────────────────────────────────────────────
 
 function GoogleIcon() {
   return (
@@ -224,10 +234,12 @@ function GoogleIcon() {
   )
 }
 
-// SignupForm 
+// ── SignupForm ────────────────────────────────────────────────────────────────
+
 interface SignupFormProps {
-  onSubmit: (data: FormData) => Promise<void>;
+  onSubmit: (data: FormData) => Promise<void>
 }
+
 export default function SignupForm({ onSubmit }: SignupFormProps) {
   const router = useRouter()
   const [formData, setFormData] = useState<FormData>(INITIAL_DATA)
@@ -264,68 +276,99 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
     setErrors((prev) => ({ ...prev, [key]: fieldError }))
   }
 
-  // handle Submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault()
 
-  // mark all fields touched
-  const allTouched = Object.fromEntries(
-    (Object.keys(INITIAL_DATA) as (keyof FormData)[]).map((k) => [k, true]),
-  ) as TouchedFields;
+    const allTouched = Object.fromEntries(
+      (Object.keys(INITIAL_DATA) as (keyof FormData)[]).map((k) => [k, true]),
+    ) as TouchedFields
+    setTouched(allTouched)
 
-  setTouched(allTouched);
+    const validationErrors = validate(formData)
+    setErrors(validationErrors)
+    if (Object.keys(validationErrors).length > 0) return
 
-  // validate
-  const validationErrors = validate(formData);
-  setErrors(validationErrors);
-
-  if (Object.keys(validationErrors).length > 0) return;
-
-  try {
-    setIsLoading(true);
-    setServerError(null);
-
-    // On Submit to pass data
-    await onSubmit(formData);
-
-  } catch (err: any) {
-    setServerError(err.message || 'Signup failed');
-  } finally {
-    setIsLoading(false);
+    try {
+      setIsLoading(true)
+      setServerError(null)
+      await onSubmit(formData)
+    } catch (err: unknown) {
+      setServerError(err instanceof Error ? err.message : 'Signup failed. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
-};
 
   return (
     <div className="w-full max-w-2xl animate-card-in">
       {/* Mobile-only compact branding */}
       <div className="lg:hidden text-center mb-5 animate-fade-in">
         <div className="inline-flex items-center gap-2.5 mb-2">
-          <div className="w-9 h-9 rounded-xl bg-[#f6c68b] flex items-center justify-center shadow-md shadow-[#f6c68b]/20">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-stone-900">
+          <div
+            className="w-9 h-9 rounded-xl flex items-center justify-center shadow-lg"
+            style={{
+              background: 'linear-gradient(135deg, #F5C518 0%, #FFB800 100%)',
+              boxShadow: '0 4px 14px rgba(245,197,24,0.35)',
+            }}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-[#1A1A1A]">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.047 8.287 8.287 0 009 9.601a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
             </svg>
           </div>
-          <span className="font-heading text-white font-bold text-2xl tracking-tight">CookReels</span>
+          <span
+            className="font-bold text-white text-2xl tracking-tight"
+            style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
+          >
+            CookReels
+          </span>
         </div>
-        <p className="text-white/40 text-sm tracking-widest uppercase">Cook. Create. Inspire.</p>
+        <p className="text-sm tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.35)' }}>
+          Cook. Create. Inspire.
+        </p>
       </div>
 
-      {/* Dark glass card with amber accent */}
-      <div className="relative bg-stone-950/80 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl shadow-black/70 overflow-hidden p-5 sm:p-6">
-        {/* Top accent gradient strip */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#f6c68b]/80 to-transparent" aria-hidden="true" />
+      {/* Premium dark glass card */}
+      <div
+        className="relative backdrop-blur-3xl rounded-3xl shadow-2xl overflow-hidden p-5 sm:p-6"
+        style={{
+          background: 'rgba(30,30,31,0.88)',
+          border: '1px solid rgba(52,52,56,0.80)',
+          boxShadow: '0 24px 80px rgba(0,0,0,0.80), 0 0 0 1px rgba(52,52,56,0.50)',
+        }}
+      >
+        {/* Top accent gradient strip — yellow */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px]"
+          style={{ background: 'linear-gradient(90deg, transparent, #F5C518 35%, #FF9F1C 65%, transparent)' }}
+          aria-hidden="true"
+        />
+
+        {/* Subtle yellow glow at top */}
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-24 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse, rgba(245,197,24,0.05) 0%, transparent 70%)' }}
+        />
 
         <div className="mb-5">
-          <h2 className="font-heading text-2xl font-bold mb-1 tracking-tight bg-gradient-to-r from-white via-white to-[#f6c68b] bg-clip-text text-transparent">
+          <h2 className="font-heading text-2xl font-bold mb-1 tracking-tight bg-gradient-to-r from-white via-white/95 to-[#F5C518]/75 bg-clip-text text-transparent">
             Create account
           </h2>
-          <p className="text-white/60 text-sm">Join CookReels and start your culinary journey</p>
+          <p className="text-sm" style={{ color: 'rgba(161,161,170,0.90)' }}>
+            Join CookReels and start your culinary journey
+          </p>
         </div>
 
         {/* Server error */}
         {serverError && (
-          <div className="mb-5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-start gap-2.5">
+          <div
+            className="mb-5 p-3.5 rounded-xl text-sm flex items-start gap-2.5"
+            style={{
+              background: 'rgba(239,68,68,0.10)',
+              border: '1px solid rgba(239,68,68,0.20)',
+              color: '#F87171',
+            }}
+          >
             <ErrorIcon />
             <span>{serverError}</span>
           </div>
@@ -410,7 +453,10 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
                   <button
                     type="button"
                     onClick={() => setShowPassword((p) => !p)}
-                    className="text-white/35 hover:text-white/65 transition-colors"
+                    className="transition-colors"
+                    style={{ color: 'rgba(255,255,255,0.30)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.65)' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.30)' }}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <EyeOffIcon /> : <EyeOpenIcon />}
@@ -433,7 +479,10 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword((p) => !p)}
-                  className="text-white/35 hover:text-white/65 transition-colors"
+                  className="transition-colors"
+                  style={{ color: 'rgba(255,255,255,0.30)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.65)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.30)' }}
                   aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                 >
                   {showConfirmPassword ? <EyeOffIcon /> : <EyeOpenIcon />}
@@ -442,20 +491,28 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
             />
           </div>
 
-          {/* Submit button */}
+          {/* Submit button — premium yellow gradient */}
           <button
             type="submit"
             disabled={isLoading}
             className={[
-              'w-full py-3 mt-1 rounded-xl font-semibold text-sm text-stone-900',
-              'bg-[#f6c68b]',
-              'transition-all duration-200',
-              'shadow-lg shadow-[#f6c68b]/20',
+              'w-full py-3 mt-1 rounded-xl font-bold text-sm text-[#1A1A1A]',
               'flex items-center justify-center gap-2',
+              'transition-all duration-200',
               isLoading
-                ? 'opacity-60 cursor-not-allowed pointer-events-none animate-pulse'
-                : 'hover:bg-[#edb96b] hover:shadow-xl hover:shadow-[#f6c68b]/25 hover:scale-[1.008] active:scale-[0.98] cursor-pointer',
+                ? 'opacity-60 cursor-not-allowed pointer-events-none'
+                : 'hover:scale-[1.008] active:scale-[0.98] cursor-pointer',
             ].join(' ')}
+            style={{
+              background: 'linear-gradient(135deg, #F5C518 0%, #FFB800 100%)',
+              boxShadow: '0 4px 20px rgba(245,197,24,0.40), 0 1px 3px rgba(245,197,24,0.25)',
+            }}
+            onMouseEnter={e => {
+              if (!isLoading) (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 8px 32px rgba(245,197,24,0.52), 0 2px 6px rgba(245,197,24,0.30)'
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 20px rgba(245,197,24,0.40), 0 1px 3px rgba(245,197,24,0.25)'
+            }}
           >
             {isLoading ? (
               <>
@@ -463,18 +520,18 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                Creating account...
+                Creating account…
               </>
             ) : (
-              'Sign Up'
+              'Create Account'
             )}
           </button>
 
           {/* Divider */}
           <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-white/20" />
-            <span className="text-white/50 text-xs font-medium tracking-widest uppercase">or</span>
-            <div className="flex-1 h-px bg-white/20" />
+            <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.10)' }} />
+            <span className="text-xs font-medium tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.35)' }}>or</span>
+            <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.10)' }} />
           </div>
 
           {/* Google button */}
@@ -502,7 +559,7 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                Redirecting...
+                Redirecting…
               </>
             ) : (
               <>
@@ -514,11 +571,14 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
         </form>
 
         {/* Footer */}
-        <p className="mt-4 text-center text-white/65 text-sm">
+        <p className="mt-4 text-center text-sm" style={{ color: 'rgba(161,161,170,0.80)' }}>
           Already have an account?{' '}
           <Link
             href="/auth/login"
-            className="text-[#f6c68b] hover:text-[#edb96b] font-semibold transition-colors"
+            className="font-bold transition-colors"
+            style={{ color: '#F5C518' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#FFD84D' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#F5C518' }}
           >
             Sign in
           </Link>

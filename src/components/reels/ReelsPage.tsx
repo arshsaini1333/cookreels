@@ -190,22 +190,22 @@ function GlassBtn({
   return (
     <motion.button
       aria-label={label}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.82 }}
+      whileHover={{ scale: 1.12 }}
+      whileTap={{ scale: 0.80 }}
       onClick={onClick}
       className="flex flex-col items-center gap-1.5"
     >
       <div
-        className={`w-11 h-11 rounded-[16px] flex items-center justify-center border border-white/10 shadow-xl transition-all duration-200 ${
+        className={`w-12 h-12 rounded-[18px] flex items-center justify-center border shadow-2xl transition-all duration-200 ${
           active
-            ? `${activeClass} bg-white/15 backdrop-blur-2xl`
-            : 'bg-black/40 backdrop-blur-2xl text-white hover:bg-white/15'
+            ? `${activeClass} bg-white/18 border-white/20 backdrop-blur-2xl`
+            : 'bg-black/45 border-white/10 backdrop-blur-2xl text-white hover:bg-white/18 hover:border-white/25'
         }`}
       >
         {children}
       </div>
       {count !== undefined && (
-        <span className="text-white/85 text-[11px] font-semibold drop-shadow leading-none">{count}</span>
+        <span className="text-white/90 text-[11px] font-bold drop-shadow-md leading-none">{count}</span>
       )}
     </motion.button>
   )
@@ -240,46 +240,63 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-[2px]"
+            className="fixed inset-0 z-40 bg-black/65 backdrop-blur-[2px]"
           />
           <motion.div
             initial={isDesktop ? { x: '100%' } : { y: '100%' }}
             animate={isDesktop ? { x: 0 } : { y: 0 }}
             exit={isDesktop ? { x: '100%' } : { y: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-            className={`fixed z-50 flex flex-col bg-zinc-950 border-zinc-800/70 ${
+            className={`fixed z-50 flex flex-col ${
               isDesktop
                 ? 'right-0 top-0 bottom-0 w-96 border-l'
                 : 'bottom-0 left-0 right-0 rounded-t-3xl border-t'
             }`}
-            style={!isDesktop ? { maxHeight: '88vh' } : undefined}
+            style={{
+              background: '#1E1E1F',
+              borderColor: '#343438',
+              maxHeight: !isDesktop ? '88vh' : undefined,
+            }}
           >
             {!isDesktop && (
               <div className="flex justify-center pt-3 pb-1">
-                <div className="w-10 h-1 rounded-full bg-zinc-700" />
+                <div className="w-10 h-1 rounded-full bg-[#343438]" />
               </div>
             )}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800/60">
+            <div
+              className="flex items-center justify-between px-5 py-4 border-b"
+              style={{ borderColor: '#343438' }}
+            >
               <span className="text-[15px] font-bold text-white tracking-tight">Comments</span>
               <motion.button
                 whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={onClose}
-                className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-zinc-700 transition-colors"
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
+                style={{ background: '#2B2B2D' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#343438' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#2B2B2D' }}
               >
-                <X size={14} className="text-zinc-400" />
+                <X size={14} className="text-[#A1A1AA]" />
               </motion.button>
             </div>
-            <div className="flex gap-1.5 px-4 py-3 border-b border-zinc-800/60">
+
+            <div
+              className="flex gap-1.5 px-4 py-3 border-b"
+              style={{ borderColor: '#343438' }}
+            >
               {(['top', 'newest'] as const).map((t) => (
                 <button
                   key={t} onClick={() => setTab(t)}
-                  className={`px-4 py-1.5 rounded-full text-[12px] font-semibold transition-all duration-200 ${
-                    tab === t ? 'bg-[#f6c68b] text-stone-900' : 'text-zinc-500 hover:text-white'
-                  }`}
+                  className="px-4 py-1.5 rounded-full text-[12px] font-semibold transition-all duration-200"
+                  style={{
+                    background: tab === t ? '#F5C518' : 'transparent',
+                    color: tab === t ? '#1A1A1A' : '#71717A',
+                  }}
                 >
                   {t === 'top' ? 'Top Comments' : 'Newest'}
                 </button>
               ))}
             </div>
+
             <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
               {COMMENTS.map((c) => (
                 <div key={c.id} className="flex gap-3">
@@ -290,18 +307,28 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         <span className="text-[13px] font-semibold text-white">{c.username}</span>
-                        <span className="text-[11px] text-zinc-600 ml-2">{c.time}</span>
+                        <span className="text-[11px] ml-2" style={{ color: '#52525B' }}>{c.time}</span>
                       </div>
                       <button onClick={() => toggleLike(c.id)} className="flex flex-col items-center gap-0.5 flex-shrink-0">
-                        <Heart size={13} className={likedIds.has(c.id) ? 'fill-red-500 text-red-500' : 'text-zinc-600'} />
-                        <span className="text-[10px] text-zinc-600">{fmt(c.likes + (likedIds.has(c.id) ? 1 : 0))}</span>
+                        <Heart size={13} className={likedIds.has(c.id) ? 'fill-red-500 text-red-500' : ''} style={{ color: likedIds.has(c.id) ? undefined : '#52525B' }} />
+                        <span className="text-[10px]" style={{ color: '#52525B' }}>
+                          {fmt(c.likes + (likedIds.has(c.id) ? 1 : 0))}
+                        </span>
                       </button>
                     </div>
-                    <p className="text-[13px] text-zinc-300 mt-0.5 leading-relaxed">{c.text}</p>
+                    <p className="text-[13px] mt-0.5 leading-relaxed" style={{ color: '#A1A1AA' }}>{c.text}</p>
                     <div className="flex items-center gap-3 mt-1.5">
-                      <button className="text-[11px] text-zinc-600 hover:text-white font-semibold transition-colors">Reply</button>
+                      <button
+                        className="text-[11px] font-semibold transition-colors hover:text-white"
+                        style={{ color: '#52525B' }}
+                      >
+                        Reply
+                      </button>
                       {c.replies && (
-                        <button className="text-[11px] text-zinc-700 hover:text-zinc-400 transition-colors">
+                        <button
+                          className="text-[11px] transition-colors hover:text-[#A1A1AA]"
+                          style={{ color: '#3F3F46' }}
+                        >
                           View {c.replies} replies ›
                         </button>
                       )}
@@ -310,26 +337,45 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
                 </div>
               ))}
             </div>
-            <div className="px-4 py-3 border-t border-zinc-800/60 bg-zinc-950">
+
+            <div
+              className="px-4 py-3 border-t"
+              style={{ background: '#1E1E1F', borderColor: '#343438' }}
+            >
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#f6c68b] to-orange-400 flex-shrink-0 flex items-center justify-center shadow-lg">
-                  <span className="text-[11px] font-bold text-stone-900">U</span>
+                <div
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #F5C518 0%, #FFB800 100%)' }}
+                >
+                  <span className="text-[11px] font-bold text-[#1A1A1A]">U</span>
                 </div>
-                <div className="flex-1 flex items-center gap-2 bg-zinc-800/80 rounded-2xl px-3.5 py-2.5 border border-zinc-700/40">
+                <div
+                  className="flex-1 flex items-center gap-2 rounded-2xl px-3.5 py-2.5 border"
+                  style={{ background: '#2B2B2D', borderColor: '#343438' }}
+                >
                   <input
                     value={text} onChange={(e) => setText(e.target.value)}
                     placeholder="Add a comment…"
-                    className="flex-1 bg-transparent text-[13px] text-white placeholder:text-zinc-600 outline-none"
+                    className="flex-1 bg-transparent text-[13px] text-white outline-none"
+                    style={{ caretColor: '#F5C518' }}
                   />
-                  <button className="text-zinc-600 hover:text-[#f6c68b] transition-colors">
+                  <button
+                    className="transition-colors"
+                    style={{ color: '#52525B' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#F5C518' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#52525B' }}
+                  >
                     <Smile size={16} />
                   </button>
                 </div>
                 <motion.button
                   whileTap={{ scale: 0.9 }}
-                  className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
-                    text.trim() ? 'bg-[#f6c68b] text-stone-900 shadow-lg shadow-[#f6c68b]/20' : 'bg-zinc-800 text-zinc-600'
-                  }`}
+                  className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
+                  style={{
+                    background: text.trim() ? '#F5C518' : '#2B2B2D',
+                    color: text.trim() ? '#1A1A1A' : '#52525B',
+                    boxShadow: text.trim() ? '0 4px 16px rgba(245,197,24,0.30)' : 'none',
+                  }}
                 >
                   <Send size={14} />
                 </motion.button>
@@ -351,7 +397,11 @@ function RecipePreview({ reel, onClose }: { reel: Reel; onClose: () => void }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 20, scale: 0.96 }}
       transition={{ type: 'spring', damping: 26, stiffness: 300 }}
-      className="absolute inset-x-3 bottom-[188px] z-30 rounded-3xl bg-zinc-950/96 backdrop-blur-2xl border border-white/8 p-5 shadow-2xl"
+      className="absolute inset-x-3 bottom-[188px] z-30 rounded-3xl backdrop-blur-2xl p-5 shadow-2xl"
+      style={{
+        background: 'rgba(30,30,31,0.96)',
+        border: '1px solid #343438',
+      }}
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex items-start justify-between mb-3">
@@ -361,28 +411,40 @@ function RecipePreview({ reel, onClose }: { reel: Reel; onClose: () => void }) {
           </h3>
           <div className="flex items-center gap-2.5 mt-1.5">
             <div className="flex items-center gap-1.5">
-              <Clock size={11} className="text-[#f6c68b]" />
-              <span className="text-[11px] text-zinc-400">{reel.cookingTime}</span>
+              <Clock size={11} style={{ color: '#F5C518' }} />
+              <span className="text-[11px]" style={{ color: '#A1A1AA' }}>{reel.cookingTime}</span>
             </div>
             <DifficultyPill level={reel.difficulty} />
           </div>
         </div>
         <button
           onClick={onClose}
-          className="w-7 h-7 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-zinc-700 transition-colors flex-shrink-0"
+          className="w-7 h-7 rounded-full flex items-center justify-center hover:opacity-80 transition-colors flex-shrink-0"
+          style={{ background: '#2B2B2D' }}
         >
-          <X size={13} className="text-zinc-400" />
+          <X size={13} style={{ color: '#A1A1AA' }} />
         </button>
       </div>
-      <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-2.5">Ingredients</p>
+      <p className="text-[10px] font-bold uppercase tracking-widest mb-2.5" style={{ color: '#52525B' }}>Ingredients</p>
       <div className="flex flex-wrap gap-1.5 mb-4">
         {reel.ingredientsPreview.map((ing, i) => (
-          <span key={i} className="text-[12px] text-zinc-300 bg-zinc-800/80 px-3 py-1 rounded-full border border-zinc-700/40">
+          <span
+            key={i}
+            className="text-[12px] px-3 py-1 rounded-full border"
+            style={{ color: '#A1A1AA', background: '#2B2B2D', borderColor: '#343438' }}
+          >
             {ing}
           </span>
         ))}
       </div>
-      <button className="w-full py-2.5 rounded-2xl bg-[#f6c68b] text-stone-900 text-[13px] font-bold flex items-center justify-center gap-1.5 hover:bg-[#f0ba7a] transition-colors shadow-lg shadow-[#f6c68b]/15">
+      <button
+        className="w-full py-2.5 rounded-2xl text-[13px] font-bold flex items-center justify-center gap-1.5 transition-all duration-200"
+        style={{
+          background: 'linear-gradient(135deg, #F5C518 0%, #FFB800 100%)',
+          color: '#1A1A1A',
+          boxShadow: '0 4px 16px rgba(245,197,24,0.30)',
+        }}
+      >
         View Full Recipe <ArrowRight size={14} />
       </button>
     </motion.div>
@@ -390,7 +452,6 @@ function RecipePreview({ reel, onClose }: { reel: Reel; onClose: () => void }) {
 }
 
 // ─── Reel Card ────────────────────────────────────────────────────────────────
-// h-full fills the parent scroll container (not the full viewport)
 
 function ReelCard({
   reel, isActive, onComment,
@@ -431,33 +492,55 @@ function ReelCard({
     >
       {/* Background */}
       <div className={`absolute inset-0 bg-gradient-to-br ${reel.gradient}`}>
-        <div className="absolute top-1/4 left-1/3 w-72 h-72 rounded-full opacity-30 blur-3xl" style={{ background: reel.glow }} />
-        <div className="absolute bottom-1/3 right-1/4 w-48 h-48 rounded-full opacity-15 blur-3xl" style={{ background: reel.glow }} />
+        {/* Ambient glow blobs */}
+        <div
+          className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full opacity-35 blur-3xl"
+          style={{ background: reel.glow }}
+        />
+        <div
+          className="absolute bottom-1/3 right-1/4 w-52 h-52 rounded-full opacity-18 blur-3xl"
+          style={{ background: reel.glow }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full opacity-12 blur-2xl"
+          style={{ background: reel.glow }}
+        />
+
         {/* Blurred bg emoji */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <motion.span
-            className="text-[200px] opacity-[0.07] blur-2xl"
-            animate={isActive ? { scale: [1, 1.08, 1], rotate: [-4, 4, -4] } : { scale: 1 }}
-            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+            className="text-[220px] opacity-[0.065] blur-[28px]"
+            animate={isActive ? { scale: [1, 1.1, 1], rotate: [-5, 5, -5] } : { scale: 1 }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
           >
             {reel.emoji}
           </motion.span>
         </div>
+
         {/* Floating foreground emoji */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <motion.span
-            className="text-[90px] drop-shadow-2xl"
-            animate={isActive ? { y: [0, -10, 0] } : { y: 0 }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+            className="text-[96px] drop-shadow-2xl"
+            animate={isActive ? { y: [0, -12, 0], rotate: [-2, 2, -2] } : { y: 0 }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
           >
             {reel.emoji}
           </motion.span>
         </div>
+
+        {/* Subtle radial vignette */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)' }}
+        />
       </div>
 
-      {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/10 to-black/30 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent pointer-events-none" />
+      {/* Cinematic overlays */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/96 via-black/8 to-black/32 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/22 via-transparent to-transparent pointer-events-none" />
+
+      {/* Yellow top accent line */}
+      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#F5C518]/25 to-transparent pointer-events-none" />
 
       {/* Double-tap heart */}
       <AnimatePresence>
@@ -491,16 +574,17 @@ function ReelCard({
             <motion.div
               initial={{ opacity: 0, x: -14 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -14 }}
               transition={{ delay: 0.35 }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-500/15 border border-orange-500/25 backdrop-blur-xl shadow-lg"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-xl shadow-lg"
+              style={{ background: 'rgba(245,197,24,0.15)', border: '1px solid rgba(245,197,24,0.28)' }}
             >
-              <Flame size={11} className="text-orange-400" />
-              <span className="text-[10px] font-bold text-orange-300 tracking-wide">Trending</span>
+              <Flame size={11} style={{ color: '#F5C518' }} />
+              <span className="text-[10px] font-bold tracking-wide" style={{ color: '#F5C518' }}>Trending</span>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Right action buttons — overlaid inside the phone frame */}
+      {/* Right action buttons */}
       <div
         className="absolute right-3 bottom-28 z-20 flex flex-col items-center gap-4"
         onClick={(e) => e.stopPropagation()}
@@ -513,9 +597,11 @@ function ReelCard({
           <motion.button
             whileTap={{ scale: 0.8 }}
             onClick={() => setFollowed((f) => !f)}
-            className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shadow-lg transition-all duration-300 ${
-              followed ? 'bg-zinc-600 text-white' : 'bg-[#f6c68b] text-stone-900'
-            }`}
+            className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shadow-lg transition-all duration-300"
+            style={{
+              background: followed ? '#343438' : '#F5C518',
+              color: followed ? '#F5F5F5' : '#1A1A1A',
+            }}
           >
             {followed ? '✓' : '+'}
           </motion.button>
@@ -529,8 +615,19 @@ function ReelCard({
           <MessageCircle size={20} strokeWidth={1.8} />
         </GlassBtn>
 
-        <GlassBtn label="Save" count={fmt(reel.saves + (saved ? 1 : 0))} active={saved} activeClass="text-[#f6c68b]" onClick={() => setSaved((s) => !s)}>
-          <Bookmark size={20} strokeWidth={saved ? 0 : 1.8} className={saved ? 'fill-[#f6c68b] text-[#f6c68b]' : ''} />
+        <GlassBtn
+          label="Save"
+          count={fmt(reel.saves + (saved ? 1 : 0))}
+          active={saved}
+          activeClass=""
+          onClick={() => setSaved((s) => !s)}
+        >
+          <Bookmark
+            size={20}
+            strokeWidth={saved ? 0 : 1.8}
+            style={{ color: saved ? '#F5C518' : undefined }}
+            fill={saved ? '#F5C518' : 'none'}
+          />
         </GlassBtn>
 
         <GlassBtn label="Share" count="Share">
@@ -542,7 +639,7 @@ function ReelCard({
         </GlassBtn>
       </div>
 
-      {/* Bottom-left: creator row + caption only */}
+      {/* Bottom-left: creator row + caption */}
       <div className="absolute bottom-0 left-0 right-[64px] z-20 px-3 pb-3">
         {/* Creator */}
         <motion.div
@@ -555,24 +652,27 @@ function ReelCard({
           </div>
           <span className="text-[13px] font-bold text-white">@{reel.creatorName}</span>
           {reel.isVerified && (
-            <div className="w-3.5 h-3.5 rounded-full bg-[#f6c68b] flex items-center justify-center flex-shrink-0">
-              <Check size={8} strokeWidth={3} className="text-stone-900" />
+            <div
+              className="w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{ background: '#F5C518' }}
+            >
+              <Check size={8} strokeWidth={3} className="text-[#1A1A1A]" />
             </div>
           )}
           <motion.button
             whileTap={{ scale: 0.94 }}
             onClick={(e) => { e.stopPropagation(); setFollowed((f) => !f) }}
-            className={`ml-auto flex-shrink-0 px-3 py-1 rounded-full text-[11px] font-bold transition-all duration-300 border ${
-              followed
-                ? 'bg-white/10 border-white/20 text-white backdrop-blur-sm'
-                : 'bg-[#f6c68b] border-transparent text-stone-900'
-            }`}
+            className="ml-auto flex-shrink-0 px-3 py-1 rounded-full text-[11px] font-bold transition-all duration-300 border"
+            style={followed
+              ? { background: 'rgba(255,255,255,0.10)', borderColor: 'rgba(255,255,255,0.20)', color: 'white' }
+              : { background: '#F5C518', borderColor: 'transparent', color: '#1A1A1A' }
+            }
           >
             {followed ? '✓ Following' : 'Follow'}
           </motion.button>
         </motion.div>
 
-        {/* One-line caption + read more */}
+        {/* Caption */}
         <motion.div
           initial={{ opacity: 0 }} animate={isActive ? { opacity: 1 } : {}} transition={{ delay: 0.15 }}
           onClick={(e) => e.stopPropagation()}
@@ -603,7 +703,6 @@ export function ReelsPage() {
 
   const activeReel = REELS[activeIdx]
 
-  // Lock outer DashboardLayout scroll so only the reel container scrolls
   useEffect(() => {
     const main = document.querySelector('main') as HTMLElement | null
     if (!main) return
@@ -612,7 +711,6 @@ export function ReelsPage() {
     return () => { main.style.overflow = orig }
   }, [])
 
-  // Active reel detection via IntersectionObserver
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
@@ -636,59 +734,88 @@ export function ReelsPage() {
     containerRef.current?.scrollBy({ top: dir * (containerRef.current?.clientHeight ?? 0), behavior: 'smooth' })
 
   return (
-    // Break out of DashboardLayout's content padding (px-4 sm:px-6 pt-6 pb-2).
-    // Height = full viewport minus the 64px sticky header (h-16).
     <div className="relative -mx-4 sm:-mx-6 -mt-6 -mb-2 h-[calc(100vh-4rem)] overflow-hidden flex items-stretch justify-center">
 
-      {/* Ambient glow — shifts colour per active reel */}
+      {/* Ambient background glow — shifts per reel */}
       <motion.div
         key={activeReel.id}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 1.0 }}
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 60% 70% at 50% 50%, ${activeReel.glow}18 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse 65% 75% at 50% 45%, ${activeReel.glow}22 0%, transparent 70%)`,
         }}
       />
 
-      {/* Subtle grid texture */}
+      {/* Subtle grid */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.025]"
+        className="absolute inset-0 pointer-events-none opacity-[0.025]"
         style={{
-          backgroundImage: 'linear-gradient(rgba(0,0,0,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.10) 1px, transparent 1px)',
           backgroundSize: '40px 40px',
         }}
       />
 
-      {/* ── Left column: up / down arrows (desktop) ───────────────────────── */}
+      {/* ── Desktop: nav arrows ─────────────────────────────── */}
       <div className="hidden md:flex flex-col items-center justify-center gap-4 w-20 flex-shrink-0 z-20">
         <motion.button
           whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}
           onClick={() => scrollDir(-1)}
-          className="w-11 h-11 rounded-2xl bg-zinc-200 border border-zinc-300 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-300 dark:bg-white/8 dark:border-white/10 dark:text-white/70 dark:hover:text-white dark:hover:bg-white/15 transition-all flex items-center justify-center"
+          className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all backdrop-blur-sm"
+          style={{
+            background: 'rgba(43,43,45,0.70)',
+            border: '1px solid #343438',
+            color: '#A1A1AA',
+          }}
+          onMouseEnter={e => {
+            const el = e.currentTarget as HTMLButtonElement
+            el.style.borderColor = 'rgba(245,197,24,0.40)'
+            el.style.color = '#F5C518'
+          }}
+          onMouseLeave={e => {
+            const el = e.currentTarget as HTMLButtonElement
+            el.style.borderColor = '#343438'
+            el.style.color = '#A1A1AA'
+          }}
         >
-          <ChevronUp size={18} />
+          <ChevronUp size={19} />
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.1, y: 2 }} whileTap={{ scale: 0.9 }}
           onClick={() => scrollDir(1)}
-          className="w-11 h-11 rounded-2xl bg-zinc-200 border border-zinc-300 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-300 dark:bg-white/8 dark:border-white/10 dark:text-white/70 dark:hover:text-white dark:hover:bg-white/15 transition-all flex items-center justify-center"
+          className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all backdrop-blur-sm"
+          style={{
+            background: 'rgba(43,43,45,0.70)',
+            border: '1px solid #343438',
+            color: '#A1A1AA',
+          }}
+          onMouseEnter={e => {
+            const el = e.currentTarget as HTMLButtonElement
+            el.style.borderColor = 'rgba(245,197,24,0.40)'
+            el.style.color = '#F5C518'
+          }}
+          onMouseLeave={e => {
+            const el = e.currentTarget as HTMLButtonElement
+            el.style.borderColor = '#343438'
+            el.style.color = '#A1A1AA'
+          }}
         >
-          <ChevronDown size={18} />
+          <ChevronDown size={19} />
         </motion.button>
       </div>
 
-      {/* ── Center: phone-frame reel container (9:16) ────────────────────── */}
+      {/* ── Phone-frame reel container ─────────────────────── */}
       <div className="relative flex-shrink-0 h-full flex items-center py-[3px]">
         <div
           ref={containerRef}
-          className="overflow-y-scroll snap-y snap-mandatory [&::-webkit-scrollbar]:hidden md:rounded-2xl md:ring-1 md:ring-black/10 dark:md:ring-white/8 md:shadow-[0_0_40px_rgba(0,0,0,0.12)] dark:md:shadow-[0_0_80px_rgba(0,0,0,0.8)]"
+          className="overflow-y-scroll snap-y snap-mandatory scrollbar-none md:rounded-[28px]"
           style={{
             width: 'min(340px, 100vw)',
             aspectRatio: '9/16',
             maxHeight: '100%',
             scrollbarWidth: 'none',
+            boxShadow: '0 0 0 1px rgba(52,52,56,0.80), 0 0 80px rgba(0,0,0,0.70)',
           }}
         >
           {REELS.map((reel, i) => (
@@ -702,10 +829,10 @@ export function ReelsPage() {
         </div>
       </div>
 
-      {/* ── Right spacer — balances left column ───────────────────────────── */}
+      {/* ── Right spacer ────────────────────────────────────── */}
       <div className="hidden md:block w-20 flex-shrink-0" />
 
-      {/* ── Comment drawer ────────────────────────────────────────────────── */}
+      {/* ── Comment drawer ──────────────────────────────────── */}
       <CommentDrawer open={commentOpen} onClose={() => setCommentOpen(false)} />
     </div>
   )

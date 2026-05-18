@@ -29,7 +29,12 @@
       "Bash(npx next *)",
       "Bash(node_modules/.bin/next lint *)",
       "Bash(node -e \"const {execSync} = require\\('child_process'\\); execSync\\('node_modules/.bin/eslint src/components/dashboard/CategoriesPage.tsx src/app/categories/page.tsx --max-warnings=999', {stdio: 'inherit'}\\)\")",
-      "Bash(Get-ChildItem -Path . -Name)"
+      "Bash(Get-ChildItem -Path . -Name)",
+      "Bash(Get-ChildItem -Recurse -Force)",
+      "Bash(Select-Object FullName)",
+      "PowerShell(cd \"e:\\\\Cookreels\\\\cookreels-main\" ; Get-ChildItem -Path src -Recurse -File | Select-Object -ExpandProperty FullName | Where-Object { -not \\($_ -match 'generated' -or $_ -match 'node_modules'\\) } | Sort-Object)",
+      "Bash(npx prisma *)",
+      "PowerShell(cd \"e:\\\\Cookreels\\\\cookreels-main\"; $env:PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION = \"Yes, reset it\"; npx prisma migrate reset --force 2>&1)"
     ],
     "additionalDirectories": [
       "e:\\Cookreels\\cookreels-main\\src\\app"

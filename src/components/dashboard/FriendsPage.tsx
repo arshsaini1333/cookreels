@@ -267,10 +267,10 @@ function FriendCard({ friend }: { friend: Friend }) {
       onMouseLeave={() => setHovered(false)}
       whileHover={{ y: -5, scale: 1.015 }}
       transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-      className="relative bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-700/50 rounded-3xl p-5 shadow-md hover:shadow-xl hover:shadow-[#f6c68b]/12 transition-shadow duration-300 overflow-hidden cursor-pointer group"
+      className="relative bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-700/50 rounded-3xl p-5 shadow-md hover:shadow-xl hover:shadow-[#F5C518]/12 dark:hover:shadow-[#f6c68b]/12 transition-shadow duration-300 overflow-hidden cursor-pointer group"
     >
       {/* Ambient glow */}
-      <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-[#f6c68b]/6 blur-2xl group-hover:bg-[#f6c68b]/14 transition-all duration-500 pointer-events-none" />
+      <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-[#F5C518]/6 dark:bg-[#f6c68b]/6 blur-2xl group-hover:bg-[#F5C518]/14 dark:group-hover:bg-[#f6c68b]/14 transition-all duration-500 pointer-events-none" />
 
       {/* Online badge */}
       {friend.online && (
@@ -294,7 +294,7 @@ function FriendCard({ friend }: { friend: Friend }) {
 
       {/* Tags */}
       <div className="flex flex-wrap gap-1.5 mb-3">
-        <span className="inline-flex items-center gap-1 bg-[#f6c68b]/15 text-[#c48a3a] dark:text-[#f6c68b] text-[10px] font-semibold px-2.5 py-1 rounded-full border border-[#f6c68b]/25">
+        <span className="inline-flex items-center gap-1 bg-[#F5C518]/15 dark:bg-[#f6c68b]/15 text-[#B38B00] dark:text-[#f6c68b] text-[10px] font-semibold px-2.5 py-1 rounded-full border border-[#F5C518]/25 dark:border-[#f6c68b]/25">
           {friend.cuisineTag}
         </span>
         <span className="inline-flex items-center gap-1 bg-zinc-100 dark:bg-zinc-700/60 text-zinc-600 dark:text-zinc-300 text-[10px] font-medium px-2.5 py-1 rounded-full">
@@ -333,7 +333,7 @@ function FriendCard({ friend }: { friend: Friend }) {
             <div className="flex gap-2">
               <motion.button
                 whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
-                className="flex-1 flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#f6c68b] to-[#e8952a] text-white text-xs font-semibold py-2.5 rounded-xl shadow-md shadow-[#e8952a]/25"
+                className="flex-1 flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#F5C518] to-[#FFD84D] dark:from-[#f6c68b] dark:to-[#e8952a] text-[#1A1A1A] dark:text-white text-xs font-semibold py-2.5 rounded-xl shadow-md shadow-[#F5C518]/30 dark:shadow-[#e8952a]/25"
               >
                 <MessageCircle className="w-3.5 h-3.5" />Message
               </motion.button>
@@ -346,7 +346,7 @@ function FriendCard({ friend }: { friend: Friend }) {
             </div>
             <motion.button
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-              className="w-full flex items-center justify-center gap-1.5 bg-[#f6c68b]/12 border border-[#f6c68b]/30 text-[#c48a3a] dark:text-[#f6c68b] text-xs font-semibold py-2 rounded-xl"
+              className="w-full flex items-center justify-center gap-1.5 bg-[#F5C518]/12 dark:bg-[#f6c68b]/12 border border-[#F5C518]/30 dark:border-[#f6c68b]/30 text-[#B38B00] dark:text-[#f6c68b] text-xs font-semibold py-2 rounded-xl"
             >
               <ChefHat className="w-3.5 h-3.5" />Invite to Cook
             </motion.button>
@@ -358,7 +358,7 @@ function FriendCard({ friend }: { friend: Friend }) {
             animate={{ opacity: 1 }}
             className="flex gap-2"
           >
-            <button className="flex-1 flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#f6c68b] to-[#e8952a] text-white text-xs font-semibold py-2.5 rounded-xl shadow-md shadow-[#e8952a]/25">
+            <button className="flex-1 flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#F5C518] to-[#FFD84D] dark:from-[#f6c68b] dark:to-[#e8952a] text-[#1A1A1A] dark:text-white text-xs font-semibold py-2.5 rounded-xl shadow-md shadow-[#F5C518]/30 dark:shadow-[#e8952a]/25">
               <MessageCircle className="w-3.5 h-3.5" />Message
             </button>
             <button className="flex items-center justify-center bg-zinc-100 dark:bg-zinc-700/70 text-zinc-600 dark:text-zinc-300 py-2.5 px-3 rounded-xl">
@@ -387,7 +387,7 @@ function CreatorCard({ creator }: { creator: Creator }) {
       variants={cardReveal}
       whileHover={{ x: 4 }}
       transition={{ type: 'spring', stiffness: 320, damping: 24 }}
-      className="flex items-center gap-4 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-700/50 rounded-2xl p-4 shadow-sm hover:shadow-lg hover:shadow-[#f6c68b]/8 transition-shadow duration-300"
+      className="flex items-center gap-4 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-700/50 rounded-2xl p-4 shadow-sm hover:shadow-lg hover:shadow-[#F5C518]/8 dark:hover:shadow-[#f6c68b]/8 transition-shadow duration-300"
     >
       {/* Avatar + verified badge */}
       <div className="relative shrink-0">
@@ -395,8 +395,8 @@ function CreatorCard({ creator }: { creator: Creator }) {
           {creator.avatar}
         </div>
         {creator.verified && (
-          <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-br from-[#f6c68b] to-[#e8952a] flex items-center justify-center shadow-sm">
-            <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
+          <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-br from-[#F5C518] to-[#FFD84D] dark:from-[#f6c68b] dark:to-[#e8952a] flex items-center justify-center shadow-sm">
+            <Check className="w-2.5 h-2.5 text-[#1A1A1A] dark:text-white" strokeWidth={3} />
           </div>
         )}
       </div>
@@ -427,7 +427,7 @@ function CreatorCard({ creator }: { creator: Creator }) {
         onClick={() => setFollowing(f => !f)}
         className={`shrink-0 text-xs font-semibold px-4 py-2 rounded-xl transition-colors ${following
           ? 'bg-zinc-100 dark:bg-zinc-700/70 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-600'
-          : 'bg-gradient-to-r from-[#f6c68b] to-[#e8952a] text-white shadow-md shadow-[#e8952a]/25'
+          : 'bg-gradient-to-r from-[#F5C518] to-[#FFD84D] dark:from-[#f6c68b] dark:to-[#e8952a] text-[#1A1A1A] dark:text-white shadow-md shadow-[#F5C518]/30 dark:shadow-[#e8952a]/25'
         }`}
       >
         {following ? 'Following' : 'Follow'}
@@ -442,7 +442,7 @@ function FollowerCard({ follower, onFollowBack }: { follower: Follower; onFollow
       variants={cardReveal}
       whileHover={{ y: -3 }}
       transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-      className="bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-700/50 rounded-2xl p-4 shadow-sm hover:shadow-lg hover:shadow-[#f6c68b]/8 transition-shadow duration-300"
+      className="bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-700/50 rounded-2xl p-4 shadow-sm hover:shadow-lg hover:shadow-[#F5C518]/8 dark:hover:shadow-[#f6c68b]/8 transition-shadow duration-300"
     >
       <div className="flex items-center gap-3 mb-3">
         <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${follower.avatarBg} flex items-center justify-center text-xl shadow-md shrink-0`}>
@@ -457,7 +457,7 @@ function FollowerCard({ follower, onFollowBack }: { follower: Follower; onFollow
           onClick={() => onFollowBack(follower.id)}
           className={`shrink-0 text-xs font-semibold px-3.5 py-1.5 rounded-xl transition-colors ${follower.followedBack
             ? 'bg-zinc-100 dark:bg-zinc-700/70 text-zinc-500 dark:text-zinc-400'
-            : 'bg-gradient-to-r from-[#f6c68b] to-[#e8952a] text-white shadow-md shadow-[#e8952a]/25'
+            : 'bg-gradient-to-r from-[#F5C518] to-[#FFD84D] dark:from-[#f6c68b] dark:to-[#e8952a] text-[#1A1A1A] dark:text-white shadow-md shadow-[#F5C518]/30 dark:shadow-[#e8952a]/25'
           }`}
         >
           {follower.followedBack ? 'Following' : 'Follow Back'}
@@ -465,10 +465,10 @@ function FollowerCard({ follower, onFollowBack }: { follower: Follower; onFollow
       </div>
 
       {/* Shared interest pill */}
-      <div className="bg-[#f6c68b]/10 dark:bg-[#f6c68b]/8 border border-[#f6c68b]/20 rounded-xl px-3 py-2 flex items-center gap-2">
-        <Sparkles className="w-3 h-3 text-[#e8952a] shrink-0" />
+      <div className="bg-[#F5C518]/10 dark:bg-[#f6c68b]/8 border border-[#F5C518]/20 dark:border-[#f6c68b]/20 rounded-xl px-3 py-2 flex items-center gap-2">
+        <Sparkles className="w-3 h-3 text-[#B38B00] dark:text-[#e8952a] shrink-0" />
         <p className="text-[11px] text-zinc-600 dark:text-zinc-300 font-medium">{follower.sharedInterest}</p>
-        <span className="ml-auto text-[10px] font-bold text-[#e8952a] shrink-0">{follower.compatibility}%</span>
+        <span className="ml-auto text-[10px] font-bold text-[#B38B00] dark:text-[#e8952a] shrink-0">{follower.compatibility}%</span>
       </div>
     </motion.div>
   )
@@ -480,10 +480,10 @@ function SuggestionCard({ suggestion, onAdd }: { suggestion: Suggestion; onAdd: 
       variants={cardReveal}
       whileHover={{ y: -5, scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-      className="relative bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-700/50 rounded-3xl p-5 shadow-md hover:shadow-xl hover:shadow-[#f6c68b]/10 transition-shadow duration-300 overflow-hidden w-52 shrink-0"
+      className="relative bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-700/50 rounded-3xl p-5 shadow-md hover:shadow-xl hover:shadow-[#F5C518]/10 dark:hover:shadow-[#f6c68b]/10 transition-shadow duration-300 overflow-hidden w-52 shrink-0"
     >
       {/* Ambient glow */}
-      <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-[#f6c68b]/8 blur-2xl pointer-events-none" />
+      <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-[#F5C518]/8 dark:bg-[#f6c68b]/8 blur-2xl pointer-events-none" />
 
       {/* Smart label */}
       <div className={`inline-flex items-center gap-1 bg-gradient-to-r ${suggestion.labelGradient} text-white text-[9px] font-bold px-2.5 py-1 rounded-full shadow-sm mb-3`}>
@@ -510,7 +510,7 @@ function SuggestionCard({ suggestion, onAdd }: { suggestion: Suggestion; onAdd: 
         onClick={() => onAdd(suggestion.id)}
         className={`mt-4 w-full flex items-center justify-center gap-1.5 text-xs font-semibold py-2.5 rounded-xl transition-colors ${suggestion.added
           ? 'bg-zinc-100 dark:bg-zinc-700/70 text-zinc-500 dark:text-zinc-400'
-          : 'bg-gradient-to-r from-[#f6c68b] to-[#e8952a] text-white shadow-md shadow-[#e8952a]/25'
+          : 'bg-gradient-to-r from-[#F5C518] to-[#FFD84D] dark:from-[#f6c68b] dark:to-[#e8952a] text-[#1A1A1A] dark:text-white shadow-md shadow-[#F5C518]/30 dark:shadow-[#e8952a]/25'
         }`}
       >
         {suggestion.added
@@ -576,9 +576,9 @@ function RightPanel() {
       </motion.div>
 
       {/* Trending among friends */}
-      <motion.div {...fadeSlide(0.24)} className="bg-gradient-to-br from-[#f6c68b]/12 to-[#e8952a]/6 dark:from-[#f6c68b]/8 dark:to-[#e8952a]/4 border border-[#f6c68b]/25 rounded-3xl p-5 shadow-sm">
+      <motion.div {...fadeSlide(0.24)} className="bg-gradient-to-br from-[#F5C518]/10 to-[#FFD84D]/5 dark:from-[#f6c68b]/8 dark:to-[#e8952a]/4 border border-[#F5C518]/25 dark:border-[#f6c68b]/25 rounded-3xl p-5 shadow-sm">
         <div className="flex items-center gap-2 mb-4">
-          <Flame className="w-4 h-4 text-[#e8952a]" />
+          <Flame className="w-4 h-4 text-[#B38B00] dark:text-[#e8952a]" />
           <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm">Trending Among Friends</h3>
         </div>
         <div className="flex flex-col gap-2.5">
@@ -588,7 +588,7 @@ function RightPanel() {
                 {r.emoji}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-[#c48a3a] dark:group-hover:text-[#f6c68b] transition-colors truncate">{r.title}</p>
+                <p className="text-xs font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-[#B38B00] dark:group-hover:text-[#f6c68b] transition-colors truncate">{r.title}</p>
                 <p className="text-[10px] text-zinc-500 dark:text-zinc-400 flex items-center gap-0.5">
                   <Heart className="w-2.5 h-2.5 text-rose-400 fill-rose-400" />{r.likes}
                 </p>
@@ -612,7 +612,7 @@ function RightPanel() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-medium text-zinc-800 dark:text-zinc-200 truncate">{s.name} — {s.event}</p>
-                <p className="text-[10px] text-[#e8952a] font-semibold">{s.time}</p>
+                <p className="text-[10px] text-[#B38B00] dark:text-[#e8952a] font-semibold">{s.time}</p>
               </div>
             </div>
           ))}
@@ -666,7 +666,7 @@ export function FriendsPage({ username = 'Chef' }: { username?: string }) {
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   placeholder="Search friends or creators..."
-                  className="w-56 sm:w-72 pl-10 pr-4 py-2.5 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-700/50 rounded-2xl text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#f6c68b]/50 shadow-sm transition-shadow"
+                  className="w-56 sm:w-72 pl-10 pr-4 py-2.5 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-700/50 rounded-2xl text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#F5C518]/50 dark:focus:ring-[#f6c68b]/50 shadow-sm transition-shadow"
                 />
               </div>
               <motion.button
@@ -674,7 +674,7 @@ export function FriendsPage({ username = 'Chef' }: { username?: string }) {
                 className="relative p-2.5 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-700/50 rounded-2xl shadow-sm"
               >
                 <Bell className="w-4.5 h-4.5 text-zinc-500 dark:text-zinc-400" />
-                <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#e8952a]" />
+                <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#F5C518] dark:bg-[#e8952a]" />
               </motion.button>
             </div>
           </div>
@@ -690,8 +690,8 @@ export function FriendsPage({ username = 'Chef' }: { username?: string }) {
               whileTap={{ scale: 0.97 }}
               className={`relative flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all duration-200 ${
                 activeTab === label
-                  ? 'bg-gradient-to-r from-[#f6c68b] to-[#e8952a] text-white shadow-lg shadow-[#e8952a]/25'
-                  : 'bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-700/50 text-zinc-600 dark:text-zinc-300 hover:border-[#f6c68b]/40 hover:text-zinc-900 dark:hover:text-zinc-100'
+                  ? 'bg-gradient-to-r from-[#F5C518] to-[#FFD84D] dark:from-[#f6c68b] dark:to-[#e8952a] text-[#1A1A1A] dark:text-white shadow-lg shadow-[#F5C518]/30 dark:shadow-[#e8952a]/25'
+                  : 'bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-700/50 text-zinc-600 dark:text-zinc-300 hover:border-[#F5C518]/40 dark:hover:border-[#f6c68b]/40 hover:text-zinc-900 dark:hover:text-zinc-100'
               }`}
             >
               {label}
@@ -705,7 +705,7 @@ export function FriendsPage({ username = 'Chef' }: { username?: string }) {
               {activeTab === label && (
                 <motion.div
                   layoutId="tab-pill"
-                  className="absolute inset-0 rounded-2xl ring-2 ring-[#e8952a]/20"
+                  className="absolute inset-0 rounded-2xl ring-2 ring-[#F5C518]/25 dark:ring-[#e8952a]/20"
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
@@ -793,7 +793,7 @@ export function FriendsPage({ username = 'Chef' }: { username?: string }) {
                   <h2 className="font-heading font-bold text-xl text-zinc-900 dark:text-zinc-100">
                     Suggested for You
                   </h2>
-                  <button className="text-xs font-semibold text-[#c48a3a] dark:text-[#f6c68b] hover:underline">
+                  <button className="text-xs font-semibold text-[#B38B00] dark:text-[#f6c68b] hover:underline">
                     See all
                   </button>
                 </div>
@@ -816,7 +816,7 @@ export function FriendsPage({ username = 'Chef' }: { username?: string }) {
               {/* Trending creators to follow */}
               <div className="mb-8">
                 <div className="flex items-center gap-2 mb-4">
-                  <TrendingUp className="w-4.5 h-4.5 text-[#e8952a]" />
+                  <TrendingUp className="w-4.5 h-4.5 text-[#B38B00] dark:text-[#e8952a]" />
                   <h2 className="font-heading font-bold text-xl text-zinc-900 dark:text-zinc-100">
                     Trending Creators
                   </h2>

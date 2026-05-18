@@ -301,8 +301,8 @@ function HeroBanner() {
       className="relative overflow-hidden rounded-3xl min-h-[340px] sm:min-h-[420px] flex items-center"
       style={{
         background: dark
-          ? 'linear-gradient(135deg, #100500 0%, #1c0a00 35%, #0f1115 65%, #0a0505 100%)'
-          : 'linear-gradient(135deg, #fff8f2 0%, #fff0e6 30%, #fff5ee 65%, #fffaf6 100%)',
+          ? 'linear-gradient(135deg, #1E1E1F 0%, #1A1A1B 35%, #1E1E1F 65%, #1A1A1B 100%)'
+          : 'linear-gradient(135deg, #FFFDF5 0%, #FFF8E1 30%, #FFFAED 65%, #FFFFF5 100%)',
       }}
     >
       {/* Ambient glow mesh */}
@@ -311,14 +311,14 @@ function HeroBanner() {
         style={{
           background: dark
             ? [
-                'radial-gradient(ellipse 80% 60% at 18% 55%, rgba(255,107,53,0.14) 0%, transparent 60%)',
-                'radial-gradient(ellipse 55% 70% at 82% 25%, rgba(255,107,53,0.06) 0%, transparent 55%)',
+                'radial-gradient(ellipse 80% 60% at 18% 55%, rgba(245,197,24,0.14) 0%, transparent 60%)',
+                'radial-gradient(ellipse 55% 70% at 82% 25%, rgba(245,197,24,0.06) 0%, transparent 55%)',
                 'radial-gradient(ellipse 45% 45% at 60% 85%, rgba(125,187,145,0.06) 0%, transparent 50%)',
               ].join(',')
             : [
-                'radial-gradient(ellipse 80% 60% at 18% 55%, rgba(255,107,53,0.18) 0%, transparent 60%)',
-                'radial-gradient(ellipse 55% 70% at 82% 25%, rgba(255,107,53,0.10) 0%, transparent 55%)',
-                'radial-gradient(ellipse 45% 45% at 60% 85%, rgba(125,187,145,0.10) 0%, transparent 50%)',
+                'radial-gradient(ellipse 80% 60% at 18% 55%, rgba(245,197,24,0.15) 0%, transparent 60%)',
+                'radial-gradient(ellipse 55% 70% at 82% 25%, rgba(245,197,24,0.08) 0%, transparent 55%)',
+                'radial-gradient(ellipse 45% 45% at 60% 85%, rgba(125,187,145,0.08) 0%, transparent 50%)',
               ].join(','),
         }}
       />
@@ -327,7 +327,7 @@ function HeroBanner() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, ${dark ? '#FF6B35' : '#FF6B35'} 1px, transparent 0)`,
+          backgroundImage: `radial-gradient(circle at 1px 1px, ${dark ? '#F5C518' : '#F5C518'} 1px, transparent 0)`,
           backgroundSize: '32px 32px',
           opacity: dark ? 0.03 : 0.055,
         }}
@@ -336,7 +336,7 @@ function HeroBanner() {
       {/* Border accent */}
       <div
         className="absolute inset-0 rounded-3xl pointer-events-none"
-        style={{ border: dark ? '1px solid rgba(255,107,53,0.12)' : '1.5px solid rgba(255,107,53,0.14)' }}
+        style={{ border: dark ? '1px solid rgba(245,197,24,0.12)' : '1.5px solid rgba(245,197,24,0.20)' }}
       />
 
       {/* Floating food emojis */}
@@ -367,12 +367,12 @@ function HeroBanner() {
           {...fadeUp(0)}
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-5 border"
           style={{
-            background: dark ? 'rgba(255,107,53,0.10)' : 'rgba(255,107,53,0.09)',
-            borderColor: dark ? 'rgba(255,107,53,0.28)' : 'rgba(255,107,53,0.25)',
+            background: dark ? 'rgba(245,197,24,0.10)' : 'rgba(245,197,24,0.10)',
+            borderColor: dark ? 'rgba(245,197,24,0.28)' : 'rgba(245,197,24,0.28)',
           }}
         >
-          <Flame size={12} style={{ color: '#FF6B35' }} />
-          <span className="text-xs font-semibold" style={{ color: '#FF6B35' }}>
+          <Flame size={12} style={{ color: 'var(--cr-accent)' }} />
+          <span className="text-xs font-semibold" style={{ color: 'var(--cr-accent)' }}>
             21 Categories · 500+ Recipes · Daily Reels
           </span>
         </motion.div>
@@ -388,7 +388,9 @@ function HeroBanner() {
           <span
             className="animate-gradient-x bg-clip-text text-transparent"
             style={{
-              backgroundImage: 'linear-gradient(90deg, #FF6B35, #ff9164, #FF6B35, #e85a25)',
+              backgroundImage: dark
+                ? 'linear-gradient(90deg, #F5C518, #FFD84D, #F5C518, #FFB800)'
+                : 'linear-gradient(90deg, #F5C518, #FFD84D, #F5C518, #e6b800)',
               backgroundSize: '200% 200%',
             }}
           >
@@ -410,10 +412,11 @@ function HeroBanner() {
         <motion.div {...fadeUp(0.22)} className="flex flex-wrap gap-3">
           <motion.button
             whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm"
             style={{
-              background: 'linear-gradient(135deg, #FF6B35, #e85a25)',
-              boxShadow: '0 8px 24px rgba(255,107,53,0.38)',
+              background: dark ? 'linear-gradient(135deg, #F5C518, #FFB800)' : 'linear-gradient(135deg, #F5C518, #FFD84D)',
+              boxShadow: dark ? '0 8px 24px rgba(245,197,24,0.38)' : '0 8px 24px rgba(245,197,24,0.45)',
+              color: 'var(--cr-btn-text)',
             }}
           >
             <Play size={14} fill="white" /> Explore Reels
@@ -424,8 +427,8 @@ function HeroBanner() {
               dark ? 'text-[#F5F5F5]' : 'text-zinc-700'
             }`}
             style={{
-              borderColor: dark ? 'rgba(255,107,53,0.30)' : 'rgba(255,107,53,0.35)',
-              background:   dark ? 'rgba(255,107,53,0.07)' : 'rgba(255,107,53,0.06)',
+              borderColor: dark ? 'rgba(245,197,24,0.30)' : 'rgba(245,197,24,0.35)',
+              background:   dark ? 'rgba(245,197,24,0.07)' : 'rgba(245,197,24,0.07)',
             }}
           >
             <Utensils size={14} /> Browse Recipes
@@ -446,8 +449,8 @@ function HeroBanner() {
             style={{
               background: dark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.80)',
               border: dark
-                ? '1px solid rgba(255,107,53,0.12)'
-                : '1px solid rgba(255,107,53,0.18)',
+                ? '1px solid rgba(245,197,24,0.12)'
+                : '1px solid rgba(245,197,24,0.20)',
             }}
           >
             <span className="text-sm leading-none">{s.icon}</span>
@@ -467,6 +470,8 @@ function HeroBanner() {
 /* ─── Category Tabs ──────────────────────────────────────────── */
 
 function CategoryTabs({ active, onChange }: { active: string; onChange: (id: string) => void }) {
+  const { theme } = useTheme()
+  const dark = theme === 'dark'
   const rowRef    = useRef<HTMLDivElement>(null)
   const dragging  = useRef(false)
   const startX    = useRef(0)
@@ -494,7 +499,7 @@ function CategoryTabs({ active, onChange }: { active: string; onChange: (id: str
   }
 
   return (
-    <div className="sticky top-0 z-30 -mx-1 px-1 py-3 bg-[#FFF8F2]/92 dark:bg-[#0F1115]/92 backdrop-blur-md">
+    <div className="sticky top-0 z-30 -mx-1 px-1 py-3 bg-[#FFFDF5]/92 dark:bg-[#1E1E1F]/92 backdrop-blur-md">
       <div
         ref={rowRef}
         className="flex gap-2 overflow-x-auto scrollbar-none pb-0.5 select-none"
@@ -513,12 +518,12 @@ function CategoryTabs({ active, onChange }: { active: string; onChange: (id: str
               onClick={() => { if (!moved.current) onChange(tab.id) }}
               className={`flex-none flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors duration-150 ${
                 isActive
-                  ? 'text-white'
-                  : 'text-zinc-600 dark:text-zinc-400 bg-white dark:bg-[#1A1D24]/70 border border-zinc-200/80 dark:border-white/8 hover:border-[#FF6B35]/35'
+                  ? 'dark:text-white text-[#1A1A1A]'
+                  : 'text-zinc-600 dark:text-zinc-400 bg-white dark:bg-[#2B2B2D]/70 border border-zinc-200/80 dark:border-[#343438] hover:border-[#F5C518]/35 dark:hover:border-[#F5C518]/35'
               }`}
               style={isActive ? {
-                background: 'linear-gradient(135deg, #FF6B35, #e85a25)',
-                boxShadow: '0 0 18px 4px rgba(255,107,53,0.28)',
+                background: dark ? 'linear-gradient(135deg, #F5C518, #FFB800)' : 'linear-gradient(135deg, #F5C518, #FFD84D)',
+                boxShadow: dark ? '0 0 18px 4px rgba(245,197,24,0.28)' : '0 0 18px 4px rgba(245,197,24,0.30)',
               } : {}}
             >
               <span>{tab.emoji}</span>
@@ -556,7 +561,7 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
           onFocus={() => setShowSuggestions(true)}
           onBlur={() => setTimeout(() => setShowSuggestions(false), 160)}
           placeholder="Search recipes, reels, cuisines, ingredients…"
-          className="w-full pl-11 pr-10 py-3.5 rounded-2xl text-sm font-medium bg-white dark:bg-[#1A1D24]/80 border border-zinc-200/80 dark:border-white/8 text-zinc-800 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#FF6B35]/50 focus:ring-2 focus:ring-[#FF6B35]/18"
+          className="w-full pl-11 pr-10 py-3.5 rounded-2xl text-sm font-medium bg-white dark:bg-[#2B2B2D]/80 border border-zinc-200/80 dark:border-[#343438] text-zinc-800 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#F5C518]/50 dark:focus:border-[#F5C518]/50 focus:ring-2 focus:ring-[#F5C518]/18 dark:focus:ring-[#F5C518]/18"
         />
         {query && (
           <button
@@ -573,9 +578,9 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
             <motion.div
               initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.14 }}
-              className="absolute top-full left-0 right-0 mt-2 rounded-2xl bg-white dark:bg-[#1A1D24] border border-zinc-200/80 dark:border-white/8 shadow-xl z-50 overflow-hidden"
+              className="absolute top-full left-0 right-0 mt-2 rounded-2xl bg-white dark:bg-[#2B2B2D] border border-zinc-200/80 dark:border-[#343438] shadow-xl z-50 overflow-hidden"
             >
-              <div className="px-4 py-2.5 border-b border-zinc-100 dark:border-white/6">
+              <div className="px-4 py-2.5 border-b border-zinc-100 dark:border-[#343438]/70">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Trending Searches</span>
               </div>
               {TRENDING_SEARCHES.map((s) => (
@@ -584,7 +589,7 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
                   onMouseDown={() => onQuery(s)}
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors text-left"
                 >
-                  <TrendingUp size={13} style={{ color: '#FF6B35' }} />
+                  <TrendingUp size={13} style={{ color: 'var(--cr-accent)' }} />
                   {s}
                 </button>
               ))}
@@ -601,10 +606,10 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
               onClick={() => setOpenFilter(openFilter === f.label ? null : f.label)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                 openFilter === f.label
-                  ? 'border-[#FF6B35]/50 text-[#FF6B35]'
-                  : 'bg-white dark:bg-[#1A1D24]/80 border-zinc-200/80 dark:border-white/8 text-zinc-600 dark:text-zinc-400 hover:border-[#FF6B35]/30'
+                  ? 'border-[#F5C518]/50 dark:border-[#F5C518]/50 text-[#B38B00] dark:text-[#F5C518]'
+                  : 'bg-white dark:bg-[#2B2B2D]/80 border-zinc-200/80 dark:border-[#343438] text-zinc-600 dark:text-zinc-400 hover:border-[#F5C518]/30 dark:hover:border-[#F5C518]/30'
               }`}
-              style={openFilter === f.label ? { background: 'rgba(255,107,53,0.07)' } : {}}
+              style={openFilter === f.label ? { background: 'var(--cr-accent-soft)' } : {}}
             >
               {f.label}
               <ChevronDown size={11} className={`transition-transform duration-200 ${openFilter === f.label ? 'rotate-180' : ''}`} />
@@ -617,7 +622,7 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -4, scale: 0.96 }}
                   transition={{ duration: 0.12 }}
-                  className="absolute top-full left-0 mt-1.5 min-w-[148px] rounded-xl bg-white dark:bg-[#1A1D24] border border-zinc-200/80 dark:border-white/8 shadow-xl z-50 py-1 overflow-hidden"
+                  className="absolute top-full left-0 mt-1.5 min-w-[148px] rounded-xl bg-white dark:bg-[#2B2B2D] border border-zinc-200/80 dark:border-[#343438] shadow-xl z-50 py-1 overflow-hidden"
                 >
                   {f.options.map((opt) => (
                     <button
@@ -636,7 +641,7 @@ function SearchFilters({ query, onQuery }: { query: string; onQuery: (q: string)
 
         <button
           className="flex-none flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all"
-          style={{ background: 'rgba(255,107,53,0.07)', borderColor: 'rgba(255,107,53,0.28)', color: '#FF6B35' }}
+          style={{ background: 'var(--cr-accent-soft)', borderColor: 'var(--cr-accent-border)', color: 'var(--cr-accent)' }}
         >
           <SlidersHorizontal size={11} /> More Filters
         </button>
@@ -660,7 +665,7 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
       initial="hidden"
       animate={inView ? 'visible' : 'hidden'}
       whileHover={{ y: -6, transition: { type: 'spring', stiffness: 280, damping: 22 } }}
-      className="group relative rounded-2xl overflow-hidden bg-white dark:bg-[#1A1D24]/90 border border-zinc-200/60 dark:border-white/7 shadow-sm hover:shadow-lg hover:shadow-[#FF6B35]/8 cursor-pointer transition-shadow duration-300"
+      className="group relative rounded-2xl overflow-hidden bg-white dark:bg-[#2B2B2D] border border-zinc-200/60 dark:border-[#343438] shadow-sm hover:shadow-lg hover:shadow-[#F5C518]/8 dark:hover:shadow-[#F5C518]/8 cursor-pointer transition-shadow duration-300"
     >
       {/* Food image */}
       <div className="relative overflow-hidden" style={{ aspectRatio: '4/3' }}>
@@ -687,7 +692,7 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
         <div className="absolute top-2.5 left-2.5">
           <span
             className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
-            style={{ background: recipe.isVeg ? '#7DBB91' : '#FF6B35' }}
+            style={{ background: recipe.isVeg ? '#7DBB91' : 'var(--cr-accent)' }}
           >
             {recipe.isVeg ? 'VEG' : 'NON-VEG'}
           </span>
@@ -717,7 +722,7 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
       {/* Card body */}
       <div className="p-3.5">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: '#FF6B35' }}>
+          <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: 'var(--cr-accent)' }}>
             {recipe.cuisine}
           </span>
           <span className="flex items-center gap-0.5 text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">
@@ -735,7 +740,7 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <Star size={11} fill="#FF6B35" stroke="#FF6B35" />
+            <Star size={11} fill="var(--cr-accent)" stroke="var(--cr-accent)" />
             <span className="text-[11px] font-bold text-zinc-700 dark:text-zinc-300">{recipe.rating}</span>
             <span className="text-[10px] text-zinc-400">({recipe.ratingCount.toLocaleString()})</span>
           </div>
@@ -752,6 +757,8 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
 /* ─── Reel Card ──────────────────────────────────────────────── */
 
 function ReelCard({ reel }: { reel: Reel }) {
+  const { theme } = useTheme()
+  const dark = theme === 'dark'
   const [liked, setLiked] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-50px' })
@@ -763,7 +770,7 @@ function ReelCard({ reel }: { reel: Reel }) {
       initial="hidden"
       animate={inView ? 'visible' : 'hidden'}
       whileHover={{ y: -6, transition: { type: 'spring', stiffness: 280, damping: 22 } }}
-      className="group relative rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-white/7 shadow-sm hover:shadow-lg cursor-pointer"
+      className="group relative rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-[#343438] shadow-sm hover:shadow-lg cursor-pointer"
       style={{ aspectRatio: '9/16', minHeight: '200px', maxHeight: '360px' }}
     >
       {/* Thumbnail */}
@@ -783,7 +790,7 @@ function ReelCard({ reel }: { reel: Reel }) {
         <motion.div
           whileHover={{ scale: 1.12 }}
           className="w-11 h-11 rounded-full flex items-center justify-center backdrop-blur-sm"
-          style={{ background: 'rgba(255,107,53,0.88)' }}
+          style={{ background: dark ? 'rgba(245,197,24,0.88)' : 'rgba(245,197,24,0.92)' }}
         >
           <Play size={16} fill="white" className="ml-0.5" />
         </motion.div>
@@ -794,7 +801,7 @@ function ReelCard({ reel }: { reel: Reel }) {
         <div className="absolute top-2.5 left-2.5">
           <span
             className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, #FF6B35, #e85a25)' }}
+            style={{ background: dark ? 'linear-gradient(135deg, #F5C518, #FFB800)' : 'linear-gradient(135deg, #F5C518, #FFD84D)', color: '#1A1A1A' }}
           >
             <Flame size={8} /> TRENDING
           </span>
@@ -824,8 +831,8 @@ function ReelCard({ reel }: { reel: Reel }) {
           >
             <Heart
               size={11}
-              fill={liked ? '#FF6B35' : 'none'}
-              stroke={liked ? '#FF6B35' : 'white'}
+              fill={liked ? (dark ? '#F5C518' : '#F5C518') : 'none'}
+              stroke={liked ? (dark ? '#F5C518' : '#F5C518') : 'white'}
               strokeWidth={2}
               className="transition-transform hover:scale-125"
             />
@@ -947,19 +954,19 @@ function CategoryCarousel({ section }: { section: typeof CATEGORY_SECTIONS[0] })
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => scroll('left')}
-            className="p-1.5 rounded-lg bg-white dark:bg-[#1A1D24] border border-zinc-200/80 dark:border-white/8 text-zinc-500 hover:border-[#FF6B35]/45 hover:text-[#FF6B35] transition-all"
+            className="p-1.5 rounded-lg bg-white dark:bg-[#2B2B2D] border border-zinc-200/80 dark:border-[#343438] text-zinc-500 hover:border-[#F5C518]/45 dark:hover:border-[#F5C518]/45 hover:text-[#F5C518] dark:hover:text-[#F5C518] transition-all"
           >
             <ChevronLeft size={14} />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="p-1.5 rounded-lg bg-white dark:bg-[#1A1D24] border border-zinc-200/80 dark:border-white/8 text-zinc-500 hover:border-[#FF6B35]/45 hover:text-[#FF6B35] transition-all"
+            className="p-1.5 rounded-lg bg-white dark:bg-[#2B2B2D] border border-zinc-200/80 dark:border-[#343438] text-zinc-500 hover:border-[#F5C518]/45 dark:hover:border-[#F5C518]/45 hover:text-[#F5C518] dark:hover:text-[#F5C518] transition-all"
           >
             <ChevronRight size={14} />
           </button>
           <button
             className="flex items-center gap-1 text-xs font-semibold ml-1 hover:opacity-75 transition-opacity"
-            style={{ color: '#FF6B35' }}
+            style={{ color: 'var(--cr-accent)' }}
           >
             View All <ArrowRight size={11} />
           </button>
@@ -991,7 +998,7 @@ function TrendingSection() {
       <div className="flex items-end justify-between">
         <div>
           <div className="flex items-center gap-2 mb-0.5">
-            <TrendingUp size={18} style={{ color: '#FF6B35' }} />
+            <TrendingUp size={18} style={{ color: 'var(--cr-accent)' }} />
             <h2 className="font-heading text-xl sm:text-2xl font-black text-zinc-800 dark:text-zinc-100 tracking-tight">
               Trending on CookReels
             </h2>
@@ -1000,7 +1007,7 @@ function TrendingSection() {
             Most watched reels &amp; viral recipes this week
           </p>
         </div>
-        <button className="flex items-center gap-1 text-xs font-semibold hover:opacity-75 transition-opacity" style={{ color: '#FF6B35' }}>
+        <button className="flex items-center gap-1 text-xs font-semibold hover:opacity-75 transition-opacity" style={{ color: 'var(--cr-accent)' }}>
           See all <ArrowRight size={11} />
         </button>
       </div>
@@ -1041,7 +1048,7 @@ function PersonalizedSection() {
             Personalized picks based on your taste preferences
           </p>
         </div>
-        <button className="flex items-center gap-1 text-xs font-semibold hover:opacity-75 transition-opacity" style={{ color: '#FF6B35' }}>
+        <button className="flex items-center gap-1 text-xs font-semibold hover:opacity-75 transition-opacity" style={{ color: 'var(--cr-accent)' }}>
           Refresh <ArrowRight size={11} />
         </button>
       </div>
@@ -1071,9 +1078,9 @@ function DiscoverySidebar() {
   return (
     <aside className="hidden xl:flex flex-col gap-5 w-60 flex-none self-start sticky top-[72px]">
       {/* Top Creators */}
-      <div className="rounded-2xl bg-white dark:bg-[#1A1D24]/90 border border-zinc-200/60 dark:border-white/7 p-4 shadow-sm">
+      <div className="rounded-2xl bg-white dark:bg-[#2B2B2D] border border-zinc-200/60 dark:border-[#343438] p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-4">
-          <Users size={14} style={{ color: '#FF6B35' }} />
+          <Users size={14} style={{ color: 'var(--cr-accent)' }} />
           <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-100">Top Creators</h3>
         </div>
         <div className="space-y-3">
@@ -1081,7 +1088,7 @@ function DiscoverySidebar() {
             <div key={c.handle} className="flex items-center gap-2.5">
               <div
                 className="w-8 h-8 rounded-full flex items-center justify-center text-sm flex-none"
-                style={{ background: 'rgba(255,107,53,0.09)', border: '1px solid rgba(255,107,53,0.20)' }}
+                style={{ background: 'var(--cr-accent-soft)', border: '1px solid var(--cr-accent-border)' }}
               >
                 {c.emoji}
               </div>
@@ -1090,8 +1097,8 @@ function DiscoverySidebar() {
                 <div className="text-[10px] text-zinc-400 truncate">{c.specialty} · {c.followers}</div>
               </div>
               <button
-                className="text-[10px] font-bold px-2 py-0.5 rounded-full flex-none transition-colors hover:bg-[#FF6B35] hover:text-white"
-                style={{ background: 'rgba(255,107,53,0.09)', color: '#FF6B35', border: '1px solid rgba(255,107,53,0.22)' }}
+                className="text-[10px] font-bold px-2 py-0.5 rounded-full flex-none transition-colors hover:bg-[#F5C518] dark:hover:bg-[#F5C518] hover:text-[#1A1A1A] dark:hover:text-[#1A1A1A]"
+                style={{ background: 'var(--cr-accent-soft)', color: 'var(--cr-accent)', border: '1px solid var(--cr-accent-border)' }}
               >
                 Follow
               </button>
@@ -1101,16 +1108,16 @@ function DiscoverySidebar() {
       </div>
 
       {/* Popular Hashtags */}
-      <div className="rounded-2xl bg-white dark:bg-[#1A1D24]/90 border border-zinc-200/60 dark:border-white/7 p-4 shadow-sm">
+      <div className="rounded-2xl bg-white dark:bg-[#2B2B2D] border border-zinc-200/60 dark:border-[#343438] p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-3.5">
-          <Hash size={14} style={{ color: '#FF6B35' }} />
+          <Hash size={14} style={{ color: 'var(--cr-accent)' }} />
           <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-100">Popular Tags</h3>
         </div>
         <div className="flex flex-wrap gap-1.5">
           {TRENDING_HASHTAGS.map((tag) => (
             <button
               key={tag}
-              className="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-zinc-100 dark:bg-white/5 border border-zinc-200/80 dark:border-white/8 text-zinc-600 dark:text-zinc-400 hover:border-[#FF6B35]/40 hover:text-[#FF6B35] transition-colors"
+              className="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-zinc-100 dark:bg-white/5 border border-zinc-200/80 dark:border-[#343438] text-zinc-600 dark:text-zinc-400 hover:border-[#F5C518]/40 dark:hover:border-[#F5C518]/40 hover:text-[#B38B00] dark:hover:text-[#F5C518] transition-colors"
             >
               {tag}
             </button>
@@ -1123,17 +1130,17 @@ function DiscoverySidebar() {
         className="rounded-2xl overflow-hidden relative p-4 min-h-[130px] flex flex-col justify-between"
         style={{
           background: dark
-            ? 'linear-gradient(135deg, #150500, #0f1115)'
-            : 'linear-gradient(135deg, #fff8f2, #fff0e6, #fff5ee)',
-          border: dark ? '1px solid rgba(255,107,53,0.12)' : '1.5px solid rgba(255,107,53,0.18)',
+            ? 'linear-gradient(135deg, #1E1E1F, #2B2B2D)'
+            : 'linear-gradient(135deg, #FFFDF5, #FFF8E1, #FFFAED)',
+          border: dark ? '1px solid rgba(245,197,24,0.12)' : '1.5px solid rgba(245,197,24,0.22)',
         }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: dark
-              ? 'radial-gradient(ellipse at 25% 55%, rgba(255,107,53,0.22), transparent 65%)'
-              : 'radial-gradient(ellipse at 25% 55%, rgba(255,107,53,0.18), transparent 65%)',
+              ? 'radial-gradient(ellipse at 25% 55%, rgba(245,197,24,0.22), transparent 65%)'
+              : 'radial-gradient(ellipse at 25% 55%, rgba(245,197,24,0.18), transparent 65%)',
           }}
         />
         <div className="relative z-10">
@@ -1148,9 +1155,9 @@ function DiscoverySidebar() {
         <button
           className="relative z-10 mt-3 self-start text-[10px] font-bold px-3 py-1 rounded-full transition-colors"
           style={{
-            background: dark ? 'rgba(255,107,53,0.14)' : 'rgba(255,107,53,0.10)',
-            color: '#FF6B35',
-            border: '1px solid rgba(255,107,53,0.28)',
+            background: 'var(--cr-accent-soft)',
+            color: 'var(--cr-accent)',
+            border: '1px solid var(--cr-accent-border)',
           }}
         >
           Explore Now →
@@ -1163,6 +1170,8 @@ function DiscoverySidebar() {
 /* ─── Floating Action Button ─────────────────────────────────── */
 
 function FloatingFAB() {
+  const { theme } = useTheme()
+  const dark = theme === 'dark'
   const [open, setOpen] = useState(false)
 
   const actions = [
@@ -1180,8 +1189,11 @@ function FloatingFAB() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.82 }}
             transition={{ delay: i * 0.07, type: 'spring', stiffness: 300, damping: 22 }}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg text-white whitespace-nowrap"
-            style={{ background: 'linear-gradient(135deg, #FF6B35, #e85a25)' }}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg whitespace-nowrap"
+            style={{
+              background: dark ? 'linear-gradient(135deg, #F5C518, #FFB800)' : 'linear-gradient(135deg, #F5C518, #FFD84D)',
+              color: '#1A1A1A',
+            }}
           >
             <action.icon size={13} /> {action.label}
           </motion.button>
@@ -1193,13 +1205,13 @@ function FloatingFAB() {
         whileTap={{ scale: 0.91 }}
         onClick={() => setOpen((v) => !v)}
         className="w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-xl animate-pulse-glow"
-        style={{ background: 'linear-gradient(135deg, #FF6B35, #e85a25)' }}
+        style={{ background: dark ? 'linear-gradient(135deg, #F5C518, #FFB800)' : 'linear-gradient(135deg, #F5C518, #FFD84D)' }}
       >
         <motion.div
           animate={{ rotate: open ? 45 : 0 }}
           transition={{ type: 'spring', stiffness: 320, damping: 20 }}
         >
-          <Plus size={22} className="text-white" />
+          <Plus size={22} style={{ color: '#1A1A1A' }} />
         </motion.div>
       </motion.button>
     </div>
@@ -1237,7 +1249,7 @@ export function CategoriesPage({ username }: { username?: string }) {
                     {searchQuery ? 'Matching recipes and reels' : 'Reels and recipes mixed for you'}
                   </p>
                 </div>
-                <button className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-xl bg-white dark:bg-[#1A1D24] border border-zinc-200/80 dark:border-white/8 text-zinc-600 dark:text-zinc-400 hover:border-[#FF6B35]/35 hover:text-[#FF6B35] transition-colors">
+                <button className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-xl bg-white dark:bg-[#2B2B2D] border border-zinc-200/80 dark:border-[#343438] text-zinc-600 dark:text-zinc-400 hover:border-[#F5C518]/35 dark:hover:border-[#F5C518]/35 hover:text-[#F5C518] dark:hover:text-[#F5C518] transition-colors">
                   Popular <ChevronDown size={10} />
                 </button>
               </div>

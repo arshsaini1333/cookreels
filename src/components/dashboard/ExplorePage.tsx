@@ -202,17 +202,19 @@ const cardReveal = {
 
 function SkeletonCard({ height }: { height: number }) {
   return (
-    <div className="break-inside-avoid mb-4 rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 animate-pulse shadow-sm">
+    <div className="break-inside-avoid mb-4 rounded-[20px] overflow-hidden bg-white dark:bg-[#1A1D24]/90 border border-[#E8E8E8]/70 dark:border-white/6 shadow-card-light dark:shadow-card-dark">
       <div
-        className="bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-700 dark:to-zinc-800"
+        className="relative overflow-hidden bg-zinc-200 dark:bg-zinc-800"
         style={{ height }}
-      />
-      <div className="p-3 space-y-2.5">
-        <div className="h-3 bg-zinc-200 dark:bg-zinc-700 rounded-full w-3/4" />
-        <div className="h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full w-1/2" />
-        <div className="flex gap-1 pt-1">
-          <div className="h-4 w-12 bg-zinc-100 dark:bg-zinc-800 rounded-full" />
-          <div className="h-4 w-14 bg-zinc-100 dark:bg-zinc-800 rounded-full" />
+      >
+        <div className="absolute inset-0 skeleton-light dark:skeleton" />
+      </div>
+      <div className="p-3.5 space-y-2.5">
+        <div className="h-3 bg-zinc-200/80 dark:bg-white/8 rounded-full w-3/4" />
+        <div className="h-2 bg-zinc-100 dark:bg-white/5 rounded-full w-1/2" />
+        <div className="flex gap-1.5 pt-1">
+          <div className="h-4 w-14 bg-zinc-100 dark:bg-white/5 rounded-full" />
+          <div className="h-4 w-16 bg-zinc-100 dark:bg-white/5 rounded-full" />
         </div>
       </div>
     </div>
@@ -243,12 +245,12 @@ function ExploreCard({
         animate={hovered ? { y: -5, scale: 1.015 } : { y: 0, scale: 1 }}
         transition={{ type: 'spring', stiffness: 380, damping: 28 }}
         className={[
-          'relative rounded-2xl overflow-hidden',
-          'bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm',
-          'border border-white/70 dark:border-zinc-700/50',
-          'shadow-md dark:shadow-black/25',
-          hovered ? 'shadow-xl shadow-[#f6c68b]/15 dark:shadow-[#f6c68b]/8' : '',
-          card.trending ? 'ring-1 ring-[#f6c68b]/35 dark:ring-[#f6c68b]/20' : '',
+          'relative rounded-[20px] overflow-hidden',
+          'bg-white dark:bg-[#1A1D24]/90 backdrop-blur-sm',
+          'border border-[#E8E8E8]/70 dark:border-white/6',
+          'shadow-card-light dark:shadow-card-dark',
+          hovered ? 'shadow-card-light-hover dark:shadow-card-dark-hover' : '',
+          card.trending ? 'ring-1 ring-[#F5C518]/40 dark:ring-[#FF6B35]/20' : '',
         ].join(' ')}
       >
         {/* ── Gradient image area ── */}
@@ -281,7 +283,7 @@ function ExploreCard({
           {/* ── Top badges row ── */}
           <div className="absolute top-3 left-3 right-3 flex items-start justify-between">
             {card.trending ? (
-              <div className="flex items-center gap-1 bg-[#e8952a] text-white text-[9px] font-black tracking-wider px-2 py-1 rounded-full shadow-lg shadow-orange-500/50 animate-pulse-glow">
+              <div className="flex items-center gap-1 bg-[#FF6B35] text-white text-[9px] font-black tracking-wider px-2 py-1 rounded-full shadow-lg shadow-orange-500/50 animate-pulse-glow">
                 <Flame className="w-2.5 h-2.5" />
                 TRENDING
               </div>
@@ -297,7 +299,7 @@ function ExploreCard({
             )}
             {card.type === 'recipe' && card.rating && (
               <div className="flex items-center gap-1 bg-black/55 backdrop-blur-sm text-white text-[9px] font-semibold px-2 py-1 rounded-full">
-                <Star className="w-2 h-2 fill-[#f6c68b] text-[#f6c68b]" />
+                <Star className="w-2 h-2 fill-[#FF6B35] text-[#FF6B35]" />
                 {card.rating}
               </div>
             )}
@@ -340,7 +342,7 @@ function ExploreCard({
           {/* Creator row + actions */}
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1.5 min-w-0">
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#f6c68b] to-[#e8952a] flex items-center justify-center shrink-0 shadow-sm">
+              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 shadow-sm" style={{ background: 'linear-gradient(135deg, var(--cr-accent) 0%, var(--cr-accent-2) 100%)' }}>
                 <ChefHat className="w-3 h-3 text-white" />
               </div>
               <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300 truncate">
@@ -365,8 +367,8 @@ function ExploreCard({
                 className={[
                   'p-1.5 rounded-lg transition-colors duration-200',
                   isSaved
-                    ? 'text-[#e8952a] bg-orange-50 dark:bg-orange-950/40'
-                    : 'text-zinc-400 hover:text-[#e8952a] hover:bg-orange-50 dark:hover:bg-orange-950/40',
+                    ? 'text-[#F5C518] dark:text-[#e8952a] bg-[#FFFAED] dark:bg-orange-950/40'
+                    : 'text-zinc-400 hover:text-[#F5C518] dark:hover:text-[#e8952a] hover:bg-[#FFFAED] dark:hover:bg-orange-950/40',
                 ].join(' ')}
               >
                 <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-current' : ''}`} />
@@ -391,7 +393,7 @@ function ExploreCard({
             {card.tags.map(tag => (
               <span
                 key={tag}
-                className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#f6c68b]/15 dark:bg-[#f6c68b]/10 text-[#c48a3a] dark:text-[#f6c68b]"
+                className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#F5C518]/12 dark:bg-[#FF6B35]/12 text-[#B38B00] dark:text-[#FF6B35]"
               >
                 #{tag}
               </span>
@@ -402,7 +404,7 @@ function ExploreCard({
           {card.friendActivity && (
             <div className="mt-2 pt-2 border-t border-zinc-100 dark:border-zinc-800/70 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 shrink-0 animate-pulse" />
-              <p className="text-[10px] text-[#e8952a] font-medium truncate">
+              <p className="text-[10px] text-[#B38B00] dark:text-[#e8952a] font-medium truncate">
                 {card.friendActivity}
               </p>
             </div>
@@ -482,13 +484,13 @@ export function ExplorePage({ username }: { username?: string }) {
             'relative flex items-center gap-3 px-4 py-3 rounded-2xl',
             'transition-all duration-300 backdrop-blur-md border',
             searchFocused
-              ? 'border-[#e8952a]/50 shadow-lg shadow-[#f6c68b]/15 bg-white/95 dark:bg-zinc-900/95'
-              : 'border-zinc-200/70 dark:border-zinc-700/60 bg-white/75 dark:bg-zinc-900/75 shadow-sm',
+              ? 'border-[#F5C518]/50 dark:border-[#FF6B35]/50 shadow-lg shadow-[#F5C518]/12 dark:shadow-[#FF6B35]/12 bg-white dark:bg-[#1A1D24]/95'
+              : 'border-[#E8E8E8]/80 dark:border-white/8 bg-white dark:bg-[#1A1D24]/80 shadow-sm',
           ].join(' ')}
         >
           <Search
             className={`w-4 h-4 shrink-0 transition-colors duration-300 ${
-              searchFocused ? 'text-[#e8952a]' : 'text-zinc-400'
+              searchFocused ? 'text-[#F5C518] dark:text-[#e8952a]' : 'text-zinc-400'
             }`}
           />
           <input
@@ -524,7 +526,7 @@ export function ExplorePage({ username }: { username?: string }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-[#f6c68b]/20 to-[#e8952a]/15 blur-2xl"
+              className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-[#F5C518]/15 dark:from-[#FF6B35]/15 to-[#FFD84D]/12 dark:to-[#FFC857]/12 blur-2xl"
             />
           )}
         </AnimatePresence>
@@ -546,14 +548,14 @@ export function ExplorePage({ username }: { username?: string }) {
                 'relative shrink-0 px-4 py-2 rounded-full text-sm font-semibold',
                 'transition-colors duration-200 select-none',
                 activeTab === tab
-                  ? 'text-white'
-                  : 'text-zinc-600 dark:text-zinc-400 bg-white/65 dark:bg-zinc-900/65 border border-zinc-200/60 dark:border-zinc-700/60 backdrop-blur-sm hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-[#f6c68b]/40',
+                  ? 'text-[#1A1A1A] dark:text-white'
+                  : 'text-zinc-600 dark:text-zinc-400 bg-white dark:bg-[#1A1D24]/70 border border-[#E8E8E8]/80 dark:border-white/8 backdrop-blur-sm hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-[#F5C518]/40 dark:hover:border-[#FF6B35]/35',
               ].join(' ')}
             >
               {activeTab === tab && (
                 <motion.div
                   layoutId="tab-pill"
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[#e8952a] to-[#f6c68b] shadow-md shadow-[#e8952a]/35"
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[#F5C518] to-[#FFD84D] dark:from-[#FF6B35] dark:to-[#FFC857] shadow-md shadow-[#F5C518]/30 dark:shadow-[#FF6B35]/35"
                   transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                 />
               )}
@@ -573,10 +575,10 @@ export function ExplorePage({ username }: { username?: string }) {
             exit={{ opacity: 0, height: 0, marginBottom: 0 }}
             transition={{ duration: 0.32 }}
           >
-            <div className="rounded-2xl bg-gradient-to-r from-[#f6c68b]/12 via-[#f6c68b]/7 to-[#e8952a]/5 dark:from-[#f6c68b]/8 dark:to-[#e8952a]/4 border border-[#f6c68b]/22 dark:border-[#f6c68b]/14 p-3">
+            <div className="rounded-2xl bg-gradient-to-r from-[#F5C518]/10 via-[#F5C518]/6 to-[#FFD84D]/5 dark:from-[#FF6B35]/8 dark:to-[#FFC857]/4 border border-[#F5C518]/20 dark:border-[#FF6B35]/14 p-3">
               <div className="flex items-center gap-2 mb-2.5">
-                <Users className="w-3.5 h-3.5 text-[#e8952a]" />
-                <span className="text-[10px] font-black tracking-widest text-[#c48a3a] dark:text-[#f6c68b] uppercase">
+                <Users className="w-3.5 h-3.5 text-[#B38B00] dark:text-[#e8952a]" />
+                <span className="text-[10px] font-black tracking-widest text-[#B38B00] dark:text-[#FF6B35] uppercase">
                   Friends Activity
                 </span>
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
@@ -588,7 +590,7 @@ export function ExplorePage({ username }: { username?: string }) {
                     initial={{ opacity: 0, x: 18 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.06, ease: EASE }}
-                    className="shrink-0 flex items-center gap-2 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-sm rounded-xl px-2.5 py-2 border border-white/70 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-[#f6c68b]/30 dark:hover:border-[#f6c68b]/20 transition-all duration-200 cursor-pointer"
+                    className="shrink-0 flex items-center gap-2 bg-white dark:bg-[#1A1D24]/80 backdrop-blur-sm rounded-xl px-2.5 py-2 border border-[#E8E8E8]/80 dark:border-white/7 shadow-sm hover:shadow-md hover:border-[#F5C518]/35 dark:hover:border-[#f6c68b]/20 transition-all duration-200 cursor-pointer"
                   >
                     <span className="text-base leading-none">{f.emoji}</span>
                     <div>
@@ -598,7 +600,7 @@ export function ExplorePage({ username }: { username?: string }) {
                           {f.action}
                         </span>
                       </p>
-                      <p className="text-[9px] text-[#c48a3a] dark:text-[#f6c68b] truncate max-w-[90px]">
+                      <p className="text-[9px] text-[#B38B00] dark:text-[#FF6B35] truncate max-w-[90px]">
                         {f.recipe}
                       </p>
                     </div>
@@ -619,9 +621,9 @@ export function ExplorePage({ username }: { username?: string }) {
           className="flex items-center justify-between mb-4"
         >
           <div className="flex items-center gap-2">
-            {activeTab === 'Trending'   && <TrendingUp className="w-3.5 h-3.5 text-[#e8952a]" />}
-            {activeTab === 'Recent'     && <Clock      className="w-3.5 h-3.5 text-[#e8952a]" />}
-            {activeTab === 'By Friends' && <Users      className="w-3.5 h-3.5 text-[#e8952a]" />}
+            {activeTab === 'Trending'   && <TrendingUp className="w-3.5 h-3.5 text-[#F5C518] dark:text-[#e8952a]" />}
+            {activeTab === 'Recent'     && <Clock      className="w-3.5 h-3.5 text-[#F5C518] dark:text-[#e8952a]" />}
+            {activeTab === 'By Friends' && <Users      className="w-3.5 h-3.5 text-[#F5C518] dark:text-[#e8952a]" />}
             <span className="text-xs text-zinc-500 dark:text-zinc-400">
               <span className="font-semibold text-zinc-700 dark:text-zinc-300">
                 {filteredCards.length}
@@ -634,7 +636,7 @@ export function ExplorePage({ username }: { username?: string }) {
             </span>
           </div>
 
-          <button className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 hover:text-[#e8952a] dark:hover:text-[#f6c68b] transition-colors px-2.5 py-1.5 rounded-xl hover:bg-[#f6c68b]/10 dark:hover:bg-[#f6c68b]/8">
+          <button className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 hover:text-[#F5C518] dark:hover:text-[#FF6B35] transition-colors px-2.5 py-1.5 rounded-xl hover:bg-[#F5C518]/8 dark:hover:bg-[#FF6B35]/10">
             <Filter className="w-3 h-3" />
             Filter
           </button>
