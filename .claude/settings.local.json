@@ -34,10 +34,13 @@
       "Bash(Select-Object FullName)",
       "PowerShell(cd \"e:\\\\Cookreels\\\\cookreels-main\" ; Get-ChildItem -Path src -Recurse -File | Select-Object -ExpandProperty FullName | Where-Object { -not \\($_ -match 'generated' -or $_ -match 'node_modules'\\) } | Sort-Object)",
       "Bash(npx prisma *)",
-      "PowerShell(cd \"e:\\\\Cookreels\\\\cookreels-main\"; $env:PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION = \"Yes, reset it\"; npx prisma migrate reset --force 2>&1)"
+      "PowerShell(cd \"e:\\\\Cookreels\\\\cookreels-main\"; $env:PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION = \"Yes, reset it\"; npx prisma migrate reset --force 2>&1)",
+      "Bash(Select-Object -Property FullName)",
+      "Bash(mkdir -p \"e:\\\\Cookreels\\\\cookreels-main\\\\src\\\\components\\\\profile\")"
     ],
     "additionalDirectories": [
-      "e:\\Cookreels\\cookreels-main\\src\\app"
+      "e:\\Cookreels\\cookreels-main\\src\\app",
+      "e:\\Cookreels\\cookreels-main\\src\\components"
     ]
   }
 }

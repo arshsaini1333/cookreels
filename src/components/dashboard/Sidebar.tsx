@@ -273,6 +273,7 @@ export function Sidebar({ username = 'Chef' }: SidebarProps) {
             />
 
             {/* Profile */}
+            <Link href="/profile">
             <motion.div
               whileHover={{ x: 2 }}
               whileTap={{ scale: 0.97 }}
@@ -317,6 +318,7 @@ export function Sidebar({ username = 'Chef' }: SidebarProps) {
                 </p>
               </div>
             </motion.div>
+            </Link>
           </div>
         </div>
       </aside>
