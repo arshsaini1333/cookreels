@@ -196,7 +196,7 @@ function GlassBtn({
       className="flex flex-col items-center gap-1.5"
     >
       <div
-        className={`w-12 h-12 rounded-[18px] flex items-center justify-center border shadow-2xl transition-all duration-200 ${
+        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-[14px] sm:rounded-[18px] flex items-center justify-center border shadow-2xl transition-all duration-200 ${
           active
             ? `${activeClass} bg-white/18 border-white/20 backdrop-blur-2xl`
             : 'bg-black/45 border-white/10 backdrop-blur-2xl text-white hover:bg-white/18 hover:border-white/25'
@@ -397,7 +397,7 @@ function RecipePreview({ reel, onClose }: { reel: Reel; onClose: () => void }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 20, scale: 0.96 }}
       transition={{ type: 'spring', damping: 26, stiffness: 300 }}
-      className="absolute inset-x-3 bottom-[188px] z-30 rounded-3xl backdrop-blur-2xl p-5 shadow-2xl"
+      className="absolute inset-x-3 bottom-[200px] sm:bottom-[188px] z-30 rounded-3xl backdrop-blur-2xl p-4 sm:p-5 shadow-2xl"
       style={{
         background: 'rgba(30,30,31,0.96)',
         border: '1px solid #343438',
@@ -509,7 +509,7 @@ function ReelCard({
         {/* Blurred bg emoji */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <motion.span
-            className="text-[220px] opacity-[0.065] blur-[28px]"
+            className="text-[100px] sm:text-[160px] md:text-[220px] opacity-[0.065] blur-[28px]"
             animate={isActive ? { scale: [1, 1.1, 1], rotate: [-5, 5, -5] } : { scale: 1 }}
             transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
           >
@@ -520,7 +520,7 @@ function ReelCard({
         {/* Floating foreground emoji */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <motion.span
-            className="text-[96px] drop-shadow-2xl"
+            className="text-[56px] sm:text-[72px] md:text-[96px] drop-shadow-2xl"
             animate={isActive ? { y: [0, -12, 0], rotate: [-2, 2, -2] } : { y: 0 }}
             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
           >
@@ -558,7 +558,7 @@ function ReelCard({
       </AnimatePresence>
 
       {/* Top badges */}
-      <div className="absolute top-14 left-4 z-20 flex flex-col gap-2">
+      <div className="absolute top-12 sm:top-14 left-4 z-20 flex flex-col gap-2">
         <AnimatePresence>
           {isActive && reel.isAIRecommended && (
             <motion.div
@@ -586,7 +586,7 @@ function ReelCard({
 
       {/* Right action buttons */}
       <div
-        className="absolute right-3 bottom-28 z-20 flex flex-col items-center gap-4"
+        className="absolute right-3 bottom-32 sm:bottom-28 z-20 flex flex-col items-center gap-3 sm:gap-4"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Creator avatar with follow button */}
@@ -734,7 +734,7 @@ export function ReelsPage() {
     containerRef.current?.scrollBy({ top: dir * (containerRef.current?.clientHeight ?? 0), behavior: 'smooth' })
 
   return (
-    <div className="relative -mx-4 sm:-mx-6 -mt-6 -mb-2 h-[calc(100vh-4rem)] overflow-hidden flex items-stretch justify-center">
+    <div className="relative -mx-4 sm:-mx-6 -mt-6 -mb-4 overflow-hidden flex items-stretch justify-center" style={{ height: 'calc(100svh - 4rem)', minHeight: 'calc(100vh - 4rem)' }}>
 
       {/* Ambient background glow — shifts per reel */}
       <motion.div
@@ -806,14 +806,11 @@ export function ReelsPage() {
       </div>
 
       {/* ── Phone-frame reel container ─────────────────────── */}
-      <div className="relative flex-shrink-0 h-full flex items-center py-[3px]">
+      <div className="relative h-full flex items-center w-full md:w-auto flex-shrink-0 md:py-[3px]">
         <div
           ref={containerRef}
-          className="overflow-y-scroll snap-y snap-mandatory scrollbar-none md:rounded-[28px]"
+          className="overflow-y-scroll snap-y snap-mandatory scrollbar-none md:rounded-[28px] w-full md:w-[340px] h-full md:h-auto md:aspect-[9/16] md:max-h-full"
           style={{
-            width: 'min(340px, 100vw)',
-            aspectRatio: '9/16',
-            maxHeight: '100%',
             scrollbarWidth: 'none',
             boxShadow: '0 0 0 1px rgba(52,52,56,0.80), 0 0 80px rgba(0,0,0,0.70)',
           }}

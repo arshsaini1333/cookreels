@@ -7,7 +7,7 @@ import {
   UserPlus, UserCheck, ChefHat, Flame, Heart, Play,
   Bookmark, Clock, Film, Eye, BadgeCheck, TrendingUp,
   Zap, Bell, Lock, LogOut, X, Edit3, Plus, Users, ChevronRight,
-  Tag, Star,
+  Tag, Star, Video, Image, AlignLeft, Timer, Utensils,
 } from 'lucide-react'
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout'
 import { useTheme } from '@/context/ThemeContext'
@@ -191,7 +191,7 @@ function AnimatedStat({ value, label }: { value: number; label: string }) {
   )
 }
 
-// ─── Toggle ───────────────────────────────────────────────────────────────────
+// ─── Toggle ──────
 
 function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
   return (
@@ -209,7 +209,7 @@ function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
   )
 }
 
-// ─── ActivityGraph ────────────────────────────────────────────────────────────
+// ─── ActivityGraph ─────
 
 function ActivityGraph() {
   const ref    = useRef<HTMLDivElement>(null)
@@ -485,13 +485,13 @@ function SettingsDrawer({ open, onClose }: { open: boolean; onClose: () => void 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
             onClick={onClose}
-            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-[80] bg-black/50 backdrop-blur-sm"
           />
           <motion.div
             key="drawer"
             initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 35 }}
-            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-sm overflow-y-auto"
+            className="fixed right-0 top-0 bottom-0 z-[90] w-full max-w-sm overflow-y-auto"
             style={{ background: 'var(--cr-bg-card)', boxShadow: '-4px 0 48px rgba(0,0,0,0.35)' }}
           >
             {/* Header */}
@@ -597,11 +597,491 @@ function SettingsDrawer({ open, onClose }: { open: boolean; onClose: () => void 
   )
 }
 
+// ─── Category data ────────────────────────────────────────────────────────────
+
+const CATEGORY_GROUPS = [
+  {
+    group: 'Meal Type',
+    items: [
+      { id: 'breakfast',  label: 'Breakfast',   emoji: '☀️' },
+      { id: 'lunch',      label: 'Lunch',        emoji: '🍱' },
+      { id: 'dinner',     label: 'Dinner',       emoji: '🌙' },
+      { id: 'brunch',     label: 'Brunch',       emoji: '🥞' },
+      { id: 'snacks',     label: 'Snacks',       emoji: '🍿' },
+      { id: 'appetizer',  label: 'Appetizer',    emoji: '🥗' },
+    ],
+  },
+  {
+    group: 'Sweets & Drinks',
+    items: [
+      { id: 'sweet_dish', label: 'Sweet Dish',   emoji: '🍰' },
+      { id: 'dessert',    label: 'Dessert',      emoji: '🧁' },
+      { id: 'shakes',     label: 'Shakes',       emoji: '🥤' },
+      { id: 'smoothies',  label: 'Smoothies',    emoji: '🥝' },
+      { id: 'juice',      label: 'Juice',        emoji: '🍹' },
+      { id: 'beverages',  label: 'Beverages',    emoji: '☕' },
+    ],
+  },
+  {
+    group: 'Indian Cuisine',
+    items: [
+      { id: 'north_indian',  label: 'North Indian',  emoji: '🫓' },
+      { id: 'south_indian',  label: 'South Indian',  emoji: '🥘' },
+      { id: 'punjabi',       label: 'Punjabi',        emoji: '🧆' },
+      { id: 'bengali',       label: 'Bengali',        emoji: '🐟' },
+      { id: 'rajasthani',    label: 'Rajasthani',     emoji: '🌵' },
+      { id: 'street_food',   label: 'Street Food',    emoji: '🌮' },
+      { id: 'mughlai',       label: 'Mughlai',        emoji: '🍖' },
+      { id: 'gujarati',      label: 'Gujarati',       emoji: '🫘' },
+    ],
+  },
+  {
+    group: 'World Cuisine',
+    items: [
+      { id: 'chinese',       label: 'Chinese',        emoji: '🥡' },
+      { id: 'italian',       label: 'Italian',        emoji: '🍝' },
+      { id: 'mexican',       label: 'Mexican',        emoji: '🌯' },
+      { id: 'thai',          label: 'Thai',           emoji: '🍜' },
+      { id: 'japanese',      label: 'Japanese',       emoji: '🍣' },
+      { id: 'korean',        label: 'Korean',         emoji: '🥢' },
+      { id: 'mediterranean', label: 'Mediterranean',  emoji: '🫒' },
+      { id: 'american',      label: 'American',       emoji: '🍔' },
+      { id: 'french',        label: 'French',         emoji: '🥐' },
+      { id: 'spanish',       label: 'Spanish',        emoji: '🥘' },
+      { id: 'greek',         label: 'Greek',          emoji: '🫙' },
+      { id: 'middle_east',   label: 'Middle Eastern', emoji: '🧆' },
+      { id: 'turkish',       label: 'Turkish',        emoji: '🥙' },
+      { id: 'vietnamese',    label: 'Vietnamese',     emoji: '🍲' },
+    ],
+  },
+  {
+    group: 'Dietary',
+    items: [
+      { id: 'vegetarian',  label: 'Vegetarian',  emoji: '🥦' },
+      { id: 'vegan',       label: 'Vegan',        emoji: '🌱' },
+      { id: 'non_veg',     label: 'Non-Veg',      emoji: '🍗' },
+      { id: 'gluten_free', label: 'Gluten-Free',  emoji: '🌾' },
+      { id: 'keto',        label: 'Keto',         emoji: '🥑' },
+      { id: 'healthy',     label: 'Healthy',      emoji: '💪' },
+      { id: 'low_cal',     label: 'Low-Calorie',  emoji: '🥗' },
+    ],
+  },
+  {
+    group: 'Special',
+    items: [
+      { id: 'quick_meals', label: 'Quick Meals',  emoji: '⚡' },
+      { id: 'baking',      label: 'Baking',       emoji: '🍞' },
+      { id: 'bbq_grill',   label: 'BBQ & Grill',  emoji: '🔥' },
+      { id: 'soups',       label: 'Soups',        emoji: '🍲' },
+      { id: 'salads',      label: 'Salads',       emoji: '🥬' },
+      { id: 'sandwich',    label: 'Sandwiches',   emoji: '🥪' },
+      { id: 'festive',     label: 'Festive',      emoji: '🎉' },
+      { id: 'kids',        label: 'Kids Menu',    emoji: '🧒' },
+      { id: 'other',       label: 'Other',        emoji: '✨' },
+    ],
+  },
+] as const
+
+// ─── CategoryPicker ───────────────────────────────────────────────────────────
+
+function CategoryPicker({
+  selected,
+  onChange,
+}: {
+  selected: Set<string>
+  onChange: (next: Set<string>) => void
+}) {
+  const toggle = (id: string) => {
+    const next = new Set(selected)
+    next.has(id) ? next.delete(id) : next.add(id)
+    onChange(next)
+  }
+
+  return (
+    <div className="space-y-3">
+      {CATEGORY_GROUPS.map(group => (
+        <div key={group.group}>
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--cr-text-muted)' }}>
+            {group.group}
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {group.items.map(item => {
+              const active = selected.has(item.id)
+              return (
+                <motion.button
+                  key={item.id}
+                  type="button"
+                  whileTap={{ scale: 0.93 }}
+                  onClick={() => toggle(item.id)}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold transition-all"
+                  style={
+                    active
+                      ? { background: 'linear-gradient(135deg,#F5C518,#FFB800)', color: '#1A1A1A', boxShadow: '0 2px 8px rgba(245,197,24,0.35)' }
+                      : { background: 'var(--cr-bg-surface)', color: 'var(--cr-text-2)', border: '1px solid var(--cr-border)' }
+                  }
+                >
+                  <span>{item.emoji}</span>
+                  {item.label}
+                </motion.button>
+              )
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// ─── AddContentModal ──────────────────────────────────────────────────────────
+
+type ContentType = 'recipe' | 'reel'
+
+function FileDropZone({
+  accept,
+  icon,
+  hint,
+  preview,
+  onFile,
+}: {
+  accept: string
+  icon: React.ReactNode
+  hint: string
+  preview: string | null
+  onFile: (file: File) => void
+}) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [dragging, setDragging] = useState(false)
+
+  const handle = (file: File | undefined) => {
+    if (file) onFile(file)
+  }
+
+  return (
+    <div
+      onClick={() => inputRef.current?.click()}
+      onDragOver={e => { e.preventDefault(); setDragging(true) }}
+      onDragLeave={() => setDragging(false)}
+      onDrop={e => { e.preventDefault(); setDragging(false); handle(e.dataTransfer.files[0]) }}
+      className="relative w-full rounded-2xl overflow-hidden cursor-pointer transition-all"
+      style={{
+        border: `2px dashed ${dragging ? 'var(--cr-accent)' : 'var(--cr-border)'}`,
+        background: dragging ? 'var(--cr-accent-soft)' : 'var(--cr-bg-surface)',
+      }}
+    >
+      <input
+        ref={inputRef}
+        type="file"
+        accept={accept}
+        className="hidden"
+        onChange={e => handle(e.target.files?.[0])}
+      />
+
+      {preview ? (
+        /* show preview thumbnail / video */
+        accept.startsWith('video') ? (
+          <video
+            src={preview}
+            className="w-full max-h-48 object-contain"
+            muted
+            playsInline
+          />
+        ) : (
+          <img src={preview} alt="preview" className="w-full max-h-48 object-contain" />
+        )
+      ) : (
+        <div className="flex flex-col items-center justify-center gap-2 py-8 px-4 text-center">
+          <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--cr-accent-soft)' }}>
+            {icon}
+          </div>
+          <p className="text-sm font-semibold" style={{ color: 'var(--cr-text-1)' }}>
+            Click or drag & drop
+          </p>
+          <p className="text-xs" style={{ color: 'var(--cr-text-muted)' }}>{hint}</p>
+        </div>
+      )}
+
+      {/* Change overlay when file selected */}
+      {preview && (
+        <div className="absolute inset-0 bg-black/0 hover:bg-black/40 transition-all flex items-center justify-center opacity-0 hover:opacity-100">
+          <span className="text-white text-xs font-semibold bg-black/60 px-3 py-1.5 rounded-full">Change file</span>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function AddContentModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [type, setType] = useState<ContentType>('recipe')
+
+  // Shared
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set())
+
+  // Recipe fields
+  const [recipeTitle,   setRecipeTitle]   = useState('')
+  const [recipeDesc,    setRecipeDesc]    = useState('')
+  const [difficulty,    setDifficulty]    = useState('EASY')
+  const [cookTime,      setCookTime]      = useState('')
+  const [prepTime,      setPrepTime]      = useState('')
+  const [photoFile,     setPhotoFile]     = useState<File | null>(null)
+  const [photoPreview,  setPhotoPreview]  = useState<string | null>(null)
+
+  // Reel fields
+  const [reelTitle,     setReelTitle]     = useState('')
+  const [reelDesc,      setReelDesc]      = useState('')
+  const [videoFile,     setVideoFile]     = useState<File | null>(null)
+  const [videoPreview,  setVideoPreview]  = useState<string | null>(null)
+
+  const handlePhoto = (file: File) => {
+    setPhotoFile(file)
+    setPhotoPreview(URL.createObjectURL(file))
+  }
+
+  const handleVideo = (file: File) => {
+    setVideoFile(file)
+    setVideoPreview(URL.createObjectURL(file))
+  }
+
+  const handleClose = () => {
+    // revoke object URLs to avoid memory leaks
+    if (photoPreview) URL.revokeObjectURL(photoPreview)
+    if (videoPreview) URL.revokeObjectURL(videoPreview)
+    setPhotoFile(null); setPhotoPreview(null)
+    setVideoFile(null); setVideoPreview(null)
+    setRecipeTitle(''); setRecipeDesc(''); setCookTime(''); setPrepTime('')
+    setReelTitle(''); setReelDesc('')
+    setSelectedCategories(new Set())
+    onClose()
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // TODO: build FormData and POST to /api/recipes or /api/reels
+    handleClose()
+  }
+
+  const inputCls = 'w-full px-3.5 py-2.5 rounded-xl text-sm outline-none transition-colors'
+  const inputStyle = {
+    background: 'var(--cr-bg-surface)',
+    color: 'var(--cr-text-1)',
+    border: '1px solid var(--cr-border)',
+  }
+  const labelCls = 'text-xs font-semibold mb-1.5 block'
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            key="add-backdrop"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            onClick={handleClose}
+            className="fixed inset-0 z-[80] bg-black/60 backdrop-blur-sm"
+          />
+          <motion.div
+            key="add-modal"
+            initial={{ opacity: 0, y: 40, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.97 }}
+            transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+            className="fixed left-1/2 -translate-x-1/2 z-[90] w-[calc(100%-2rem)] max-w-lg overflow-y-auto rounded-2xl"
+            style={{
+              top: 'max(5rem, calc(50% - min(45vh, 320px)))',
+              maxHeight: 'calc(100svh - 5.5rem)',
+              background: 'var(--cr-bg-card)',
+              boxShadow: '0 24px 80px rgba(0,0,0,0.45)',
+            }}
+          >
+            {/* Header */}
+            <div className="sticky top-0 flex items-center justify-between px-5 pt-5 pb-4 border-b" style={{ borderColor: 'var(--cr-border)', background: 'var(--cr-bg-card)' }}>
+              <h2 className="text-lg font-bold" style={{ color: 'var(--cr-text-1)', fontFamily: 'var(--font-heading)' }}>
+                Add Content
+              </h2>
+              <button
+                onClick={handleClose}
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:bg-black/10 dark:hover:bg-white/10"
+              >
+                <X className="w-5 h-5" style={{ color: 'var(--cr-text-2)' }} />
+              </button>
+            </div>
+
+            {/* Type selector */}
+            <div className="flex gap-2 px-5 pt-4">
+              {(['recipe', 'reel'] as ContentType[]).map(t => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setType(t)}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"
+                  style={
+                    type === t
+                      ? { background: 'linear-gradient(135deg,#F5C518,#FFB800)', color: '#1A1A1A' }
+                      : { background: 'var(--cr-bg-surface)', color: 'var(--cr-text-2)', border: '1px solid var(--cr-border)' }
+                  }
+                >
+                  {t === 'recipe' ? <Utensils className="w-4 h-4" /> : <Video className="w-4 h-4" />}
+                  {t === 'recipe' ? 'Recipe' : 'Reel'}
+                </button>
+              ))}
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="px-5 py-5 space-y-4 pb-6">
+              {type === 'recipe' ? (
+                <>
+                  {/* Photo upload */}
+                  <div>
+                    <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>Cover Photo *</label>
+                    <FileDropZone
+                      accept="image/*"
+                      icon={<Image className="w-5 h-5" style={{ color: 'var(--cr-accent)' }} />}
+                      hint="JPG, PNG, WEBP — up to 10 MB"
+                      preview={photoPreview}
+                      onFile={handlePhoto}
+                    />
+                  </div>
+
+                  <div>
+                    <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>Recipe Title *</label>
+                    <div className="relative">
+                      <Utensils className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--cr-text-muted)' }} />
+                      <input
+                        className={inputCls}
+                        style={{ ...inputStyle, paddingLeft: '2.25rem' }}
+                        placeholder="e.g. Spicy Butter Chicken"
+                        value={recipeTitle}
+                        onChange={e => setRecipeTitle(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>Description</label>
+                    <textarea
+                      className={inputCls + ' resize-none min-h-[72px]'}
+                      style={inputStyle}
+                      placeholder="Describe your recipe..."
+                      value={recipeDesc}
+                      onChange={e => setRecipeDesc(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>
+                      Category
+                      {selectedCategories.size > 0 && (
+                        <span className="ml-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: 'var(--cr-accent)', color: '#1A1A1A' }}>
+                          {selectedCategories.size} selected
+                        </span>
+                      )}
+                    </label>
+                    <CategoryPicker selected={selectedCategories} onChange={setSelectedCategories} />
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>Difficulty</label>
+                      <select className={inputCls} style={inputStyle} value={difficulty} onChange={e => setDifficulty(e.target.value)}>
+                        <option value="EASY">Easy</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="HARD">Hard</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>Cook (min)</label>
+                      <div className="relative">
+                        <Timer className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none" style={{ color: 'var(--cr-text-muted)' }} />
+                        <input type="number" min="1" className={inputCls} style={{ ...inputStyle, paddingLeft: '2rem' }} placeholder="30" value={cookTime} onChange={e => setCookTime(e.target.value)} />
+                      </div>
+                    </div>
+                    <div>
+                      <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>Prep (min)</label>
+                      <div className="relative">
+                        <Timer className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none" style={{ color: 'var(--cr-text-muted)' }} />
+                        <input type="number" min="1" className={inputCls} style={{ ...inputStyle, paddingLeft: '2rem' }} placeholder="10" value={prepTime} onChange={e => setPrepTime(e.target.value)} />
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Video upload */}
+                  <div>
+                    <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>Video *</label>
+                    <FileDropZone
+                      accept="video/*"
+                      icon={<Video className="w-5 h-5" style={{ color: 'var(--cr-accent)' }} />}
+                      hint="MP4, MOV, WEBM — up to 200 MB"
+                      preview={videoPreview}
+                      onFile={handleVideo}
+                    />
+                  </div>
+
+                  <div>
+                    <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>Reel Title *</label>
+                    <div className="relative">
+                      <Video className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--cr-text-muted)' }} />
+                      <input
+                        className={inputCls}
+                        style={{ ...inputStyle, paddingLeft: '2.25rem' }}
+                        placeholder="e.g. 60-Second Pasta"
+                        value={reelTitle}
+                        onChange={e => setReelTitle(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>Caption</label>
+                    <textarea
+                      className={inputCls + ' resize-none min-h-[72px]'}
+                      style={inputStyle}
+                      placeholder="Write a caption..."
+                      value={reelDesc}
+                      onChange={e => setReelDesc(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label className={labelCls} style={{ color: 'var(--cr-text-muted)' }}>
+                      Category
+                      {selectedCategories.size > 0 && (
+                        <span className="ml-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: 'var(--cr-accent)', color: '#1A1A1A' }}>
+                          {selectedCategories.size} selected
+                        </span>
+                      )}
+                    </label>
+                    <CategoryPicker selected={selectedCategories} onChange={setSelectedCategories} />
+                  </div>
+                </>
+              )}
+
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold shadow-md mt-2"
+                style={{ background: 'linear-gradient(135deg,#F5C518,#FFB800)', color: '#1A1A1A' }}
+              >
+                <Plus className="w-4 h-4" />
+                {type === 'recipe' ? 'Post Recipe' : 'Post Reel'}
+              </motion.button>
+            </form>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
+
 // ─── ProfilePage (main export) ────────────────────────────────────────────────
 
 export function ProfilePage({ user, stats, recipes, reels, collections }: ProfilePageProps) {
   const [activeTab,    setActiveTab]    = useState<ProfileTab>('Recipes')
   const [showSettings, setShowSettings] = useState(false)
+  const [showAddModal, setShowAddModal] = useState(false)
   const [savedSet,     setSavedSet]     = useState<Set<string>>(new Set())
   const [isFollowing,  setIsFollowing]  = useState(false)
   const isOwnProfile = true
@@ -671,6 +1151,14 @@ export function ProfilePage({ user, stats, recipes, reels, collections }: Profil
                 <>
                   <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold shadow-md" style={{ background: 'linear-gradient(135deg,#F5C518,#FFB800)', color: '#1A1A1A' }}>
                     <Edit3 className="w-3.5 h-3.5" /> Edit Profile
+                  </motion.button>
+                  <motion.button
+                    onClick={() => setShowAddModal(true)}
+                    whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold border transition-colors"
+                    style={{ borderColor: 'var(--cr-accent)', color: 'var(--cr-accent)', background: 'var(--cr-accent-soft)' }}
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Add Recipe
                   </motion.button>
                   <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold border transition-colors" style={{ borderColor: 'var(--cr-border)', color: 'var(--cr-text-1)', background: 'var(--cr-bg-card)' }}>
                     <Share2 className="w-3.5 h-3.5" /> Share
@@ -743,7 +1231,15 @@ export function ProfilePage({ user, stats, recipes, reels, collections }: Profil
                 <motion.button whileTap={{ scale: 0.97 }} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-semibold shadow" style={{ background: 'linear-gradient(135deg,#F5C518,#FFB800)', color: '#1A1A1A' }}>
                   <Edit3 className="w-4 h-4" /> Edit Profile
                 </motion.button>
-                <motion.button whileTap={{ scale: 0.97 }} className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold border" style={{ borderColor: 'var(--cr-border)', color: 'var(--cr-text-1)', background: 'var(--cr-bg-card)' }}>
+                <motion.button
+                  onClick={() => setShowAddModal(true)}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-semibold border"
+                  style={{ borderColor: 'var(--cr-accent)', color: 'var(--cr-accent)', background: 'var(--cr-accent-soft)' }}
+                >
+                  <Plus className="w-4 h-4" /> Add Recipe
+                </motion.button>
+                <motion.button whileTap={{ scale: 0.97 }} className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-full text-sm font-semibold border" style={{ borderColor: 'var(--cr-border)', color: 'var(--cr-text-1)', background: 'var(--cr-bg-card)' }}>
                   <Share2 className="w-4 h-4" />
                 </motion.button>
               </>
@@ -972,6 +1468,9 @@ export function ProfilePage({ user, stats, recipes, reels, collections }: Profil
 
       {/* Settings drawer */}
       <SettingsDrawer open={showSettings} onClose={() => setShowSettings(false)} />
+
+      {/* Add content modal */}
+      <AddContentModal open={showAddModal} onClose={() => setShowAddModal(false)} />
     </DashboardLayout>
   )
 }

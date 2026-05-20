@@ -770,8 +770,8 @@ function ReelCard({ reel }: { reel: Reel }) {
       initial="hidden"
       animate={inView ? 'visible' : 'hidden'}
       whileHover={{ y: -6, transition: { type: 'spring', stiffness: 280, damping: 22 } }}
-      className="group relative rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-[#343438] shadow-sm hover:shadow-lg cursor-pointer"
-      style={{ aspectRatio: '9/16', minHeight: '200px', maxHeight: '360px' }}
+      className="group relative rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-[#343438] shadow-sm hover:shadow-lg cursor-pointer min-h-[180px] sm:min-h-[200px]"
+      style={{ aspectRatio: '9/16' }}
     >
       {/* Thumbnail */}
       <Image
@@ -1016,7 +1016,7 @@ function TrendingSection() {
         variants={stagger}
         initial="hidden"
         animate={inView ? 'visible' : 'hidden'}
-        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3"
+        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3"
       >
         {REELS.map((reel, i) => (
           <motion.div key={reel.id} variants={cardReveal}>
@@ -1180,7 +1180,7 @@ function FloatingFAB() {
   ]
 
   return (
-    <div className="fixed bottom-6 right-5 z-50 flex flex-col items-end gap-2">
+    <div className="fixed bottom-24 right-4 z-50 flex flex-col items-end gap-2 lg:bottom-8 lg:right-6">
       <AnimatePresence>
         {open && actions.map((action, i) => (
           <motion.button
