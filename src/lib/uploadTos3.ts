@@ -2,34 +2,28 @@ export const uploadToS3 = async (
   file: File,
   folder: "recipes" | "reels"
 ) => {
-  try {
-    // Get signed URL
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fileType: file.type,
-        fileName: `${folder}-${Date.now()}-${file.name}`,
-        folder,
-      }),
-    });
+  const response = await fetch("/api/upload", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fileType: file.type, fileName: file.name, folder }),
+  });
 
-    const data = await response.json();
-
-    // Upload directly to AWS
-    await fetch(data.signedUrl, {
-      method: "PUT",
-      headers: {
-        "Content-Type": file.type,
-      },
-      body: file,
-    });
-
-    return data.fileUrl;
-  } catch (error) {
-    console.error(error);
-    throw error;
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({})) as { error?: string };
+    throw new Error(err.error ?? "Failed to get upload URL");
   }
+
+  const data = await response.json() as { signedUrl: string; fileUrl: string };
+
+  const putRes = await fetch(data.signedUrl, {
+    method: "PUT",
+    headers: { "Content-Type": file.type },
+    body: file,
+  });
+
+  if (!putRes.ok) {
+    throw new Error(`S3 upload failed: ${putRes.status} ${putRes.statusText}`);
+  }
+
+  return data.fileUrl;
 };

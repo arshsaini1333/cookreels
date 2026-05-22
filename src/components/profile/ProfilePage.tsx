@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import {
   Settings, Share2, Camera, MessageCircle,
@@ -11,10 +12,11 @@ import {
 } from 'lucide-react'
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout'
 import { useTheme } from '@/context/ThemeContext'
-
+import {uploadToS3} from '@/lib/uploadTos3'                                                                                                                                                                         
 // ─── Prop Types (data from server / DB) ──────────────────────────────────────
 
 export interface ProfileUser {
+  id: string
   name: string
   username: string
   bio: string | null
@@ -240,7 +242,7 @@ function ActivityGraph() {
   )
 }
 
-// ─── RecipeCard ───────────────────────────────────────────────────────────────
+// ─── RecipeCard ───
 
 function RecipeCard({
   r, idx, saved, onSave,
@@ -810,7 +812,18 @@ function FileDropZone({
   )
 }
 
-function AddContentModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+function AddContentModal({ open, onClose, userId }: { open: boolean; onClose: () => void; userId: string }) {
+  const router = useRouter()
+  const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null)
+
+  const showToast = (msg: string, ok: boolean) => {
+    setToast({ msg, ok })
+    setTimeout(() => {
+      setToast(null)
+      if (ok) { onClose(); router.refresh() }
+    }, 2000)
+  }
+
   const [type, setType] = useState<ContentType>('recipe')
 
   // Shared
@@ -853,11 +866,172 @@ function AddContentModal({ open, onClose }: { open: boolean; onClose: () => void
     onClose()
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: build FormData and POST to /api/recipes or /api/reels
-    handleClose()
+const [isUploading, setIsUploading] = useState(false)
+
+const handleSubmit = async (
+  e: React.FormEvent
+) => {
+
+  e.preventDefault()
+
+  if (isUploading) return
+
+  try {
+
+    setIsUploading(true)
+
+    // ─────────────────────────────────────
+    // RECIPE UPLOAD
+    // ─────────────────────────────────────
+
+    if (type === "recipe") {
+
+      if (!photoFile) {
+        showToast("Please select a cover photo", false)
+        return
+      }
+
+      if (!recipeTitle.trim()) {
+        showToast("Please enter a recipe title", false)
+        return
+      }
+
+      // STEP 1 → Upload image to AWS
+      const imageUrl = await uploadToS3(
+        photoFile,
+        "recipes"
+      )
+
+      // STEP 2 → Save recipe in DB
+      const response = await fetch(
+        "/api/recipes",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+
+            userId,
+
+            title: recipeTitle.trim(),
+
+            description: recipeDesc.trim(),
+
+            coverImage: imageUrl,
+
+            cookTime: cookTime
+              ? Number(cookTime)
+              : null,
+
+            prepTime: prepTime
+              ? Number(prepTime)
+              : null,
+
+            difficulty,
+
+            cuisine:
+              Array.from(selectedCategories)[0] || null,
+
+            isVeg:
+              selectedCategories.has("vegetarian") ||
+              selectedCategories.has("vegan"),
+          }),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error("Recipe creation failed")
+      }
+
+      showToast("Recipe posted successfully!", true)
+    }
+
+    // ─────────────────────────────────────
+    // REEL UPLOAD
+    // ─────────────────────────────────────
+
+    if (type === "reel") {
+
+      if (!videoFile) {
+        showToast("Please select a video", false)
+        return
+      }
+
+      if (!reelTitle.trim()) {
+        showToast("Please enter a reel title", false)
+        return
+      }
+
+      // STEP 1 → Upload reel video to AWS
+      const videoUrl = await uploadToS3(
+        videoFile,
+        "reels"
+      )
+
+      // Optional: get duration
+      const duration = await new Promise<number>(
+        (resolve) => {
+
+          const video = document.createElement("video")
+
+          video.preload = "metadata"
+
+          video.onloadedmetadata = () => {
+            resolve(
+              Math.floor(video.duration)
+            )
+          }
+
+          video.src = URL.createObjectURL(videoFile)
+        }
+      )
+
+      // STEP 2 → Save reel in DB
+      const response = await fetch(
+        "/api/reels",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+
+            userId,
+
+            title: reelTitle.trim(),
+
+            description: reelDesc.trim(),
+
+            videoUrl,
+
+            duration,
+
+            categories:
+              Array.from(selectedCategories),
+          }),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error("Reel creation failed")
+      }
+
+      showToast("Reel posted successfully!", true)
+    }
+
+  } catch (error) {
+
+    console.error(error)
+
+    showToast("Upload failed. Please try again.", false)
+
+  } finally {
+
+    setIsUploading(false)
   }
+}
 
   const inputCls = 'w-full px-3.5 py-2.5 rounded-xl text-sm outline-none transition-colors'
   const inputStyle = {
@@ -884,7 +1058,7 @@ function AddContentModal({ open, onClose }: { open: boolean; onClose: () => void
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.97 }}
             transition={{ type: 'spring', stiffness: 320, damping: 32 }}
-            className="fixed left-1/2 -translate-x-1/2 z-[90] w-[calc(100%-2rem)] max-w-lg overflow-y-auto rounded-2xl"
+            className="fixed left-1/2 -translate-x-1/2 z-[90] w-[calc(100%-2rem)] max-w-lg rounded-2xl overflow-hidden flex flex-col"
             style={{
               top: 'max(5rem, calc(50% - min(45vh, 320px)))',
               maxHeight: 'calc(100svh - 5.5rem)',
@@ -893,7 +1067,7 @@ function AddContentModal({ open, onClose }: { open: boolean; onClose: () => void
             }}
           >
             {/* Header */}
-            <div className="sticky top-0 flex items-center justify-between px-5 pt-5 pb-4 border-b" style={{ borderColor: 'var(--cr-border)', background: 'var(--cr-bg-card)' }}>
+            <div className="shrink-0 flex items-center justify-between px-5 pt-5 pb-4 border-b" style={{ borderColor: 'var(--cr-border)', background: 'var(--cr-bg-card)' }}>
               <h2 className="text-lg font-bold" style={{ color: 'var(--cr-text-1)', fontFamily: 'var(--font-heading)' }}>
                 Add Content
               </h2>
@@ -904,6 +1078,9 @@ function AddContentModal({ open, onClose }: { open: boolean; onClose: () => void
                 <X className="w-5 h-5" style={{ color: 'var(--cr-text-2)' }} />
               </button>
             </div>
+
+            {/* Scrollable body */}
+            <div className="overflow-y-auto">
 
             {/* Type selector */}
             <div className="flex gap-2 px-5 pt-4">
@@ -1066,10 +1243,39 @@ function AddContentModal({ open, onClose }: { open: boolean; onClose: () => void
                 style={{ background: 'linear-gradient(135deg,#F5C518,#FFB800)', color: '#1A1A1A' }}
               >
                 <Plus className="w-4 h-4" />
-                {type === 'recipe' ? 'Post Recipe' : 'Post Reel'}
+                {isUploading
+      ? 'Uploading...'
+       : type === 'recipe'
+       ? 'Post Recipe'
+       : 'Post Reel'}
+   
               </motion.button>
             </form>
+            </div>{/* end scrollable body */}
           </motion.div>
+
+          {/* Toast */}
+          <AnimatePresence>
+            {toast && (
+              <motion.div
+                key="upload-toast"
+                initial={{ opacity: 0, y: 24, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 12, scale: 0.95 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-2xl text-sm font-semibold"
+                style={{
+                  background: toast.ok ? 'linear-gradient(135deg,#22c55e,#16a34a)' : 'linear-gradient(135deg,#ef4444,#dc2626)',
+                  color: '#fff',
+                  minWidth: '220px',
+                  boxShadow: toast.ok ? '0 8px 32px rgba(34,197,94,0.35)' : '0 8px 32px rgba(239,68,68,0.35)',
+                }}
+              >
+                <span className="text-lg">{toast.ok ? '✓' : '✕'}</span>
+                {toast.msg}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
     </AnimatePresence>
@@ -1470,7 +1676,7 @@ export function ProfilePage({ user, stats, recipes, reels, collections }: Profil
       <SettingsDrawer open={showSettings} onClose={() => setShowSettings(false)} />
 
       {/* Add content modal */}
-      <AddContentModal open={showAddModal} onClose={() => setShowAddModal(false)} />
+      <AddContentModal open={showAddModal} onClose={() => setShowAddModal(false)} userId={user.id} />
     </DashboardLayout>
   )
 }

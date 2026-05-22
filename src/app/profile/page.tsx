@@ -94,6 +94,7 @@ export default async function Page() {
   return (
     <ProfilePage
       user={{
+        id: session.userId,
         name: `${user.firstName} ${user.lastName}`,
         username: `@${user.username}`,
         bio: user.bio,
