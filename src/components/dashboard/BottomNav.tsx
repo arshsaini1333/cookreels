@@ -19,6 +19,9 @@ export function BottomNav() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
 
+  // Reels page has its own full-screen mobile nav
+  if (pathname === '/reels') return null
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden pb-safe pointer-events-none">
       <div className="mx-3 mb-3 pointer-events-auto">

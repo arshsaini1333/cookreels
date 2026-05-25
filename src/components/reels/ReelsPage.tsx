@@ -4,9 +4,13 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Heart, MessageCircle, Bookmark, Share2,
-  X, ChevronUp, ChevronDown, Send, Smile, MoreHorizontal,
-  Clock, Check, Sparkles, Flame, ArrowRight,
+  X, ChevronUp, ChevronDown, Send, Smile,
+  Clock, Check, Sparkles, Flame,
+  Home, Compass, Film, LayoutGrid, User,
 } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useTheme } from '@/context/ThemeContext'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -55,7 +59,7 @@ const REELS: Reel[] = [
     creatorName: 'chef_anna',
     creatorAvatarBg: 'from-pink-400 to-rose-500',
     likes: 24500, comments: 1200, saves: 8400,
-    tags: ['#QuickRecipes', '#Pasta', '#Italian', '#Dinner'],
+    tags: ['#QuickRecipes', '#Pasta', '#Italian'],
     cookingTime: '15 min', difficulty: 'Easy',
     ingredientsPreview: ['Pasta', 'Garlic', 'Heavy Cream', 'Parmesan', 'Butter', 'White Wine'],
     music: '🎵 Italian Kitchen Vibes',
@@ -71,7 +75,7 @@ const REELS: Reel[] = [
     creatorName: 'spice_kitchen',
     creatorAvatarBg: 'from-amber-400 to-orange-500',
     likes: 87200, comments: 4300, saves: 31000,
-    tags: ['#IndianFood', '#Curry', '#Dinner', '#Comfort'],
+    tags: ['#IndianFood', '#Curry', '#Comfort'],
     cookingTime: '40 min', difficulty: 'Medium',
     ingredientsPreview: ['Chicken', 'Tomatoes', 'Butter', 'Cream', 'Garam Masala', 'Kashmiri Chili'],
     music: '🎵 Desi Flavors Mix',
@@ -87,7 +91,7 @@ const REELS: Reel[] = [
     creatorName: 'brunch.by.leo',
     creatorAvatarBg: 'from-green-400 to-emerald-500',
     likes: 45800, comments: 2100, saves: 19200,
-    tags: ['#Healthy', '#Brunch', '#Avocado', '#QuickRecipes'],
+    tags: ['#Healthy', '#Brunch', '#Avocado'],
     cookingTime: '10 min', difficulty: 'Easy',
     ingredientsPreview: ['Avocado', 'Sourdough', 'Egg', 'Microgreens', 'Chili Flakes', 'Lemon'],
     music: '🎵 Morning Chill Beats',
@@ -103,7 +107,7 @@ const REELS: Reel[] = [
     creatorName: 'dessert.dreams',
     creatorAvatarBg: 'from-rose-400 to-pink-500',
     likes: 134000, comments: 6700, saves: 52000,
-    tags: ['#Dessert', '#Tiramisu', '#NoBake', '#Strawberry'],
+    tags: ['#Dessert', '#Tiramisu', '#NoBake'],
     cookingTime: '25 min', difficulty: 'Easy',
     ingredientsPreview: ['Strawberries', 'Mascarpone', 'Ladyfingers', 'Cream', 'Vanilla', 'Espresso'],
     music: '🎵 Dolce Vita',
@@ -119,7 +123,7 @@ const REELS: Reel[] = [
     creatorName: 'tokyo.table',
     creatorAvatarBg: 'from-blue-400 to-cyan-500',
     likes: 62300, comments: 3100, saves: 27400,
-    tags: ['#Sushi', '#Healthy', '#JapaneseFood', '#BowlRecipe'],
+    tags: ['#Sushi', '#Healthy', '#JapaneseFood'],
     cookingTime: '20 min', difficulty: 'Medium',
     ingredientsPreview: ['Salmon', 'Sushi Rice', 'Mango', 'Cucumber', 'Sriracha Mayo', 'Nori'],
     music: '🎵 Tokyo Nights Lo-fi',
@@ -129,12 +133,12 @@ const REELS: Reel[] = [
     gradient: 'from-[#0a0015] via-[#140025] to-[#060008]',
     glow: '#7c3aed',
     emoji: '🫐',
-    recipeTitle: 'Japanese Souffle Pancakes',
-    caption: '3-inch tall cloud-soft souffle pancakes 💜 Weekend breakfast goals completely achieved!',
+    recipeTitle: 'Souffle Pancakes',
+    caption: '3-inch tall cloud-soft Japanese souffle pancakes 💜 Weekend breakfast goals completely achieved!',
     creatorName: 'pancake.pro',
     creatorAvatarBg: 'from-purple-400 to-violet-500',
     likes: 198000, comments: 9200, saves: 76000,
-    tags: ['#Pancakes', '#Breakfast', '#Fluffy', '#Japanese'],
+    tags: ['#Pancakes', '#Breakfast', '#Fluffy'],
     cookingTime: '30 min', difficulty: 'Hard',
     ingredientsPreview: ['Flour', 'Eggs', 'Buttermilk', 'Blueberries', 'Vanilla', 'Cream of Tartar'],
     music: '🎵 Sunday Morning Jazz',
@@ -143,13 +147,13 @@ const REELS: Reel[] = [
 ]
 
 const COMMENTS: Comment[] = [
-  { id: '1', username: 'foodlover99', avatarBg: 'from-pink-400 to-rose-500', text: 'This looks absolutely incredible! Making this tonight! 😍', likes: 342, time: '2h', replies: 12 },
-  { id: '2', username: 'chef_marcus', avatarBg: 'from-blue-400 to-indigo-500', text: 'Pro tip: add a pinch of nutmeg to the cream sauce. Thank me later 🙌', likes: 891, time: '4h', replies: 34 },
-  { id: '3', username: 'pasta.queen', avatarBg: 'from-amber-400 to-orange-500', text: 'Just made this and my family went CRAZY for it!! Recipe of the year 🏆', likes: 1204, time: '6h', replies: 56 },
-  { id: '4', username: 'home_cook_jay', avatarBg: 'from-green-400 to-emerald-500', text: 'The pasta water trick is everything! Absolute game changer 💯', likes: 445, time: '8h', replies: 8 },
-  { id: '5', username: 'italian_nonna', avatarBg: 'from-red-400 to-rose-500', text: 'Bellissimo! My grandmother would be so proud 🇮🇹❤️', likes: 2100, time: '12h', replies: 89 },
-  { id: '6', username: 'weeknight.chef', avatarBg: 'from-purple-400 to-violet-500', text: 'Perfect for busy weeknights. Kids absolutely loved it!', likes: 287, time: '1d', replies: 3 },
-  { id: '7', username: 'gourmet_diary', avatarBg: 'from-teal-400 to-cyan-500', text: 'The texture is divine. I could eat this every single day 🌟', likes: 156, time: '2d', replies: 5 },
+  { id: '1', username: 'foodlover99',   avatarBg: 'from-pink-400 to-rose-500',    text: 'This looks absolutely incredible! Making this tonight! 😍', likes: 342,  time: '2h',  replies: 12 },
+  { id: '2', username: 'chef_marcus',   avatarBg: 'from-blue-400 to-indigo-500',  text: 'Pro tip: add a pinch of nutmeg to the cream sauce. Thank me later 🙌', likes: 891,  time: '4h',  replies: 34 },
+  { id: '3', username: 'pasta.queen',   avatarBg: 'from-amber-400 to-orange-500', text: 'Just made this and my family went CRAZY for it!! Recipe of the year 🏆', likes: 1204, time: '6h',  replies: 56 },
+  { id: '4', username: 'home_cook_jay', avatarBg: 'from-green-400 to-emerald-500',text: 'The pasta water trick is everything! Absolute game changer 💯', likes: 445,  time: '8h',  replies: 8  },
+  { id: '5', username: 'italian_nonna', avatarBg: 'from-red-400 to-rose-500',     text: 'Bellissimo! My grandmother would be so proud 🇮🇹❤️', likes: 2100, time: '12h', replies: 89 },
+  { id: '6', username: 'weeknight.chef',avatarBg: 'from-purple-400 to-violet-500',text: 'Perfect for busy weeknights. Kids absolutely loved it!', likes: 287,  time: '1d',  replies: 3  },
+  { id: '7', username: 'gourmet_diary', avatarBg: 'from-teal-400 to-cyan-500',    text: 'The texture is divine. I could eat this every single day 🌟', likes: 156,  time: '2d',  replies: 5  },
 ]
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -160,13 +164,87 @@ function fmt(n: number): string {
   return `${n}`
 }
 
+// ─── Mobile Bottom Navbar (theme-aware) ───────────────────────────────────────
+
+const NAV_ITEMS = [
+  { icon: Home,       label: 'Home',       href: '/' },
+  { icon: Compass,    label: 'Explore',    href: '/explore' },
+  { icon: Film,       label: 'Reels',      href: '/reels' },
+  { icon: LayoutGrid, label: 'Categories', href: '/categories' },
+  { icon: User,       label: 'Profile',    href: '/profile' },
+]
+
+const MOBILE_NAV_H = 64
+const HEADER_H = 64   // DashboardLayout header height (h-16)
+
+function MobileBottomNavbar() {
+  const pathname = usePathname()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
+  return (
+    <div
+      className="flex items-center justify-around w-full"
+      style={{
+        height: MOBILE_NAV_H,
+        background: isDark ? '#1E1E1F' : '#F7F1D9',
+        borderTop: `1px solid ${isDark ? '#343438' : '#E0D9C8'}`,
+      }}
+    >
+      {NAV_ITEMS.map(({ icon: Icon, label, href }) => {
+        const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href)
+        return (
+          <Link
+            key={label}
+            href={href}
+            className="relative flex flex-col items-center justify-center gap-1 flex-1 h-full py-2 rounded-2xl"
+          >
+            {isActive && (
+              <motion.div
+                layoutId="mob-reel-pill"
+                className="absolute inset-0 rounded-2xl"
+                style={{ background: 'rgba(245,197,24,0.12)' }}
+                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+              />
+            )}
+            <motion.span
+              animate={{ scale: isActive ? 1.08 : 1, y: isActive ? -1 : 0 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+              className="relative"
+            >
+              <Icon
+                size={22}
+                strokeWidth={isActive ? 2.2 : 1.7}
+                style={{ color: isActive ? '#F5C518' : isDark ? '#71717A' : '#9CA3AF' }}
+              />
+            </motion.span>
+            <span
+              className="relative text-[10px] font-semibold leading-none transition-colors"
+              style={{ color: isActive ? '#F5C518' : isDark ? '#71717A' : '#9CA3AF' }}
+            >
+              {label}
+            </span>
+            {isActive && (
+              <motion.div
+                layoutId="mob-reel-dot"
+                className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#F5C518]"
+                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+              />
+            )}
+          </Link>
+        )
+      })}
+    </div>
+  )
+}
+
 // ─── Difficulty Pill ──────────────────────────────────────────────────────────
 
 function DifficultyPill({ level }: { level: Reel['difficulty'] }) {
   const s = {
-    Easy: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25',
+    Easy:   'bg-emerald-500/15 text-emerald-400 border-emerald-500/25',
     Medium: 'bg-amber-500/15 text-amber-400 border-amber-500/25',
-    Hard: 'bg-red-500/15 text-red-400 border-red-500/25',
+    Hard:   'bg-red-500/15 text-red-400 border-red-500/25',
   }[level]
   return (
     <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border backdrop-blur-md ${s}`}>
@@ -227,7 +305,7 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
   }, [])
 
   const toggleLike = (id: string) =>
-    setLikedIds((prev) => {
+    setLikedIds(prev => {
       const next = new Set(prev)
       next.has(id) ? next.delete(id) : next.add(id)
       return next
@@ -240,14 +318,14 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-40 bg-black/65 backdrop-blur-[2px]"
+            className="absolute inset-0 z-40 bg-black/65 backdrop-blur-[2px]"
           />
           <motion.div
             initial={isDesktop ? { x: '100%' } : { y: '100%' }}
             animate={isDesktop ? { x: 0 } : { y: 0 }}
             exit={isDesktop ? { x: '100%' } : { y: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-            className={`fixed z-50 flex flex-col ${
+            className={`absolute z-50 flex flex-col overflow-hidden ${
               isDesktop
                 ? 'right-0 top-0 bottom-0 w-96 border-l'
                 : 'bottom-0 left-0 right-0 rounded-t-3xl border-t'
@@ -263,10 +341,7 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
                 <div className="w-10 h-1 rounded-full bg-[#343438]" />
               </div>
             )}
-            <div
-              className="flex items-center justify-between px-5 py-4 border-b"
-              style={{ borderColor: '#343438' }}
-            >
+            <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: '#343438' }}>
               <span className="text-[15px] font-bold text-white tracking-tight">Comments</span>
               <motion.button
                 whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={onClose}
@@ -279,11 +354,8 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
               </motion.button>
             </div>
 
-            <div
-              className="flex gap-1.5 px-4 py-3 border-b"
-              style={{ borderColor: '#343438' }}
-            >
-              {(['top', 'newest'] as const).map((t) => (
+            <div className="flex gap-1.5 px-4 py-3 border-b" style={{ borderColor: '#343438' }}>
+              {(['top', 'newest'] as const).map(t => (
                 <button
                   key={t} onClick={() => setTab(t)}
                   className="px-4 py-1.5 rounded-full text-[12px] font-semibold transition-all duration-200"
@@ -297,8 +369,8 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
               ))}
             </div>
 
-            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
-              {COMMENTS.map((c) => (
+            <div className="flex-1 min-h-0 overflow-y-auto px-5 py-4 space-y-5">
+              {COMMENTS.map(c => (
                 <div key={c.id} className="flex gap-3">
                   <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${c.avatarBg} flex-shrink-0 flex items-center justify-center text-white text-xs font-bold shadow-md`}>
                     {c.username[0].toUpperCase()}
@@ -318,17 +390,11 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
                     </div>
                     <p className="text-[13px] mt-0.5 leading-relaxed" style={{ color: '#A1A1AA' }}>{c.text}</p>
                     <div className="flex items-center gap-3 mt-1.5">
-                      <button
-                        className="text-[11px] font-semibold transition-colors hover:text-white"
-                        style={{ color: '#52525B' }}
-                      >
+                      <button className="text-[11px] font-semibold transition-colors hover:text-white" style={{ color: '#52525B' }}>
                         Reply
                       </button>
                       {c.replies && (
-                        <button
-                          className="text-[11px] transition-colors hover:text-[#A1A1AA]"
-                          style={{ color: '#3F3F46' }}
-                        >
+                        <button className="text-[11px] transition-colors hover:text-[#A1A1AA]" style={{ color: '#3F3F46' }}>
                           View {c.replies} replies ›
                         </button>
                       )}
@@ -338,10 +404,7 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
               ))}
             </div>
 
-            <div
-              className="px-4 py-3 border-t"
-              style={{ background: '#1E1E1F', borderColor: '#343438' }}
-            >
+            <div className="px-4 py-3 border-t" style={{ background: '#1E1E1F', borderColor: '#343438' }}>
               <div className="flex items-center gap-2.5">
                 <div
                   className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-lg"
@@ -354,7 +417,7 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
                   style={{ background: '#2B2B2D', borderColor: '#343438' }}
                 >
                   <input
-                    value={text} onChange={(e) => setText(e.target.value)}
+                    value={text} onChange={e => setText(e.target.value)}
                     placeholder="Add a comment…"
                     className="flex-1 bg-transparent text-[13px] text-white outline-none"
                     style={{ caretColor: '#F5C518' }}
@@ -388,69 +451,6 @@ function CommentDrawer({ open, onClose }: { open: boolean; onClose: () => void }
   )
 }
 
-// ─── Recipe Preview Overlay ───────────────────────────────────────────────────
-
-function RecipePreview({ reel, onClose }: { reel: Reel; onClose: () => void }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 20, scale: 0.96 }}
-      transition={{ type: 'spring', damping: 26, stiffness: 300 }}
-      className="absolute inset-x-3 bottom-[200px] sm:bottom-[188px] z-30 rounded-3xl backdrop-blur-2xl p-4 sm:p-5 shadow-2xl"
-      style={{
-        background: 'rgba(30,30,31,0.96)',
-        border: '1px solid #343438',
-      }}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <h3 className="text-[15px] font-bold text-white leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-            {reel.recipeTitle}
-          </h3>
-          <div className="flex items-center gap-2.5 mt-1.5">
-            <div className="flex items-center gap-1.5">
-              <Clock size={11} style={{ color: '#F5C518' }} />
-              <span className="text-[11px]" style={{ color: '#A1A1AA' }}>{reel.cookingTime}</span>
-            </div>
-            <DifficultyPill level={reel.difficulty} />
-          </div>
-        </div>
-        <button
-          onClick={onClose}
-          className="w-7 h-7 rounded-full flex items-center justify-center hover:opacity-80 transition-colors flex-shrink-0"
-          style={{ background: '#2B2B2D' }}
-        >
-          <X size={13} style={{ color: '#A1A1AA' }} />
-        </button>
-      </div>
-      <p className="text-[10px] font-bold uppercase tracking-widest mb-2.5" style={{ color: '#52525B' }}>Ingredients</p>
-      <div className="flex flex-wrap gap-1.5 mb-4">
-        {reel.ingredientsPreview.map((ing, i) => (
-          <span
-            key={i}
-            className="text-[12px] px-3 py-1 rounded-full border"
-            style={{ color: '#A1A1AA', background: '#2B2B2D', borderColor: '#343438' }}
-          >
-            {ing}
-          </span>
-        ))}
-      </div>
-      <button
-        className="w-full py-2.5 rounded-2xl text-[13px] font-bold flex items-center justify-center gap-1.5 transition-all duration-200"
-        style={{
-          background: 'linear-gradient(135deg, #F5C518 0%, #FFB800 100%)',
-          color: '#1A1A1A',
-          boxShadow: '0 4px 16px rgba(245,197,24,0.30)',
-        }}
-      >
-        View Full Recipe <ArrowRight size={14} />
-      </button>
-    </motion.div>
-  )
-}
-
 // ─── Reel Card ────────────────────────────────────────────────────────────────
 
 function ReelCard({
@@ -462,10 +462,9 @@ function ReelCard({
 }) {
   const [liked, setLiked] = useState(false)
   const [saved, setSaved] = useState(false)
-  const [followed, setFollowed] = useState(false)
   const [heartPos, setHeartPos] = useState({ x: 0, y: 0 })
   const [showHeart, setShowHeart] = useState(false)
-  const [captionExpanded, setCaptionExpanded] = useState(false)
+  const [detailsOpen, setDetailsOpen] = useState(false)
   const tapRef = useRef({ count: 0, timer: null as ReturnType<typeof setTimeout> | null })
 
   const handleTap = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -492,21 +491,10 @@ function ReelCard({
     >
       {/* Background */}
       <div className={`absolute inset-0 bg-gradient-to-br ${reel.gradient}`}>
-        {/* Ambient glow blobs */}
-        <div
-          className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full opacity-35 blur-3xl"
-          style={{ background: reel.glow }}
-        />
-        <div
-          className="absolute bottom-1/3 right-1/4 w-52 h-52 rounded-full opacity-18 blur-3xl"
-          style={{ background: reel.glow }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full opacity-12 blur-2xl"
-          style={{ background: reel.glow }}
-        />
+        <div className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full opacity-35 blur-3xl" style={{ background: reel.glow }} />
+        <div className="absolute bottom-1/3 right-1/4 w-52 h-52 rounded-full opacity-18 blur-3xl" style={{ background: reel.glow }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full opacity-12 blur-2xl" style={{ background: reel.glow }} />
 
-        {/* Blurred bg emoji */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <motion.span
             className="text-[100px] sm:text-[160px] md:text-[220px] opacity-[0.065] blur-[28px]"
@@ -516,8 +504,6 @@ function ReelCard({
             {reel.emoji}
           </motion.span>
         </div>
-
-        {/* Floating foreground emoji */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <motion.span
             className="text-[56px] sm:text-[72px] md:text-[96px] drop-shadow-2xl"
@@ -527,19 +513,12 @@ function ReelCard({
             {reel.emoji}
           </motion.span>
         </div>
-
-        {/* Subtle radial vignette */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)' }}
-        />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)' }} />
       </div>
 
       {/* Cinematic overlays */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/96 via-black/8 to-black/32 pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/22 via-transparent to-transparent pointer-events-none" />
-
-      {/* Yellow top accent line */}
       <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#F5C518]/25 to-transparent pointer-events-none" />
 
       {/* Double-tap heart */}
@@ -584,30 +563,12 @@ function ReelCard({
         </AnimatePresence>
       </div>
 
-      {/* Right action buttons */}
+      {/* Right action buttons — like, comment, save, share only */}
       <div
-        className="absolute right-3 bottom-32 sm:bottom-28 z-20 flex flex-col items-center gap-3 sm:gap-4"
-        onClick={(e) => e.stopPropagation()}
+        className="absolute right-3 bottom-28 sm:bottom-24 z-20 flex flex-col items-center gap-3 sm:gap-4"
+        onClick={e => e.stopPropagation()}
       >
-        {/* Creator avatar with follow button */}
-        <div className="relative mb-2">
-          <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${reel.creatorAvatarBg} flex items-center justify-center ring-2 ring-white/20 shadow-xl`}>
-            <span className="text-white text-sm font-bold">{reel.creatorName[0].toUpperCase()}</span>
-          </div>
-          <motion.button
-            whileTap={{ scale: 0.8 }}
-            onClick={() => setFollowed((f) => !f)}
-            className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shadow-lg transition-all duration-300"
-            style={{
-              background: followed ? '#343438' : '#F5C518',
-              color: followed ? '#F5F5F5' : '#1A1A1A',
-            }}
-          >
-            {followed ? '✓' : '+'}
-          </motion.button>
-        </div>
-
-        <GlassBtn label="Like" count={fmt(reel.likes + (liked ? 1 : 0))} active={liked} activeClass="text-red-500" onClick={() => setLiked((l) => !l)}>
+        <GlassBtn label="Like" count={fmt(reel.likes + (liked ? 1 : 0))} active={liked} activeClass="text-red-500" onClick={() => setLiked(l => !l)}>
           <Heart size={20} strokeWidth={liked ? 0 : 1.8} className={liked ? 'fill-red-500 text-red-500' : ''} />
         </GlassBtn>
 
@@ -615,13 +576,7 @@ function ReelCard({
           <MessageCircle size={20} strokeWidth={1.8} />
         </GlassBtn>
 
-        <GlassBtn
-          label="Save"
-          count={fmt(reel.saves + (saved ? 1 : 0))}
-          active={saved}
-          activeClass=""
-          onClick={() => setSaved((s) => !s)}
-        >
+        <GlassBtn label="Save" count={fmt(reel.saves + (saved ? 1 : 0))} active={saved} onClick={() => setSaved(s => !s)}>
           <Bookmark
             size={20}
             strokeWidth={saved ? 0 : 1.8}
@@ -633,61 +588,81 @@ function ReelCard({
         <GlassBtn label="Share" count="Share">
           <Share2 size={18} strokeWidth={1.8} />
         </GlassBtn>
-
-        <GlassBtn label="More">
-          <MoreHorizontal size={18} strokeWidth={1.8} />
-        </GlassBtn>
       </div>
 
-      {/* Bottom-left: creator row + caption */}
-      <div className="absolute bottom-0 left-0 right-[64px] z-20 px-3 pb-3">
-        {/* Creator */}
+      {/* Bottom-left: profile pic + username + recipe title + expandable details */}
+      <div
+        className="absolute bottom-0 left-0 right-[64px] z-20 px-3 pb-5"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Profile + username row */}
         <motion.div
-          initial={{ opacity: 0, y: 6 }} animate={isActive ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.1 }}
+          initial={{ opacity: 0, y: 6 }}
+          animate={isActive ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.1 }}
           className="flex items-center gap-2 mb-1.5"
-          onClick={(e) => e.stopPropagation()}
         >
           <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${reel.creatorAvatarBg} flex-shrink-0 flex items-center justify-center ring-2 ring-white/20 shadow-lg`}>
             <span className="text-white text-[11px] font-bold">{reel.creatorName[0].toUpperCase()}</span>
           </div>
           <span className="text-[13px] font-bold text-white">@{reel.creatorName}</span>
           {reel.isVerified && (
-            <div
-              className="w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ background: '#F5C518' }}
-            >
+            <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#F5C518' }}>
               <Check size={8} strokeWidth={3} className="text-[#1A1A1A]" />
             </div>
           )}
-          <motion.button
-            whileTap={{ scale: 0.94 }}
-            onClick={(e) => { e.stopPropagation(); setFollowed((f) => !f) }}
-            className="ml-auto flex-shrink-0 px-3 py-1 rounded-full text-[11px] font-bold transition-all duration-300 border"
-            style={followed
-              ? { background: 'rgba(255,255,255,0.10)', borderColor: 'rgba(255,255,255,0.20)', color: 'white' }
-              : { background: '#F5C518', borderColor: 'transparent', color: '#1A1A1A' }
-            }
-          >
-            {followed ? '✓ Following' : 'Follow'}
-          </motion.button>
         </motion.div>
 
-        {/* Caption */}
+        {/* Recipe title */}
         <motion.div
-          initial={{ opacity: 0 }} animate={isActive ? { opacity: 1 } : {}} transition={{ delay: 0.15 }}
-          onClick={(e) => e.stopPropagation()}
+          initial={{ opacity: 0 }}
+          animate={isActive ? { opacity: 1 } : {}}
+          transition={{ delay: 0.15 }}
         >
-          <p className={`text-[12px] text-white/75 leading-relaxed ${captionExpanded ? '' : 'line-clamp-1'}`}>
-            {reel.caption}
-          </p>
-          {!captionExpanded && (
-            <button
-              onClick={() => setCaptionExpanded(true)}
-              className="text-[11px] text-white/45 hover:text-white/70 transition-colors mt-0.5"
+          <span
+            className="text-[15px] font-bold text-white drop-shadow-md leading-snug"
+            style={{ fontFamily: 'var(--font-playfair), serif' }}
+          >
+            {reel.recipeTitle}
+          </span>
+        </motion.div>
+
+        {/* Expandable details */}
+        <AnimatePresence>
+          {detailsOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ type: 'spring', damping: 26, stiffness: 280 }}
+              className="overflow-hidden"
             >
-              read more
-            </button>
+              <p className="text-[12px] text-white/70 leading-relaxed mt-2">
+                {reel.caption}
+              </p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {reel.tags.map((tag, i) => (
+                  <span key={i} className="text-[10px] text-white/40 font-medium">{tag}</span>
+                ))}
+              </div>
+            </motion.div>
           )}
+        </AnimatePresence>
+
+        {/* More / Less toggle */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isActive ? { opacity: 1 } : {}}
+          transition={{ delay: 0.18 }}
+          className="mt-1.5"
+        >
+          <motion.button
+            whileTap={{ scale: 0.94 }}
+            onClick={() => setDetailsOpen(o => !o)}
+            className="text-[11px] font-semibold text-white/50 hover:text-white/80 transition-colors"
+          >
+            {detailsOpen ? 'less ↑' : 'more ↓'}
+          </motion.button>
         </motion.div>
       </div>
     </div>
@@ -699,10 +674,11 @@ function ReelCard({
 export function ReelsPage() {
   const [activeIdx, setActiveIdx] = useState(0)
   const [commentOpen, setCommentOpen] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-
+  const mobileContainerRef = useRef<HTMLDivElement>(null)
+  const desktopContainerRef = useRef<HTMLDivElement>(null)
   const activeReel = REELS[activeIdx]
 
+  // Suppress DashboardLayout's main scroll on mobile (fixed overlay handles it)
   useEffect(() => {
     const main = document.querySelector('main') as HTMLElement | null
     if (!main) return
@@ -712,11 +688,11 @@ export function ReelsPage() {
   }, [])
 
   useEffect(() => {
-    const el = containerRef.current
+    const el = mobileContainerRef.current
     if (!el) return
     const kids = Array.from(el.children) as HTMLElement[]
     const io = new IntersectionObserver(
-      (entries) => {
+      entries => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             const i = kids.indexOf(entry.target as HTMLElement)
@@ -726,111 +702,153 @@ export function ReelsPage() {
       },
       { root: el, threshold: 0.65 },
     )
-    kids.forEach((k) => io.observe(k))
+    kids.forEach(k => io.observe(k))
     return () => io.disconnect()
   }, [])
 
-  const scrollDir = (dir: -1 | 1) =>
-    containerRef.current?.scrollBy({ top: dir * (containerRef.current?.clientHeight ?? 0), behavior: 'smooth' })
+  useEffect(() => {
+    const el = desktopContainerRef.current
+    if (!el) return
+    const kids = Array.from(el.children) as HTMLElement[]
+    const io = new IntersectionObserver(
+      entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const i = kids.indexOf(entry.target as HTMLElement)
+            if (i !== -1) setActiveIdx(i)
+          }
+        }
+      },
+      { root: el, threshold: 0.65 },
+    )
+    kids.forEach(k => io.observe(k))
+    return () => io.disconnect()
+  }, [])
+
+  const scrollDesktop = (dir: -1 | 1) =>
+    desktopContainerRef.current?.scrollBy({ top: dir * (desktopContainerRef.current.clientHeight ?? 0), behavior: 'smooth' })
 
   return (
-    <div className="relative -mx-4 sm:-mx-6 -mt-6 -mb-4 overflow-hidden flex items-stretch justify-center" style={{ height: 'calc(100svh - 4rem)', minHeight: 'calc(100vh - 4rem)' }}>
+    <>
+      {/* ══════════════════════════════════════════════════════════
+          MOBILE — full-viewport immersive overlay (hidden md+)
+      ══════════════════════════════════════════════════════════ */}
+      <div className="md:hidden fixed inset-0 z-[100] bg-black overflow-hidden">
+        {/* Reel feed — fills viewport above nav */}
+        <div className="absolute inset-x-0" style={{ top: HEADER_H, bottom: MOBILE_NAV_H }}>
+          <div
+            ref={mobileContainerRef}
+            className="h-full w-full overflow-y-scroll snap-y snap-mandatory"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {REELS.map((reel, i) => (
+              <div key={reel.id} className="h-full w-full flex-shrink-0 snap-start">
+                <ReelCard reel={reel} isActive={i === activeIdx} onComment={() => setCommentOpen(true)} />
+              </div>
+            ))}
+          </div>
+        </div>
 
-      {/* Ambient background glow — shifts per reel */}
-      <motion.div
-        key={activeReel.id}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.0 }}
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse 65% 75% at 50% 45%, ${activeReel.glow}22 0%, transparent 70%)`,
-        }}
-      />
+        {/* Theme-aware bottom nav — slides away when comments open */}
+        <AnimatePresence>
+          {!commentOpen && (
+            <motion.div
+              key="mob-nav"
+              initial={{ y: MOBILE_NAV_H }}
+              animate={{ y: 0 }}
+              exit={{ y: MOBILE_NAV_H }}
+              transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              className="absolute bottom-0 left-0 right-0 z-50"
+            >
+              <MobileBottomNavbar />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.025]"
-        style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.10) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }}
-      />
-
-      {/* ── Desktop: nav arrows ─────────────────────────────── */}
-      <div className="hidden md:flex flex-col items-center justify-center gap-4 w-20 flex-shrink-0 z-20">
-        <motion.button
-          whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}
-          onClick={() => scrollDir(-1)}
-          className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all backdrop-blur-sm"
-          style={{
-            background: 'rgba(43,43,45,0.70)',
-            border: '1px solid #343438',
-            color: '#A1A1AA',
-          }}
-          onMouseEnter={e => {
-            const el = e.currentTarget as HTMLButtonElement
-            el.style.borderColor = 'rgba(245,197,24,0.40)'
-            el.style.color = '#F5C518'
-          }}
-          onMouseLeave={e => {
-            const el = e.currentTarget as HTMLButtonElement
-            el.style.borderColor = '#343438'
-            el.style.color = '#A1A1AA'
-          }}
-        >
-          <ChevronUp size={19} />
-        </motion.button>
-        <motion.button
-          whileHover={{ scale: 1.1, y: 2 }} whileTap={{ scale: 0.9 }}
-          onClick={() => scrollDir(1)}
-          className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all backdrop-blur-sm"
-          style={{
-            background: 'rgba(43,43,45,0.70)',
-            border: '1px solid #343438',
-            color: '#A1A1AA',
-          }}
-          onMouseEnter={e => {
-            const el = e.currentTarget as HTMLButtonElement
-            el.style.borderColor = 'rgba(245,197,24,0.40)'
-            el.style.color = '#F5C518'
-          }}
-          onMouseLeave={e => {
-            const el = e.currentTarget as HTMLButtonElement
-            el.style.borderColor = '#343438'
-            el.style.color = '#A1A1AA'
-          }}
-        >
-          <ChevronDown size={19} />
-        </motion.button>
+        <CommentDrawer open={commentOpen} onClose={() => setCommentOpen(false)} />
       </div>
 
-      {/* ── Phone-frame reel container ─────────────────────── */}
-      <div className="relative h-full flex items-center w-full md:w-auto flex-shrink-0 md:py-[3px]">
+      {/* ══════════════════════════════════════════════════════════
+          DESKTOP — original phone-frame layout (hidden below md)
+      ══════════════════════════════════════════════════════════ */}
+      <div
+        className="hidden md:flex relative -mx-4 sm:-mx-6 -mt-6 -mb-4 overflow-hidden items-stretch justify-center"
+        style={{ height: 'calc(100svh - 4rem)', minHeight: 'calc(100vh - 4rem)' }}
+      >
+        {/* Ambient glow */}
+        <motion.div
+          key={activeReel.id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.0 }}
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: `radial-gradient(ellipse 65% 75% at 50% 45%, ${activeReel.glow}22 0%, transparent 70%)` }}
+        />
+
+        {/* Subtle grid */}
         <div
-          ref={containerRef}
-          className="overflow-y-scroll snap-y snap-mandatory scrollbar-none md:rounded-[28px] w-full md:w-[340px] h-full md:h-auto md:aspect-[9/16] md:max-h-full"
+          className="absolute inset-0 pointer-events-none opacity-[0.025]"
           style={{
-            scrollbarWidth: 'none',
-            boxShadow: '0 0 0 1px rgba(52,52,56,0.80), 0 0 80px rgba(0,0,0,0.70)',
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.10) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
           }}
-        >
-          {REELS.map((reel, i) => (
-            <ReelCard
-              key={reel.id}
-              reel={reel}
-              isActive={i === activeIdx}
-              onComment={() => setCommentOpen(true)}
-            />
+        />
+
+        {/* Nav arrows */}
+        <div className="flex flex-col items-center justify-center gap-4 w-20 flex-shrink-0 z-20">
+          {[
+            { dir: -1 as const, Icon: ChevronUp },
+            { dir:  1 as const, Icon: ChevronDown },
+          ].map(({ dir, Icon }) => (
+            <motion.button
+              key={dir}
+              whileHover={{ scale: 1.1, y: dir === -1 ? -2 : 2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => scrollDesktop(dir)}
+              className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all backdrop-blur-sm"
+              style={{ background: 'rgba(43,43,45,0.70)', border: '1px solid #343438', color: '#A1A1AA' }}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLButtonElement
+                el.style.borderColor = 'rgba(245,197,24,0.40)'
+                el.style.color = '#F5C518'
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLButtonElement
+                el.style.borderColor = '#343438'
+                el.style.color = '#A1A1AA'
+              }}
+            >
+              <Icon size={19} />
+            </motion.button>
           ))}
         </div>
+
+        {/* Phone-frame */}
+        <div className="relative h-full flex items-center w-full md:w-auto flex-shrink-0 md:py-[3px]">
+          <div
+            ref={desktopContainerRef}
+            className="overflow-y-scroll snap-y snap-mandatory scrollbar-none md:rounded-[28px] w-full md:w-[340px] h-full md:h-auto md:aspect-[9/16] md:max-h-full"
+            style={{
+              scrollbarWidth: 'none',
+              boxShadow: '0 0 0 1px rgba(52,52,56,0.80), 0 0 80px rgba(0,0,0,0.70)',
+            }}
+          >
+            {REELS.map((reel, i) => (
+              <ReelCard
+                key={reel.id}
+                reel={reel}
+                isActive={i === activeIdx}
+                onComment={() => setCommentOpen(true)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Right spacer */}
+        <div className="w-20 flex-shrink-0" />
+
+        <CommentDrawer open={commentOpen} onClose={() => setCommentOpen(false)} />
       </div>
-
-      {/* ── Right spacer ────────────────────────────────────── */}
-      <div className="hidden md:block w-20 flex-shrink-0" />
-
-      {/* ── Comment drawer ──────────────────────────────────── */}
-      <CommentDrawer open={commentOpen} onClose={() => setCommentOpen(false)} />
-    </div>
+    </>
   )
 }
