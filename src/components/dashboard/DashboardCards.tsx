@@ -1,17 +1,27 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import {
   Play, Heart, Star, Clock, Bookmark, ArrowRight,
   ChefHat, Flame, Edit3, Quote, Plus, TrendingUp, Zap,
 } from 'lucide-react'
 import { useTheme } from '@/context/ThemeContext'
+import { AddContentModal } from '@/components/shared/AddContentModal'
 
 /* ─── Types ───────────────────────────────────────────────── */
 
+interface ProfileStats {
+  posts: number
+  followers: number
+  following: number
+}
+
 interface DashboardCardsProps {
   username?: string
+  userId?: string
+  profileStats?: ProfileStats
 }
 
 /* ─── Animation presets ───────────────────────────────────── */
@@ -187,7 +197,8 @@ function SectionTitle({ label, sub }: { label: string; sub?: string }) {
 
 /* ─── Hero Section ────────────────────────────────────────── */
 
-function HeroSection({ username }: { username: string }) {
+function HeroSection({ username, onAddRecipe }: { username: string; onAddRecipe: () => void }) {
+  const router = useRouter()
   const [greeting, setGreeting] = useState('Good Morning')
   const [spotIdx, setSpotIdx] = useState(0)
 
@@ -290,6 +301,7 @@ function HeroSection({ username }: { username: string }) {
             <motion.button
               whileHover={{ scale: 1.04, y: -1 }}
               whileTap={{ scale: 0.96 }}
+              onClick={() => router.push('/reels')}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-sm text-[#1A1A1A]"
               style={{
                 background: 'linear-gradient(135deg, #F5C518 0%, #FFB800 100%)',
@@ -309,10 +321,11 @@ function HeroSection({ username }: { username: string }) {
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
+              onClick={onAddRecipe}
               className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold bg-white/12 text-white border border-white/22 backdrop-blur-sm hover:bg-white/20 transition-all duration-200"
             >
               <Plus size={14} />
-              New Reel
+              Add Recipe
             </motion.button>
           </motion.div>
         </div>
@@ -697,7 +710,13 @@ function RecommendedSection() {
 
 /* ─── Profile Card ────────────────────────────────────────── */
 
-function ProfileCard({ username }: { username: string }) {
+function fmtNum(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1).replace(/\.0$/, '')}k`
+  return String(n)
+}
+
+function ProfileCard({ username, stats }: { username: string; stats?: { posts: number; followers: number; following: number } }) {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   return (
@@ -743,9 +762,9 @@ function ProfileCard({ username }: { username: string }) {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-2 w-full mb-4">
           {[
-            { val: '284', label: 'Posts' },
-            { val: '12.4k', label: 'Followers' },
-            { val: '193', label: 'Following' },
+            { val: fmtNum(stats?.posts     ?? 0), label: 'Posts' },
+            { val: fmtNum(stats?.followers ?? 0), label: 'Followers' },
+            { val: fmtNum(stats?.following ?? 0), label: 'Following' },
           ].map(({ val, label }) => (
             <div
               key={label}
@@ -945,11 +964,11 @@ function QuoteCard() {
 
 /* ─── Right Sidebar ───────────────────────────────────────── */
 
-function RightSidebar({ username }: { username: string }) {
+function RightSidebar({ username, profileStats }: { username: string; profileStats?: { posts: number; followers: number; following: number } }) {
   return (
     <aside className="hidden lg:block w-60 xl:w-64 flex-shrink-0">
       <div className="sticky top-6 space-y-4">
-        <ProfileCard username={username} />
+        <ProfileCard username={username} stats={profileStats} />
         <SavedCollections />
         <QuoteCard />
       </div>
@@ -959,16 +978,23 @@ function RightSidebar({ username }: { username: string }) {
 
 /* ─── Main export ─────────────────────────────────────────── */
 
-export function DashboardCards({ username = 'Chef' }: DashboardCardsProps) {
+export function DashboardCards({ username = 'Chef', userId = '', profileStats }: DashboardCardsProps) {
+  const [showAddModal, setShowAddModal] = useState(false)
+
   return (
-    <div className="flex gap-5 xl:gap-7 pb-8">
-      <div className="flex-1 min-w-0 space-y-10">
-        <HeroSection username={username} />
-        <TrendingReels />
-        <BrowseCategories />
-        <RecommendedSection />
+    <>
+      <div className="flex gap-5 xl:gap-7 pb-8">
+        <div className="flex-1 min-w-0 space-y-10">
+          <HeroSection username={username} onAddRecipe={() => setShowAddModal(true)} />
+          <TrendingReels />
+          <BrowseCategories />
+          <RecommendedSection />
+        </div>
+        <RightSidebar username={username} profileStats={profileStats} />
       </div>
-      <RightSidebar username={username} />
-    </div>
+      {userId && (
+        <AddContentModal open={showAddModal} onClose={() => setShowAddModal(false)} userId={userId} />
+      )}
+    </>
   )
 }
