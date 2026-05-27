@@ -548,14 +548,14 @@ export function ExplorePage({ username }: { username?: string }) {
                 'relative shrink-0 px-4 py-2 rounded-full text-sm font-semibold',
                 'transition-colors duration-200 select-none',
                 activeTab === tab
-                  ? 'text-[#1A1A1A] dark:text-white'
-                  : 'text-zinc-600 dark:text-zinc-400 bg-white dark:bg-[#1A1D24]/70 border border-[#E8E8E8]/80 dark:border-white/8 backdrop-blur-sm hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-[#F5C518]/40 dark:hover:border-[#FF6B35]/35',
+                  ? 'text-[#1A1A1A]'
+                  : 'bg-zinc-900 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-700 text-white hover:bg-zinc-800 dark:hover:bg-zinc-800 hover:border-zinc-600 dark:hover:border-zinc-600',
               ].join(' ')}
             >
               {activeTab === tab && (
                 <motion.div
                   layoutId="tab-pill"
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[#F5C518] to-[#FFD84D] dark:from-[#FF6B35] dark:to-[#FFC857] shadow-md shadow-[#F5C518]/30 dark:shadow-[#FF6B35]/35"
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[#F5C518] to-[#FFB800] shadow-md shadow-[#F5C518]/35"
                   transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                 />
               )}

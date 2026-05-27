@@ -37,7 +37,10 @@
       "PowerShell(cd \"e:\\\\Cookreels\\\\cookreels-main\"; $env:PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION = \"Yes, reset it\"; npx prisma migrate reset --force 2>&1)",
       "Bash(Select-Object -Property FullName)",
       "Bash(mkdir -p \"e:\\\\Cookreels\\\\cookreels-main\\\\src\\\\components\\\\profile\")",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(Get-ChildItem -Path \"e:\\\\Cookreels\\\\cookreels-main\" -Recurse -Directory -ErrorAction SilentlyContinue)",
+      "Bash(find src/app/api/social src/types src/hooks -type f)",
+      "Bash(dir /s /b src\\\\app\\\\api\\\\social src\\\\types src\\\\hooks)"
     ],
     "additionalDirectories": [
       "e:\\Cookreels\\cookreels-main\\src\\app",

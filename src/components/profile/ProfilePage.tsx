@@ -8,7 +8,7 @@ import {
   UserPlus, UserCheck, ChefHat, Flame, Heart, Play,
   Bookmark, Clock, Film, Eye, BadgeCheck, TrendingUp,
   Zap, Bell, Lock, LogOut, X, Edit3, Plus, Users, ChevronRight,
-  Tag, Star,
+  Tag,
 } from 'lucide-react'
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout'
 import { useTheme } from '@/context/ThemeContext'
@@ -117,15 +117,6 @@ function fmtDuration(seconds: number | null | undefined): string {
 }
 
 // ─── Static UI Data (not in DB) ───────────────────────────────────────────────
-
-const HIGHLIGHTS = [
-  { id: 1, label: 'Breakfast',   emoji: '☀️', g: 'from-amber-400 to-orange-500'  },
-  { id: 2, label: 'Desserts',    emoji: '🍰', g: 'from-pink-400 to-rose-500'      },
-  { id: 3, label: 'Healthy',     emoji: '🥗', g: 'from-emerald-400 to-teal-500'  },
-  { id: 4, label: 'Street Food', emoji: '🌮', g: 'from-orange-400 to-amber-500'  },
-  { id: 5, label: 'Quick Meals', emoji: '⚡', g: 'from-violet-500 to-purple-600' },
-  { id: 6, label: 'Beverages',   emoji: '☕', g: 'from-cyan-400 to-blue-500'     },
-]
 
 const ACHIEVEMENTS = [
   { icon: '👑', label: 'Top Chef',       desc: 'Top 1% creator',    g: 'from-yellow-400 to-amber-500'  },
@@ -857,39 +848,6 @@ export function ProfilePage({ user, stats, recipes, reels, collections }: Profil
               <span className="text-xs font-medium px-2 py-0.5 rounded-full" style={{ background: 'var(--cr-accent-soft)', color: 'var(--cr-accent)' }}>This week</span>
             </div>
             <ActivityGraph />
-          </div>
-        </motion.div>
-
-        {/* ── STORY HIGHLIGHTS ─────────────────────────────── */}
-        <motion.div className="mt-6" {...fadeUp(0.25)}>
-          <div className="flex items-center gap-2 px-4 mb-3">
-            <Star className="w-4 h-4" style={{ color: 'var(--cr-accent)' }} />
-            <span className="text-sm font-semibold" style={{ color: 'var(--cr-text-1)' }}>Highlights</span>
-          </div>
-          <div className="flex gap-4 px-4 overflow-x-auto scrollbar-none pb-2">
-            <motion.div whileHover={{ scale: 1.06 }} className="flex flex-col items-center gap-1.5 shrink-0 cursor-pointer">
-              <button className="w-16 h-16 rounded-full flex items-center justify-center border-2 border-dashed hover:border-[var(--cr-accent)] transition-colors" style={{ borderColor: 'var(--cr-border)' }}>
-                <Plus className="w-5 h-5" style={{ color: 'var(--cr-text-muted)' }} />
-              </button>
-              <span className="text-[11px] font-medium" style={{ color: 'var(--cr-text-muted)' }}>New</span>
-            </motion.div>
-            {HIGHLIGHTS.map((h, i) => (
-              <motion.div
-                key={h.id}
-                initial={{ opacity: 0, scale: 0.75 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3 + i * 0.07, type: 'spring', stiffness: 280, damping: 24 }}
-                whileHover={{ scale: 1.08 }}
-                className="flex flex-col items-center gap-1.5 shrink-0 cursor-pointer"
-              >
-                <div className={`w-16 h-16 rounded-full p-[2.5px] bg-gradient-to-br ${h.g}`}>
-                  <div className="w-full h-full rounded-full flex items-center justify-center text-2xl" style={{ background: 'var(--cr-bg-card)', border: '2.5px solid var(--cr-bg-card)' }}>
-                    {h.emoji}
-                  </div>
-                </div>
-                <span className="text-[11px] font-medium w-16 text-center leading-tight" style={{ color: 'var(--cr-text-2)' }}>{h.label}</span>
-              </motion.div>
-            ))}
           </div>
         </motion.div>
 
