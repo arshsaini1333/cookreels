@@ -40,11 +40,16 @@
       "Bash(python3 -c ' *)",
       "Bash(Get-ChildItem -Path \"e:\\\\Cookreels\\\\cookreels-main\" -Recurse -Directory -ErrorAction SilentlyContinue)",
       "Bash(find src/app/api/social src/types src/hooks -type f)",
-      "Bash(dir /s /b src\\\\app\\\\api\\\\social src\\\\types src\\\\hooks)"
+      "Bash(dir /s /b src\\\\app\\\\api\\\\social src\\\\types src\\\\hooks)",
+      "Bash(mkdir -p \"e:\\\\Cookreels\\\\cookreels-main\\\\src\\\\app\\\\api\\\\users\\\\[username]\\\\followers\" \"e:\\\\Cookreels\\\\cookreels-main\\\\src\\\\app\\\\api\\\\users\\\\[username]\\\\following\" \"e:\\\\Cookreels\\\\cookreels-main\\\\src\\\\app\\\\api\\\\users\\\\[username]\\\\friends\")",
+      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\('next:', p.dependencies?.next, 'prisma:', p.dependencies?.['@prisma/client']\\)\")",
+      "Bash(mkdir -p \"e:\\\\Cookreels\\\\cookreels-main\\\\src\\\\app\\\\api\\\\recipes\\\\[id]\")"
     ],
     "additionalDirectories": [
       "e:\\Cookreels\\cookreels-main\\src\\app",
-      "e:\\Cookreels\\cookreels-main\\src\\components"
+      "e:\\Cookreels\\cookreels-main\\src\\components",
+      "e:\\Cookreels\\cookreels-main\\src\\app\\api\\users\\[username]",
+      "e:\\Cookreels\\cookreels-main\\src\\app\\api\\recipes"
     ]
   }
 }

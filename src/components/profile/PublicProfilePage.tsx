@@ -12,6 +12,9 @@ import {
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout'
 import { useTheme } from '@/context/ThemeContext'
 import type { ProfileRecipe, ProfileReel, ProfileStats, ProfileUser } from './ProfilePage'
+import { SocialListModal } from '@/components/profile/SocialListModal'
+import type { SocialListType } from '@/components/profile/SocialListModal'
+import { RecipeViewerModal } from '@/components/shared/RecipeViewerModal'
 
 // ─── Public profile prop types ────────────────────────────────────────────────
 
@@ -28,8 +31,7 @@ export interface PublicProfilePageProps {
   initialIsFollowedBy: boolean
 }
 
-// ─── Animation presets ────────────────────────────────────────────────────────
-
+// ─── Animation presets 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 const staggerContainer = (delay = 0) => ({
@@ -72,7 +74,7 @@ function fmtDuration(seconds: number | null | undefined): string {
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
-// ─── Static display data ──────────────────────────────────────────────────────
+// ─── Static display data 
 
 const PUB_TABS = ['Recipes', 'Reels', 'Tagged'] as const
 type PublicTab = (typeof PUB_TABS)[number]
@@ -132,7 +134,7 @@ function AnimatedStat({ value, label }: { value: number; label: string }) {
 
 // ─── RecipeCard ───────────────────────────────────────────────────────────────
 
-function RecipeCard({ r, idx }: { r: ProfileRecipe; idx: number }) {
+function RecipeCard({ r, idx, onClick }: { r: ProfileRecipe; idx: number; onClick?: () => void }) {
   const gradient = CARD_GRADIENTS[idx % CARD_GRADIENTS.length]
   const diffKey  = r.difficulty ?? ''
 
@@ -140,6 +142,7 @@ function RecipeCard({ r, idx }: { r: ProfileRecipe; idx: number }) {
     <motion.div
       variants={cardReveal}
       whileHover={{ scale: 1.025, y: -4 }}
+      onClick={onClick}
       className="group relative rounded-2xl overflow-hidden cursor-pointer"
       style={{ background: 'var(--cr-bg-card)', boxShadow: 'var(--cr-shadow-card)' }}
     >
@@ -188,7 +191,7 @@ function RecipeCard({ r, idx }: { r: ProfileRecipe; idx: number }) {
   )
 }
 
-// ─── ReelCard ─────────────────────────────────────────────────────────────────
+// ─── ReelCard 
 
 function ReelCard({ r, idx }: { r: ProfileReel; idx: number }) {
   const [hovered, setHovered] = useState(false)
@@ -361,7 +364,9 @@ export function PublicProfilePage({
   const [isFollowing,  setIsFollowing]  = useState(initialIsFollowing)
   const [isFollowedBy] = useState(initialIsFollowedBy)
   const [followersCount, setFollowersCount] = useState(stats.followers)
-  const [followPending, setFollowPending]   = useState(false)
+  const [followPending,  setFollowPending]  = useState(false)
+  const [socialModal,    setSocialModal]    = useState<SocialListType | null>(null)
+  const [recipeModal,    setRecipeModal]    = useState<number | null>(null)
 
   // Tab content state
   const [recipes,          setRecipes]          = useState<ProfileRecipe[]>(initialRecipes)
@@ -639,14 +644,24 @@ export function PublicProfilePage({
           {...fadeUp(0.15)}
         >
           {[
-            { label: 'Recipes',   value: stats.recipes   },
-            { label: 'Reels',     value: stats.reels     },
-            { label: 'Followers', value: followersCount  },
-            { label: 'Following', value: stats.following },
-            { label: 'Friends',   value: stats.friends   },
+            { label: 'Recipes',   value: stats.recipes,   type: null              },
+            { label: 'Reels',     value: stats.reels,     type: null              },
+            { label: 'Followers', value: followersCount,  type: 'followers' as SocialListType },
+            { label: 'Following', value: stats.following, type: 'following' as SocialListType },
+            { label: 'Friends',   value: stats.friends,   type: 'friends'  as SocialListType },
           ].map((s, i, arr) => (
             <div key={s.label} className="flex items-center">
-              <AnimatedStat value={s.value} label={s.label} />
+              {s.type ? (
+                <motion.button
+                  whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.97 }}
+                  onClick={() => setSocialModal(s.type)}
+                  className="flex flex-col items-center outline-none"
+                >
+                  <AnimatedStat value={s.value} label={s.label} />
+                </motion.button>
+              ) : (
+                <AnimatedStat value={s.value} label={s.label} />
+              )}
               {i < arr.length - 1 && (
                 <div className="h-7 w-px mx-0.5 sm:mx-1 shrink-0" style={{ background: 'var(--cr-border)' }} />
               )}
@@ -707,7 +722,7 @@ export function PublicProfilePage({
                       animate="visible"
                       className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"
                     >
-                      {recipes.map((r, i) => <RecipeCard key={r.id} r={r} idx={i} />)}
+                      {recipes.map((r, i) => <RecipeCard key={r.id} r={r} idx={i} onClick={() => setRecipeModal(i)} />)}
                     </motion.div>
                     {hasMoreRecipes && (
                       <LoadMoreButton onClick={loadMoreRecipes} loading={recipesLoading} />
@@ -767,6 +782,26 @@ export function PublicProfilePage({
         </div>
 
       </div>
+
+      {/* Social list modal */}
+      <SocialListModal
+        isOpen={socialModal !== null}
+        onClose={() => setSocialModal(null)}
+        title={socialModal === 'followers' ? 'Followers' : socialModal === 'following' ? 'Following' : 'Friends'}
+        username={user.username}
+        listType={socialModal ?? 'followers'}
+        currentUserId={currentUserId}
+      />
+
+      {/* Recipe viewer modal */}
+      <RecipeViewerModal
+        key={recipeModal ?? 'closed'}
+        recipes={recipes}
+        initialIndex={recipeModal ?? 0}
+        user={user}
+        isOpen={recipeModal !== null}
+        onClose={() => setRecipeModal(null)}
+      />
     </DashboardLayout>
   )
 }
